@@ -1,0 +1,22 @@
+footer {
+  background-color: #f28e42;
+  text-align: center;
+  padding: 50px;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  display: inline-block;
+}
+
+img {
+  width: 150px;
+}
+
+a,
+i {
+  margin: 0 7px;
+}
