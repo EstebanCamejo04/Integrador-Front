@@ -1,16 +1,17 @@
-# 🎯 Goal
-> Define here which is/are the goal/s of this PR
-* Goal #1
-* Goal #2
+# 🎯 Objetivo
+> Define aquí cuál es/son el/los objetivo/s de este PR
+* Objetivo #1
+* Objetivo #2
 
-# ➕ Additions
-> List here all the features/changes you added
-* Feature #1
-* Change #1
+# ➕ Cambios y adiciones
+> Lista aquí todas las características/cambios que has añadido
+* Característica #1
+* Cambio #1
 
-# 🐛 Bug Fixing
-> List here all the bugs you fixed
-* Bugfix #1
+# 🐛 Corrección de errores
+> Lista aquí todos los errores que has corregido
+* Corrección de error #1
 
-# 📝 Notes
-> More detailed explanations, scenarios, etc.
+# 📝 Notas
+> Explicaciones más detalladas, escenarios, etc.
+* Nota #1
