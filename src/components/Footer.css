@@ -29,9 +29,10 @@ i {
     margin: 0 10px;
 }
 
-p {
-    padding: 20px 0;
-    background-color: #247965;
+.rights {
+  padding: 20px 0;
+  background-color: #247965;
+
 }
 p > a:hover {
     color: #f28e42;
@@ -54,6 +55,8 @@ img,
     margin-bottom: 20px;
 }
 a,
-p {
-    color: #eeece0;
+
+.rights {
+  color: #eeece0;
+
 }
