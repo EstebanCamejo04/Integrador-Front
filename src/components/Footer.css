@@ -29,7 +29,7 @@ i {
   margin: 0 10px;
 }
 
-p {
+.rights {
   padding: 20px 0;
   background-color: #247965;
 }
@@ -54,6 +54,6 @@ img,
   margin-bottom: 20px;
 }
 a,
-p {
+.rights {
   color: #eeece0;
 }
