@@ -29,11 +29,7 @@ const Detail = () => {
 
   return (
     <div className="details">
-      <img
-        src="/src/assets/images/hamaca.jpg"
-        alt={product.name}
-        className="img"
-      />
+      <img src={product.image} alt={product.name} className="img" />
 
       <div className="products">
         <h2>Plan: {product.name}</h2>
