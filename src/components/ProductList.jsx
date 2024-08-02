@@ -1,28 +1,27 @@
 import React from "react";
 import ProductCard from "./ProductCard";
-import productImage from "../../../public/images/hamaca.jpg";
-import "./ProductList.css";
+import "../styles/ProductList.css";
 
 const ProductList = () => {
   return (
     <section>
       <ProductCard
-        img={productImage}
+        img={"/images/hamaca.jpg"}
         title={"Tarde en las hamacas voladoras"}
       />
 
       <ProductCard
-        img={productImage}
+        img={"/images/hamaca.jpg"}
         title={"Tarde en las hamacas voladoras"}
       />
 
       <ProductCard
-        img={productImage}
+        img={"/images/hamaca.jpg"}
         title={"Tarde en las hamacas voladoras"}
       />
 
       <ProductCard
-        img={productImage}
+        img={"/images/hamaca.jpg"}
         title={"Tarde en las hamacas voladoras"}
       />
     </section>
