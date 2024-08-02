@@ -3,6 +3,7 @@ import Detail from "./components/Detail";
 import "./App.css";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
+import Admin from "./Routes/Admin";
 function App() {
   return (
     <>
@@ -12,6 +13,7 @@ function App() {
 
         <Routes>
           <Route path="/detail/:id" element={<Detail />} />
+          <Route path="/administracion" element={<Admin />} />
         </Routes>
       </div>
       <Footer />
