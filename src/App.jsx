@@ -1,22 +1,20 @@
 import { Routes, Route, Link } from "react-router-dom";
-import Detail from "./components/Detail";
-import "./App.css";
-import Footer from "./components/Footer";
-import Navbar from "./components/Navbar";
+import Detail from "./routes/Detail";
+import Home from "./routes/Home";
+import Layout from "./Layout/Layout";
 import Admin from "./Routes/Admin";
+import "./styles/App.css";
+import { routes } from "./utils/routes";
 function App() {
   return (
     <>
-      <Navbar />
-      <div className="container">
-        <h1>Hola mundo</h1>
-
-        <Routes>
-          <Route path="/detail/:id" element={<Detail />} />
+      <Routes>
+        <Route path={routes.home} element={<Layout />}>
+          <Route path={routes.home} element={<Home />} />
           <Route path="/administracion" element={<Admin />} />
-        </Routes>
-      </div>
-      <Footer />
+          <Route path={`${routes.detail}/:id`} element={<Detail />} />
+        </Route>
+      </Routes>
     </>
   );
 }
