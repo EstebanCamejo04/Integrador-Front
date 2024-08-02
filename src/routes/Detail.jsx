@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import "../components/Details.css";
+import "../styles/Details.css";
 
 const Detail = () => {
   const { id } = useParams();
