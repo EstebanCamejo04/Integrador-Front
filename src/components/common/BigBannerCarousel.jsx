@@ -1,5 +1,5 @@
 import Carousel from "react-bootstrap/Carousel";
-import "../styles/App.css";
+import "../../styles/App.css";
 
 const BigBannerCarousel = ({ info }) => {
   return (

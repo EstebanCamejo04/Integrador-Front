@@ -1,0 +1,13 @@
+section {
+  margin: 5%;
+}
+
+h2 {
+  margin-bottom: 40px;
+}
+
+div.productList {
+  display: grid;
+  grid: auto / auto auto;
+  gap: 50px;
+}
