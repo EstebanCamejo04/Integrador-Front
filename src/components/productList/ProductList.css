@@ -2,4 +2,5 @@ section {
   display: grid;
   grid: auto / auto auto;
   gap: 50px;
+  margin: 5%;
 }

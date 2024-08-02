@@ -1,0 +1,85 @@
+@import url("https://fonts.googleapis.com/css2?family=Krona+One&display=swap");
+@import "bootstrap";
+
+:root {
+  --main-bg-color: #f9e0bb;
+  --main-text-secondary-color: #247965;
+  --main-text-gray: #2c3746;
+}
+
+p {
+  margin-bottom: 0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Krona One", sans-serif;
+}
+
+.layout {
+  background-color: var(--main-bg-color);
+}
+
+.body-container {
+  margin: 0 0 25px 0;
+}
+
+.body-header {
+  margin: 25px;
+  text-align: center;
+}
+
+.h1-body-header {
+  font-size: 58px;
+  font-weight: 200;
+  color: var(--main-text-secondary-color);
+}
+
+.h3-body-header {
+  color: var(--main-text-gray);
+  margin-top: 5px;
+  font-weight: 200;
+}
+
+.big-banner {
+  height: 90vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.big-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.abs-bb {
+  position: absolute;
+  /* top: 93%; */
+  bottom: 0px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  padding: 10px 20px 10px 20px;
+  z-index: 15;
+  width: 100%;
+}
+
+.abs-bb h1 {
+  font-size: 40px;
+}
+
+.abs-bb h2 {
+  font-size: 40px;
+}
+
+.span-heart {
+  color: #face82;
+}
+
+.relative {
+  position: relative;
+}
