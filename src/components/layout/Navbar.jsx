@@ -12,7 +12,7 @@ const Navbar = () => {
         <p>Fly Mountain</p>
       </div>
       <div>
-        <Link to="/administracion">Administrador</Link>
+        <Link to="/admin">Administrador</Link>
       </div>
       <div>
         <button>Iniciar Sesion</button>
