@@ -23,7 +23,7 @@ function Footer() {
             <a href="/contact-us">CONTACT</a>
           </li>
         </ul>
-        <ul>
+        <ul className="social-media">
           <li>
             <i className="bi bi-instagram"></i>
           </li>
