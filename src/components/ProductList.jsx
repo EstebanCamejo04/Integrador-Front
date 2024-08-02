@@ -1,5 +1,5 @@
 import React from "react";
-import ProductCard from "../productCard/ProductCard";
+import ProductCard from "./ProductCard";
 import productImage from "../../../public/images/hamaca.jpg";
 import "./ProductList.css";
 
