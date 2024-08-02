@@ -1,7 +1,8 @@
 import React from "react";
-import "../styles/App.css";
-import BigBannerCarousel from "../components/BigBannerCarousel";
-import { bigbanner_info } from "../utils/bigbanner_info";
+import "../../styles/App.css";
+import BigBannerCarousel from "../common/BigBannerCarousel";
+import { bigbanner_info } from "../../utils/bigbanner_info";
+import ProductList from "../common/ProductList";
 
 const Home = () => {
   return (
@@ -11,6 +12,7 @@ const Home = () => {
         <h3 className="h3-body-header">-flies through the air-</h3>
       </div>
       <BigBannerCarousel info={bigbanner_info.home} />
+      <ProductList />
     </div>
   );
 };
