@@ -1,18 +1,9 @@
-import { Routes, Route, Link } from "react-router-dom";
-import Detail from "./routes/Detail";
-import Home from "./routes/Home";
-import Layout from "./layout/Layout";
 import "./styles/App.css";
-import { routes } from "./utils/routes";
+import AppRouter from "./router/AppRouter";
 function App() {
   return (
     <>
-      <Routes>
-        <Route path={routes.home} element={<Layout />}>
-          <Route path={routes.home} element={<Home />} />
-          <Route path={`${routes.detail}/:id`} element={<Detail />} />
-        </Route>
-      </Routes>
+      <AppRouter />
     </>
   );
 }

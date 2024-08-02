@@ -1,8 +1,8 @@
 import React from "react";
-import "../styles/App.css";
-import BigBannerCarousel from "../components/BigBannerCarousel";
-import { bigbanner_info } from "../utils/bigbanner_info";
-import ProductList from "../components/ProductList";
+import "../../styles/App.css";
+import BigBannerCarousel from "../common/BigBannerCarousel";
+import { bigbanner_info } from "../../utils/bigbanner_info";
+import ProductList from "../common/ProductList";
 
 const Home = () => {
   return (

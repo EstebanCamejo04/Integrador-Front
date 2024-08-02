@@ -1,5 +1,5 @@
 import "bootstrap-icons/font/bootstrap-icons.css";
-import "../styles/Footer.css";
+import "../../styles/Footer.css";
 import logo from "/images/logo.jpg";
 function Footer() {
   return (
