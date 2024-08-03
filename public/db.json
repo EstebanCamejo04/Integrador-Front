@@ -4,27 +4,34 @@
     "name": "Hamaca one day",
     "description": "Disfruta de la serenidad de pasar un día entero en nuestra hamaca 'One Day', colgada entre cerros. Diseñada para ofrecerte máxima comodidad, esta hamaca es perfecta para relajarte mientras contemplas la belleza de la naturaleza. Fabricada con materiales de alta calidad, garantiza durabilidad y resistencia, haciendo que cada momento al aire libre sea inolvidable. Ya sea con un buen libro o simplemente disfrutando del paisaje, nuestra hamaca es el complemento ideal para tus escapadas. Regálate la experiencia de desconectar y sumérgete en la tranquilidad que solo la naturaleza puede ofrecer.",
     "price": 1700,
-    "image": "/images/hamaca.jpg"
+    "image": "/images/hamaca3.jpg"
   },
   {
     "id": "2",
-    "name": "Hamaca one day",
-    "description": "Disfruta de la serenidad de pasar un día entero en nuestra hamaca 'One Day', colgada entre cerros. Diseñada para ofrecerte máxima comodidad, esta hamaca es perfecta para relajarte mientras contemplas la belleza de la naturaleza. Fabricada con materiales de alta calidad, garantiza durabilidad y resistencia, haciendo que cada momento al aire libre sea inolvidable. Ya sea con un buen libro o simplemente disfrutando del paisaje, nuestra hamaca es el complemento ideal para tus escapadas. Regálate la experiencia de desconectar y sumérgete en la tranquilidad que solo la naturaleza puede ofrecer.",
-    "price": 1700,
-    "image": "/images/hamaca.jpg"
+    "name": "Parque de juegos",
+    "description": "Parques con juegos relacionados con el slackline y sus diferentes componentes como lo son las space net, las cintas con guía, las hamacas y las cintas de iniciación.",
+    "price": "?",
+    "image": "/images/actividad1.jpg"
   },
   {
     "id": "3",
-    "name": "Hamaca one day",
-    "description": "Disfruta de la serenidad de pasar un día entero en nuestra hamaca 'One Day', colgada entre cerros. Diseñada para ofrecerte máxima comodidad, esta hamaca es perfecta para relajarte mientras contemplas la belleza de la naturaleza. Fabricada con materiales de alta calidad, garantiza durabilidad y resistencia, haciendo que cada momento al aire libre sea inolvidable. Ya sea con un buen libro o simplemente disfrutando del paisaje, nuestra hamaca es el complemento ideal para tus escapadas. Regálate la experiencia de desconectar y sumérgete en la tranquilidad que solo la naturaleza puede ofrecer.",
-    "price": 1700,
-    "image": "/images/hamaca.jpg"
+    "name": "Highline",
+    "description": "Caminar descalzo o con calcetines en una cinta plana especial suspendida entre dos rocas o riscos, en un acantilado",
+    "price": "?",
+    "image": "/images/actividad2.jpeg"
   },
   {
     "id": "4",
-    "name": "Hamaca one day",
-    "description": "Disfruta de la serenidad de pasar un día entero en nuestra hamaca 'One Day', colgada entre cerros. Diseñada para ofrecerte máxima comodidad, esta hamaca es perfecta para relajarte mientras contemplas la belleza de la naturaleza. Fabricada con materiales de alta calidad, garantiza durabilidad y resistencia, haciendo que cada momento al aire libre sea inolvidable. Ya sea con un buen libro o simplemente disfrutando del paisaje, nuestra hamaca es el complemento ideal para tus escapadas. Regálate la experiencia de desconectar y sumérgete en la tranquilidad que solo la naturaleza puede ofrecer.",
-    "price": 1700,
-    "image": "/images/hamaca.jpg"
+    "name": "Senderismo",
+    "description": "El senderismo es una actividad recreativa y deportiva que implica caminar por senderos y rutas al aire libre, generalmente en entornos naturales como bosques, montañas y parques nacionales.",
+    "price": "?",
+    "image": "/images/actividad3.jpg"
+  },
+  {
+    "id": "5",
+    "name": " Night shift Highline",
+    "description": "Caminar descalzo o con calcetines en una cinta plana especial suspendida entre dos rocas o riscos, en un acantilado",
+    "price": "?",
+    "image": "/images/hamaca-noche.jpg"
   }
 ]

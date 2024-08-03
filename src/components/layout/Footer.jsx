@@ -35,7 +35,7 @@ function Footer() {
           </li>
         </ul>
       </div>
-      <p>
+      <p className="copyright">
         Copyright 2024 All Rights Reserved | Designed by
         <a href="">
           <b>punto.equilibrio.slackline</b>

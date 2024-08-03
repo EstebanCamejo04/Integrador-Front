@@ -2,9 +2,10 @@
 @import "bootstrap";
 
 :root {
-  --main-bg-color: #f9e0bb;
+  --main-bg-color: #eeece0;
   --main-text-secondary-color: #247965;
   --main-text-gray: #2c3746;
+  --main-orange: #f28e42;
 }
 
 p {
