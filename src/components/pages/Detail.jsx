@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import BackButton from "../common/BackButton";
 import "../../styles/Details.css";
 
 const Detail = () => {
@@ -29,6 +30,7 @@ const Detail = () => {
 
   return (
     <div className="details">
+      <BackButton />
       <img src={product.image} alt={product.name} className="img" />
 
       <div className="products">

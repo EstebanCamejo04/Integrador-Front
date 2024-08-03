@@ -7,6 +7,7 @@
 
 .details {
   display: flex;
+  flex-direction: row-reverse;
   align-items: center;
   padding: 20px;
 }
@@ -31,6 +32,12 @@ button {
 
 button:hover {
   color: #eeece0;
+}
+
+.details > button{
+  align-self: flex-start;
+  display: flex;
+  margin-left: 10px;
 }
 
 .img {
