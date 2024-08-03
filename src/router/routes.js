@@ -1,4 +1,6 @@
+import AdminLayout from "../components/layout/AdminLayout";
 import Admin from "../components/pages/Admin";
+import AdminProductList from "../components/pages/AdminProductList";
 import Detail from "../components/pages/Detail";
 import Home from "../components/pages/Home";
 
@@ -16,6 +18,18 @@ export const routes = [
   {
     id: "admin",
     path: "/admin",
-    Element: Admin,
+    Element: AdminLayout,
+    children: [
+      {
+        id: "admin-home",
+        path: "/admin",
+        Element: Admin,
+      },
+      {
+        id: "admin-products",
+        path: "/admin/products",
+        Element: AdminProductList,
+      },
+    ],
   },
 ];
