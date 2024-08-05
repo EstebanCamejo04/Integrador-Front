@@ -1,12 +1,12 @@
 import "bootstrap-icons/font/bootstrap-icons.css";
-import "../../styles/Footer.css";
+import styles from "../../styles/Footer.module.css";
 import logo from "/images/logo.jpg";
 function Footer() {
   return (
-    <footer>
-      <div className="footer-section-1">
-        <img src={logo} alt="logo" />
-        <ul className="routes">
+    <footer className={styles.footerContainer}>
+      <div className={styles.footerSection1}>
+        <img className={styles.img} src={logo} alt="logo" />
+        <ul className={styles.routes}>
           <li>
             <a href="/home">HOME</a>
           </li>
@@ -23,7 +23,7 @@ function Footer() {
             <a href="/contact-us">CONTACT</a>
           </li>
         </ul>
-        <ul className="social-media">
+        <ul className={styles.socialMedia}>
           <li>
             <i className="bi bi-instagram"></i>
           </li>
@@ -35,7 +35,7 @@ function Footer() {
           </li>
         </ul>
       </div>
-      <p className="copyright">
+      <p className={styles.rights}>
         Copyright 2024 All Rights Reserved | Designed by
         <a href="">
           <b>punto.equilibrio.slackline</b>
