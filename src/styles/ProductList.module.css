@@ -1,12 +1,12 @@
-section {
+.productListContainer {
   margin: 5%;
 }
 
-h2 {
+.productListTitle {
   margin-bottom: 40px;
 }
 
-div.productList {
+.productList {
   display: grid;
   grid: auto / auto auto;
   gap: 50px;

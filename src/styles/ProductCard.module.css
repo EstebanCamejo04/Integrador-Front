@@ -1,4 +1,4 @@
-img {
+.cardImg {
   width: 50%;
 }
 
@@ -13,28 +13,30 @@ img {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
   gap: 10px;
-  padding: 0.5rem;
+  padding: 1.5rem 0.5rem;
+  width: 100%;
 }
 
-h3 {
+.cardTitle {
   font-size: 24px;
 }
 
-button {
+.avoidLinkStyle {
+  align-self: end;
+}
+
+.button {
   border: 1px solid #f28e42;
   background: none;
   padding: 12px;
   color: #f28e42;
   cursor: pointer;
   transition: all 0.3s ease;
-  align-self: end;
-  margin-right: 10px;
-  margin-bottom: 10px;
+  margin-right: 20px;
 }
 
-button:hover {
+.button:hover {
   background-color: #f28e42;
   color: white;
   border-radius: 5px;

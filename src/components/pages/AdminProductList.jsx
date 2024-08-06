@@ -1,5 +1,5 @@
 import AdminProductCard from "./AdminProductCard";
-import "../../styles/AdminProductList.css";
+import styles from "../../styles/AdminProductList.module.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -19,7 +19,7 @@ const AdminProductList = () => {
   }, []);
 
   return (
-    <div className="admin-products">
+    <div className={styles.adminProducts}>
       {products.map((product) => {
         return <AdminProductCard key={product.id} product={product} />;
       })}
