@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import styles from "../../styles/Detail.module.css";
 import BackButton from "../common/BackButton";
-import "../../styles/Details.css";
 
 const Detail = () => {
   const { id } = useParams();
@@ -29,15 +29,14 @@ const Detail = () => {
   }
 
   return (
-    <div className="details">
+    <div className={styles.details}>
       <BackButton />
-      <img src={product.image} alt={product.name} className="img" />
-
-      <div className="products">
+      <img src={product.image} alt={product.name} className={styles.img} />
+      <div className={styles.products}>
         <h2>Plan: {product.name}</h2>
-        <p>{product.description}</p>
-        <p>Precio: ${product.price}</p>
-        <button>Alquilar</button>
+        <p className={styles.paragraph}>{product.description}</p>
+        <p className={styles.paragraph}>Precio: ${product.price}</p>
+        <button className={styles.button}>Alquilar</button>
       </div>
     </div>
   );

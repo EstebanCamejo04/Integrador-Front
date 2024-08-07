@@ -1,30 +1,30 @@
 import Carousel from "react-bootstrap/Carousel";
-import "../../styles/App.css";
+import styles from "../../styles/BigBannerCarousel.module.css";
 
 const BigBannerCarousel = ({ info }) => {
   return (
     <>
-      <div className="relative">
-        <div className="abs-bb">
+      <div className={styles.carouselContainer}>
+        <div className={styles.carouselTitleContainer}>
           <h1>{info.title}</h1>
           {/* <h2>
             {info.description}{" "}
-            <span className="span-heart">{info.highlighted_description}</span>
+            <span className={styles.spanHeart}>{info.highlighted_description}</span>
           </h2> */}
         </div>
         <Carousel>
           <Carousel.Item>
-            <div className="big-banner">
+            <div className={styles.carouselItem}>
               <img src={info.image_path_1} />
             </div>
           </Carousel.Item>
           <Carousel.Item>
-            <div className="big-banner">
+            <div className={styles.carouselItem}>
               <img src={info.image_path_2} />
             </div>
           </Carousel.Item>
           <Carousel.Item>
-            <div className="big-banner">
+            <div className={styles.carouselItem}>
               <img src={info.image_path_3} />
             </div>
           </Carousel.Item>
