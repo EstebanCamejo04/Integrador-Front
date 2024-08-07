@@ -1,12 +1,6 @@
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
 .details {
   display: flex;
+  flex-direction: row-reverse;
   align-items: center;
   padding: 20px;
 }
@@ -22,15 +16,21 @@
   text-align: center;
 }
 
-button {
+.button {
   background-color: #3e7766;
   border-radius: 20%;
   padding: 0.5rem;
   font-size: 12px;
 }
 
-button:hover {
+.button:hover {
   color: #eeece0;
+}
+
+.details > button{
+  align-self: flex-start;
+  display: flex;
+  margin-left: 10px;
 }
 
 .img {
@@ -39,7 +39,7 @@ button:hover {
   margin-bottom: 20px;
 }
 
-p {
+.paragraph {
   color: #333;
   font-size: 12px;
 }

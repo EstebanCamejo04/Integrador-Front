@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
-import "../../styles/ProductList.css";
+import styles from "../../styles/ProductList.module.css";
 import axios from "axios";
 
 const ProductList = () => {
@@ -26,9 +26,9 @@ const ProductList = () => {
   }
 
   return (
-    <section>
-      <h2>Experiencias recomendadas</h2>
-      <div className="productList">
+    <section className={styles.productListContainer}>
+      <h2 className={styles.productListTitle}>Experiencias recomendadas</h2>
+      <div className={styles.productList}>
         {productList.map(({ id, name, image }) => {
           return <ProductCard key={id} id={id} img={image} name={name} />;
         })}

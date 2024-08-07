@@ -1,15 +1,15 @@
 import React from "react";
-import "../../styles/ProductCard.css";
+import styles from "../../styles/ProductCard.module.css";
 import { Link } from "react-router-dom";
 
 const ProductCard = ({ id, img, name }) => {
   return (
-    <div className="productCardContainer">
-      <img src={img} alt="Product image" />
+    <div className={styles.productCardContainer}>
+      <img src={img} alt="Product image" className={styles.cardImg} />
       <div>
-        <h3>{name}</h3>
-        <Link to={`/detail/${id}`}>
-          <button>Ver detalle</button>
+        <h3 className={styles.cardTitle}>{name}</h3>
+        <Link to={`/detail/${id}`} className={styles.avoidLinkStyle}>
+          <button className={styles.button}>Ver detalle</button>
         </Link>
       </div>
     </div>

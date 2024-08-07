@@ -1,0 +1,20 @@
+.bodyContainer {
+  margin: 0 0 25px 0;
+}
+
+.bodyHeader {
+  margin: 25px;
+  text-align: center;
+}
+
+.h1BodyHeader {
+  font-size: 58px;
+  font-weight: 200;
+  color: var(--main-text-secondary-color);
+}
+
+.h3BodyHeader {
+  color: var(--main-text-gray);
+  margin-top: 5px;
+  font-weight: 200;
+}
