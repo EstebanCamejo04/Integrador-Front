@@ -1,5 +1,5 @@
 .productListContainer {
-  margin: 5%;
+  padding: 5%;
 }
 
 .productListTitle {
@@ -8,6 +8,15 @@
 
 .productList {
   display: grid;
-  grid: auto / auto auto;
-  gap: 50px;
+  grid: auto / 100%;
+  gap: 10px;
+}
+
+@media (min-width: 992px) {
+  .productList {
+    display: grid;
+    grid: auto / 48% 48%;
+    column-gap: 4%;
+    row-gap: 0%;
+  }
 }

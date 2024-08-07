@@ -5,6 +5,19 @@ import axios from "axios";
 
 const ProductList = () => {
   const [productList, setProductList] = useState(null);
+  const [shuffledProductList, setShuffledProductList] = useState(null);
+
+  const shuffleArray = (array) => {
+    let shuffledArray = array.slice();
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [
+        shuffledArray[j],
+        shuffledArray[i],
+      ];
+    }
+    return shuffledArray;
+  };
 
   useEffect(() => {
     const fetchProductList = () => {
@@ -19,9 +32,13 @@ const ProductList = () => {
     };
 
     fetchProductList();
+  }, []);
+
+  useEffect(() => {
+    productList && setShuffledProductList(shuffleArray(productList));
   }, [productList]);
 
-  if (!productList) {
+  if (!shuffledProductList) {
     return <div>Cargando...</div>;
   }
 
@@ -29,7 +46,7 @@ const ProductList = () => {
     <section className={styles.productListContainer}>
       <h2 className={styles.productListTitle}>Experiencias recomendadas</h2>
       <div className={styles.productList}>
-        {productList.map(({ id, name, image }) => {
+        {shuffledProductList.map(({ id, name, image }) => {
           return <ProductCard key={id} id={id} img={image} name={name} />;
         })}
       </div>
