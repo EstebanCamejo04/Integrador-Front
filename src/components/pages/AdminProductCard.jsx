@@ -12,7 +12,7 @@ const AdminProductCard = (props) => {
   return (
     <Card className={styles.productCard}>
       <Card.Img
-        className="card-image"
+        className={styles.cardImage}
         variant="top"
         src={props.product.image}
       />
