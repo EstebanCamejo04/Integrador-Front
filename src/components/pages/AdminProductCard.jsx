@@ -8,22 +8,29 @@ const ellipsis = (text) => {
   }
   return text;
 };
-const AdminProductCard = (props) => {
+
+const AdminProductCard = ({ product, onDelete }) => {
+  const handleDelete = () => {
+    if (window.confirm("¿Estás seguro que deseas eliminar el producto?")) {
+      onDelete(product.id);
+    }
+  };
+
   return (
     <Card className={styles.productCard}>
       <Card.Img
         className={styles.cardImage}
         variant="top"
-        src={props.product.image}
+        src={product.image}
       />
       <Card.Body className={styles.cardBody}>
-        <Card.Title>${props.product.price}</Card.Title>
-        <Card.Title>{props.product.name}</Card.Title>
-        <Card.Text>{ellipsis(props.product.description)}</Card.Text>
+        <Card.Title>${product.price}</Card.Title>
+        <Card.Title>{product.name}</Card.Title>
+        <Card.Text>{ellipsis(product.description)}</Card.Text>
         <div className={styles.options}>
-          <Link className={styles.deleteIcon}>
+          <Button variant="danger" className={styles.deleteIcon} onClick={handleDelete}>
             <i className="bi bi-trash"></i>
-          </Link>
+          </Button>
           <Link className={styles.editIcon}>
             <i className="bi bi-pencil"></i>
           </Link>

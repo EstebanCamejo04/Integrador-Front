@@ -9,6 +9,7 @@
 }
 .deleteIcon {
   color: red;
+  background-color: white;
 }
 .editIcon {
   color: var(--main-text-secondary-color);
