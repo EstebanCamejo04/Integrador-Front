@@ -18,10 +18,14 @@ const AdminProductList = () => {
       });
   }, []);
 
+  const handleDelete = (id) => {
+    setProducts(products.filter((product) => product.id !== id));
+  };
+
   return (
     <div className={styles.adminProducts}>
       {products.map((product) => {
-        return <AdminProductCard key={product.id} product={product} />;
+        return <AdminProductCard key={product.id} product={product} onDelete={handleDelete} />;
       })}
     </div>
   );
