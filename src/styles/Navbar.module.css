@@ -14,9 +14,9 @@
 .navBar button {
   padding: 10px;
   border-radius: 5px;
-  background-color: #f28e42;
+  background-color: var(--main-orange);
   margin-right: 1rem;
-  color: #eeece0;
+  color: var(--main-bg-color);
   border: none;
   transition: background-color 0.3s ease, transform 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
@@ -90,9 +90,9 @@
     }
   }
   button {
-    background: #f28e42;
+    background: var(--main-orange);
     border-radius: 5px;
-    border: 1px solid #f28e42;
+    border: 1px solid var(--main-orange);
     padding: 5px 10px;
   }
 }
