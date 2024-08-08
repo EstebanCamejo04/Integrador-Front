@@ -31,6 +31,7 @@ const Navbar = () => {
             type="button"
             className={"btn-close btn-close-white"}
             aria-label="Close"
+            onClick={handleClose}
           ></button>
         </Offcanvas.Header>
         <Offcanvas.Title>
