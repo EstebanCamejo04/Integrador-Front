@@ -1,7 +1,7 @@
 .navBar {
   width: 100%;
   height: 4rem;
-  background-color: #247965;
+  background-color: var(--main-text-secondary-color);
   text-align: center;
   display: flex;
   justify-content: space-between;
@@ -22,7 +22,7 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 .navBar button:hover {
-  color: #247965;
+  color: var(--main-text-secondary-color);
   cursor: pointer;
   transform: scale(1.05);
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.4);
@@ -33,6 +33,10 @@
   height: 3rem;
   margin: 0px;
   margin-left: 1rem;
+}
+.navBar a {
+  color: var(--main-bg-color);
+  text-decoration: none;
 }
 
 .logoDiv {
@@ -48,4 +52,56 @@
 .avoidLinkStyles {
   text-decoration: none;
   color: inherit;
+}
+
+.mobileHeader {
+  padding: 1rem;
+  i {
+    font-size: 30px;
+  }
+}
+
+.leftMenu {
+  background-color: var(--main-text-secondary-color);
+  color: var(--main-bg-color);
+  p,
+  a,
+  button {
+    color: var(--main-bg-color);
+  }
+}
+
+.leftMenuBody {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  li {
+    list-style-type: none;
+    margin: 10px 0;
+    a {
+      text-decoration: none;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      i {
+        font-size: 22px;
+        margin-right: 10px;
+      }
+    }
+  }
+  button {
+    background: #f28e42;
+    border-radius: 5px;
+    border: 1px solid #f28e42;
+    padding: 5px 10px;
+  }
+}
+.leftHeaderMenu {
+  text-align: center;
+}
+
+.leftMenuFooter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
