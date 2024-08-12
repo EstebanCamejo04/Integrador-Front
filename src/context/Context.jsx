@@ -1,9 +1,7 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useReducer } from "react";
 
-const products = JSON.parse(localStorage.getItem("products")) || [];
-
-export const initialState = { products: products };
+export const initialState = { products: [] };
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -23,10 +21,6 @@ export const ContextGlobal = createContext(undefined);
 
 export const ContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-
-  useEffect(() => {
-    localStorage.setItem("products", JSON.stringify(state.products));
-  }, [state.products]);
 
   const url = "/db.json";
 
