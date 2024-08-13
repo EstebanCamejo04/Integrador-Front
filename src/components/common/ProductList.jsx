@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ProductCard from "./ProductCard";
 import styles from "../../styles/ProductList.module.css";
-import axios from "axios";
+import { useContextGlobal } from "../../context/Context";
 
 const ProductList = () => {
-  const [productList, setProductList] = useState(null);
-  const [shuffledProductList, setShuffledProductList] = useState(null);
+  const { state } = useContextGlobal();
 
   const shuffleArray = (array) => {
     let shuffledArray = array.slice();
@@ -19,26 +18,7 @@ const ProductList = () => {
     return shuffledArray;
   };
 
-  useEffect(() => {
-    const fetchProductList = () => {
-      axios
-        .get("/db.json")
-        .then((response) => {
-          setProductList(response.data);
-        })
-        .catch((error) => {
-          console.error("Error fetching the product list:", error);
-        });
-    };
-
-    fetchProductList();
-  }, []);
-
-  useEffect(() => {
-    productList && setShuffledProductList(shuffleArray(productList));
-  }, [productList]);
-
-  if (!shuffledProductList) {
+  if (!state.products) {
     return <div>Cargando...</div>;
   }
 
@@ -46,7 +26,7 @@ const ProductList = () => {
     <section className={styles.productListContainer}>
       <h2 className={styles.productListTitle}>Experiencias recomendadas</h2>
       <div className={styles.productList}>
-        {shuffledProductList.map(({ id, name, image }) => {
+        {shuffleArray(state.products).map(({ id, name, image }) => {
           return <ProductCard key={id} id={id} img={image} name={name} />;
         })}
       </div>

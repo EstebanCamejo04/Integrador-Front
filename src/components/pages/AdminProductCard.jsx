@@ -1,6 +1,7 @@
-import { Button, Card } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import styles from "../../styles/AdminProductCard.module.css";
+import { useContextGlobal } from "../../context/Context";
 
 const ellipsis = (text) => {
   if (text.length > 200) {
@@ -9,12 +10,9 @@ const ellipsis = (text) => {
   return text;
 };
 
-const AdminProductCard = ({ product, onDelete }) => {
-  const handleDelete = () => {
-    if (window.confirm("¿Estás seguro que deseas eliminar el producto?")) {
-      onDelete(product.id);
-    }
-  };
+const AdminProductCard = (props) => {
+  const { dispatch } = useContextGlobal();
+
 
   return (
     <Card className={styles.productCard}>
@@ -28,7 +26,12 @@ const AdminProductCard = ({ product, onDelete }) => {
         <Card.Title>{product.name}</Card.Title>
         <Card.Text>{ellipsis(product.description)}</Card.Text>
         <div className={styles.options}>
-          <Button variant="danger" className={styles.deleteIcon} onClick={handleDelete}>
+          <Link
+            className={styles.deleteIcon}
+            onClick={() =>
+              dispatch({ type: "removeProduct", payload: props.product.id })
+            }
+          >
             <i className="bi bi-trash"></i>
           </Button>
           <Link className={styles.editIcon}>
