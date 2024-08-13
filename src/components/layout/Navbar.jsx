@@ -54,7 +54,9 @@ const Navbar = () => {
             </ul>
           </div>
           <div className={styles.leftMenuFooter}>
-            <button onClick={handleClose}>Iniciar sesión</button>
+            <Link to="/login" onClick={handleClose}>
+              <button>Iniciar sesión</button>
+            </Link>
             <button onClick={handleClose}>Crear cuenta</button>
           </div>
         </Offcanvas.Body>
@@ -85,7 +87,9 @@ const Navbar = () => {
         <Link to="/admin">Administrador</Link>
       </div>
       <div>
-        <button>Iniciar sesión</button>
+        <Link to="/login">
+          <button>Iniciar sesión</button>
+        </Link>
         <button>Crear cuenta</button>
       </div>
     </nav>

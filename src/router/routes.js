@@ -1,4 +1,5 @@
 import AdminLayout from "../components/layout/AdminLayout";
+import LoginForm from "../components/layout/LoginForm";
 import Admin from "../components/pages/Admin";
 import AdminProductList from "../components/pages/AdminProductList";
 import Detail from "../components/pages/Detail";
@@ -9,6 +10,11 @@ export const routes = [
     id: "home",
     path: "/",
     Element: Home,
+  },
+  {
+    id: "login",
+    path: "/login",
+    Element: LoginForm,
   },
   {
     id: "detail",
