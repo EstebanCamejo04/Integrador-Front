@@ -2,12 +2,27 @@ import React, { useEffect, useState } from "react";
 import logo from "/images/logo2.jpg";
 import styles from "../../styles/Navbar.module.css";
 import { Offcanvas } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const width = 850;
   const [show, setShow] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= width);
+  const [role, setRole] = useState("admin");
+  const navigate = useNavigate();
+
+  const changeRoleToAdmin = () => {
+    setRole("admin");
+    navigate("/");
+  };
+  const changeRoleToUser = () => {
+    setRole("user");
+    navigate("/");
+  };
+  const changeRoleToAnonym = () => {
+    setRole("anonym");
+    navigate("/");
+  };
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -83,14 +98,35 @@ const Navbar = () => {
           <p>Fly Mountain</p>
         </div>
       </Link>
+      {role === "admin" && (
+        <div>
+          <Link to="/admin">Administrador</Link>
+        </div>
+      )}
       <div>
-        <Link to="/admin">Administrador</Link>
+        {role !== "admin" && <button onClick={changeRoleToAdmin}>Admin</button>}
+        {role !== "user" && (
+          <button onClick={changeRoleToUser}>Usuario registrado</button>
+        )}
+        {role !== "anonym" && (
+          <button onClick={changeRoleToAnonym}>Usuario no registrado</button>
+        )}
       </div>
       <div>
-        <Link to="/login">
-          <button>Iniciar sesión</button>
-        </Link>
-        <button>Crear cuenta</button>
+        {role !== "anonym" && (
+          <Link to="/userProfile">
+            <div className={styles.avatar}>J</div>
+          </Link>
+        )}
+        {role === "anonym" && (
+          <>
+            <Link to="/login">
+              <button>Iniciar sesión</button>
+            </Link>
+            <button>Crear cuenta</button>
+          </>
+        )}
+
       </div>
     </nav>
   );
