@@ -1,14 +1,26 @@
 import AdminLayout from "../components/layout/AdminLayout";
+import Login from "../components/pages/Login";
 import Admin from "../components/pages/Admin";
 import AdminProductList from "../components/pages/AdminProductList";
 import Detail from "../components/pages/Detail";
 import Home from "../components/pages/Home";
+import UserProfile from "../components/pages/UserProfile";
 
 export const routes = [
   {
     id: "home",
     path: "/",
     Element: Home,
+  },
+  {
+    id: "login",
+    path: "/login",
+    Element: Login,
+  },
+  {
+    id: "userProfile",
+    path: "/userProfile",
+    Element: UserProfile,
   },
   {
     id: "detail",
