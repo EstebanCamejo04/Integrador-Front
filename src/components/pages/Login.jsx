@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "../../styles/LoginForm.module.css";
 
-const LoginForm = () => {
+const Login = () => {
   const [user, setUser] = useState({
     username: "",
     password: "",
@@ -76,4 +76,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default Login;

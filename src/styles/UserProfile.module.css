@@ -1,0 +1,46 @@
+.profileContainer {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.profileCard {
+  width: fit-content;
+}
+
+.profileHeader {
+  text-align: center;
+  padding: 10px 0;
+  font-size: 20px;
+  background-color: #1871d6;
+  color: white;
+}
+
+.profileLabel {
+}
+
+.infoTitle {
+  width: 150px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.infoValue {
+  width: 250px;
+}
+
+@media (min-width: 992px) {
+  .profileContainer {
+    padding: 40px;
+  }
+
+  .infoTitle {
+    width: 220px;
+  }
+
+  .infoValue {
+    width: 450px;
+  }
+}
