@@ -126,6 +126,7 @@ const Navbar = () => {
             <button>Crear cuenta</button>
           </>
         )}
+
       </div>
     </nav>
   );
