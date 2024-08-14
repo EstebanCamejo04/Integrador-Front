@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../../styles/LoginForm.module.css";
+import { useContextGlobal } from "../../context/Context";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [user, setUser] = useState({
@@ -9,6 +11,9 @@ const Login = () => {
 
   const [show, setShow] = useState(false);
   const [error, setError] = useState("");
+
+  const { dispatch } = useContextGlobal();
+  const navigate = useNavigate();
 
   const validateEmail = (email) => {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -28,10 +33,27 @@ const Login = () => {
       setError("La contraseña debe tener al menos 8 caracteres.");
       return;
     }
-
+    const loggedInUser = {
+      username: user.username,
+      firstName: "Pepito",
+      lastName: "Ramirez",
+      email: user.username,
+      phone: "88888888",
+      role: "admin",
+      registrationDate: "14/08/2024",
+    };
+    dispatch({ type: "setUser", payload: loggedInUser });
     setShow(true);
     console.log(`Usuario: ${user.username} ha iniciado sesión exitosamente.`);
   };
+
+  useEffect(() => {
+    if (show) {
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+    }
+  }, [show, navigate]);
 
   return (
     <div className={styles.formContainer}>

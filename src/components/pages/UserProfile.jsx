@@ -1,8 +1,24 @@
 import React from "react";
 import styles from "../../styles/UserProfile.module.css";
-import { Card, ListGroup } from "react-bootstrap";
+import { Card, ListGroup, Button } from "react-bootstrap";
+import { useContextGlobal } from "../../context/Context";
+import { useNavigate } from "react-router-dom";
 
 const UserProfile = () => {
+  const { state, dispatch } = useContextGlobal();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch({ type: "logout" });
+    alert("Has cerrado sesión exitosamente.");
+    console.log(
+      "Usuario eliminado de localStorage:",
+      localStorage.getItem("user")
+    );
+    navigate("/");
+  };
+  const user = state.user || {};
+  console.log(user);
   return (
     <div className={styles.profileContainer}>
       <Card className={styles.profileCard}>
@@ -12,34 +28,36 @@ const UserProfile = () => {
 
         <ListGroup horizontal className={styles.profileLabel}>
           <ListGroup.Item className={styles.infoTitle}>Nombre</ListGroup.Item>
-          <ListGroup.Item className={styles.infoValue}>{"Juan"}</ListGroup.Item>
+          <ListGroup.Item className={styles.infoValue}>
+            {user.firstName || ""}
+          </ListGroup.Item>
         </ListGroup>
 
         <ListGroup horizontal>
           <ListGroup.Item className={styles.infoTitle}>Apellido</ListGroup.Item>
           <ListGroup.Item className={styles.infoValue}>
-            {"Perez"}
+            {user.lastName || ""}
           </ListGroup.Item>
         </ListGroup>
 
         <ListGroup horizontal>
           <ListGroup.Item className={styles.infoTitle}>Email</ListGroup.Item>
           <ListGroup.Item className={styles.infoValue}>
-            {"juanperez@gmail.com"}
+            {user.email || ""}
           </ListGroup.Item>
         </ListGroup>
 
         <ListGroup horizontal>
           <ListGroup.Item className={styles.infoTitle}>Teléfono</ListGroup.Item>
           <ListGroup.Item className={styles.infoValue}>
-            {"1234-5678"}
+            {user.phone || ""}
           </ListGroup.Item>
         </ListGroup>
 
         <ListGroup horizontal>
           <ListGroup.Item className={styles.infoTitle}>Rol</ListGroup.Item>
           <ListGroup.Item className={styles.infoValue}>
-            {"Admin"}
+            {user.role || ""}
           </ListGroup.Item>
         </ListGroup>
 
@@ -48,9 +66,16 @@ const UserProfile = () => {
             Fecha de registro
           </ListGroup.Item>
           <ListGroup.Item className={styles.infoValue}>
-            {"13/08/2024"}
+            {user.registrationDate || ""}
           </ListGroup.Item>
         </ListGroup>
+        <Button
+          variant="danger"
+          onClick={handleLogout}
+          className={styles.logoutButton}
+        >
+          Cerrar Sesión
+        </Button>
       </Card>
     </div>
   );

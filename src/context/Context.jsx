@@ -1,19 +1,35 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useReducer } from "react";
 
-export const initialState = { products: [] };
+export const initialState = {
+  products: [],
+  user: JSON.parse(localStorage.getItem("user")) || null,
+};
+console.log("Usuario recuperado del localStorage:", initialState.user);
 
 const reducer = (state, action) => {
   switch (action.type) {
     case "getAllProducts":
-      return { products: action.payload };
+      return { ...state, products: action.payload };
 
-    case "removeProduct":
+    case "removeProduct": {
       const filterProducts = state.products.filter(
         (product) => product.id !== action.payload
       );
       alert("Product removed from list successfully!");
-      return { products: filterProducts };
+      return { ...state, products: filterProducts };
+    }
+
+    case "setUser":
+      localStorage.setItem("user", JSON.stringify(action.payload));
+      return { ...state, user: action.payload };
+
+    case "logout":
+      localStorage.removeItem("user");
+      return { ...state, user: null };
+
+    default:
+      return state;
   }
 };
 
