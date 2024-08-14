@@ -1,9 +1,10 @@
 import AdminLayout from "../components/layout/AdminLayout";
-import LoginForm from "../components/layout/LoginForm";
+import Login from "../components/pages/Login";
 import Admin from "../components/pages/Admin";
 import AdminProductList from "../components/pages/AdminProductList";
 import Detail from "../components/pages/Detail";
 import Home from "../components/pages/Home";
+import UserProfile from "../components/pages/UserProfile";
 
 export const routes = [
   {
@@ -14,7 +15,12 @@ export const routes = [
   {
     id: "login",
     path: "/login",
-    Element: LoginForm,
+    Element: Login,
+  },
+  {
+    id: "userProfile",
+    path: "/userProfile",
+    Element: UserProfile,
   },
   {
     id: "detail",
