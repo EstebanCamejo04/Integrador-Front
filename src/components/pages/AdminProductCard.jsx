@@ -19,12 +19,12 @@ const AdminProductCard = (props) => {
       <Card.Img
         className={styles.cardImage}
         variant="top"
-        src={product.image}
+        src={props.product.image}
       />
       <Card.Body className={styles.cardBody}>
-        <Card.Title>${product.price}</Card.Title>
-        <Card.Title>{product.name}</Card.Title>
-        <Card.Text>{ellipsis(product.description)}</Card.Text>
+        <Card.Title>${props.product.price}</Card.Title>
+        <Card.Title>{props.product.name}</Card.Title>
+        <Card.Text>{ellipsis(props.product.description)}</Card.Text>
         <div className={styles.options}>
           <Link
             className={styles.deleteIcon}
@@ -33,7 +33,7 @@ const AdminProductCard = (props) => {
             }
           >
             <i className="bi bi-trash"></i>
-          </Button>
+          </Link>
           <Link className={styles.editIcon}>
             <i className="bi bi-pencil"></i>
           </Link>

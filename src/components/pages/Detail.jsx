@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "../../styles/Detail.module.css";
 import BackButton from "../common/BackButton";
+import { useContextGlobal } from "../../context/Context";
 
 const Detail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const { state } = useContextGlobal();
+  const user = state.user || {};
+  const isAuthenticated = !!user.firstName;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProduct = () => {
@@ -23,6 +28,12 @@ const Detail = () => {
 
     fetchProduct();
   }, [id]);
+  const handleRentClick = () => {
+    if (!isAuthenticated) {
+      alert("Debes iniciar sesión o registrarte para alquilar un producto.");
+      navigate("/login");
+    }
+  };
 
   if (!product) {
     return <div>Cargando...</div>;
@@ -36,7 +47,9 @@ const Detail = () => {
         <h2>Plan: {product.name}</h2>
         <p className={styles.paragraph}>{product.description}</p>
         <p className={styles.paragraph}>Precio: ${product.price}</p>
-        <button className={styles.button}>Alquilar</button>
+        <button className={styles.button} onClick={handleRentClick}>
+          Alquilar
+        </button>
       </div>
     </div>
   );

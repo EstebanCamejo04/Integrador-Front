@@ -3,6 +3,7 @@ import logo from "/images/logo2.jpg";
 import styles from "../../styles/Navbar.module.css";
 import { Offcanvas } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+import { useContextGlobal } from "../../context/Context";
 
 const Navbar = () => {
   const width = 850;
@@ -10,6 +11,7 @@ const Navbar = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= width);
   const [role, setRole] = useState("admin");
   const navigate = useNavigate();
+  const { state } = useContextGlobal();
 
   const changeRoleToAdmin = () => {
     setRole("admin");
@@ -37,6 +39,11 @@ const Navbar = () => {
   useEffect(() => {
     window.addEventListener("resize", handleResize);
   }, []);
+  const user = state.user || {};
+  const isAuthenticated = !!user.firstName;
+  const initials =
+    (user.firstName ? user.firstName[0] : "") +
+    (user.lastName ? user.lastName[0] : "");
 
   return isMobile ? (
     <>
@@ -98,7 +105,25 @@ const Navbar = () => {
           <p>Fly Mountain</p>
         </div>
       </Link>
-      {role === "admin" && (
+      <div>
+        <Link to="/admin">Administrador</Link>
+      </div>
+
+      {isAuthenticated && (
+        <Link to="/userProfile">
+          <div className={styles.avatar}>{initials || ""}</div>
+        </Link>
+      )}
+      {!isAuthenticated && (
+        <div>
+          <Link to="/login">
+            <button>Iniciar sesión</button>
+          </Link>
+          <button>Crear cuenta</button>
+        </div>
+      )}
+
+      {/* {role === "admin" && (
         <div>
           <Link to="/admin">Administrador</Link>
         </div>
@@ -115,7 +140,7 @@ const Navbar = () => {
       <div>
         {role !== "anonym" && (
           <Link to="/userProfile">
-            <div className={styles.avatar}>J</div>
+            <div className={styles.avatar}>{initials}</div>
           </Link>
         )}
         {role === "anonym" && (
@@ -126,8 +151,7 @@ const Navbar = () => {
             <button>Crear cuenta</button>
           </>
         )}
-
-      </div>
+      </div> */}
     </nav>
   );
 };
