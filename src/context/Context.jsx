@@ -54,7 +54,7 @@ export const ContextProvider = ({ children }) => {
         dispatch({ type: "getAllProducts", payload: response.data });
       })
       .catch((error) => {
-        console.error("Error fetching the product list:", errfor);
+        console.error("Error fetching the product list:", error);
       });
   };
 
