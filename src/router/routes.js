@@ -5,6 +5,7 @@ import AdminProductList from "../components/pages/AdminProductList";
 import Detail from "../components/pages/Detail";
 import Home from "../components/pages/Home";
 import UserProfile from "../components/pages/UserProfile";
+import SignUp from "../components/pages/SignUp";
 
 export const routes = [
   {
@@ -16,6 +17,11 @@ export const routes = [
     id: "login",
     path: "/login",
     Element: Login,
+  },
+  {
+    id: "signUp",
+    path: "/sign-up",
+    Element: SignUp,
   },
   {
     id: "userProfile",

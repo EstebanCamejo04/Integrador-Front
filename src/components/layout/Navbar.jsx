@@ -79,7 +79,9 @@ const Navbar = () => {
             <Link to="/login" onClick={handleClose}>
               <button>Iniciar sesión</button>
             </Link>
-            <button onClick={handleClose}>Crear cuenta</button>
+            <Link to="/sign-up" onClick={handleClose}>
+              Crear cuenta
+            </Link>
           </div>
         </Offcanvas.Body>
       </Offcanvas>
@@ -119,7 +121,7 @@ const Navbar = () => {
           <Link to="/login">
             <button>Iniciar sesión</button>
           </Link>
-          <button>Crear cuenta</button>
+          <Link to="/sign-up">Crear cuenta</Link>
         </div>
       )}
 
