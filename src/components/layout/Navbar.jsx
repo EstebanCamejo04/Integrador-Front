@@ -76,10 +76,18 @@ const Navbar = () => {
             </ul>
           </div>
           <div className={styles.leftMenuFooter}>
-            <Link to="/login" onClick={handleClose}>
-              <button>Iniciar sesión</button>
+            <Link
+              to="/login"
+              className={styles.orangeButton}
+              onClick={handleClose}
+            >
+              Iniciar sesión
             </Link>
-            <Link to="/sign-up" onClick={handleClose}>
+            <Link
+              to="/sign-up"
+              className={styles.orangeButton}
+              onClick={handleClose}
+            >
               Crear cuenta
             </Link>
           </div>
@@ -118,10 +126,12 @@ const Navbar = () => {
       )}
       {!isAuthenticated && (
         <div>
-          <Link to="/login">
-            <button>Iniciar sesión</button>
+          <Link to="/login" className={styles.orangeButton}>
+            Iniciar sesión
           </Link>
-          <Link to="/sign-up">Crear cuenta</Link>
+          <Link to="/sign-up" className={styles.orangeButton}>
+            Crear cuenta
+          </Link>
         </div>
       )}
 
@@ -147,8 +157,7 @@ const Navbar = () => {
         )}
         {role === "anonym" && (
           <>
-            <Link to="/login">
-              <button>Iniciar sesión</button>
+            <Link to="/login">Iniciar sesión</button>
             </Link>
             <button>Crear cuenta</button>
           </>

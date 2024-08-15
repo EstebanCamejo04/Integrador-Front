@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { Button, Col, Form, InputGroup, Row } from "react-bootstrap";
-import styles from "../../styles/LoginForm.module.css";
+import formStyles from "../../styles/LoginForm.module.css";
+import styles from "../../styles/SignUp.module.css";
+import axios from "axios";
+import SuccessSignUp from "../common/SuccessSignUp";
 
 const SignUp = () => {
-  const [validated, setValidated] = useState(false);
+  const [show, setShow] = useState(false);
+  const [errors, setErrors] = useState({});
   const [userData, setUserData] = useState({
     name: "",
     lastName: "",
@@ -12,14 +15,28 @@ const SignUp = () => {
     confirmPassword: "",
   });
 
+  const validate = () => {
+    const errors = {};
+    if (!userData.name) errors.name = "Nombre requerido";
+    if (!userData.lastName) errors.lastName = "Apellido requerido";
+    if (!userData.email) errors.email = "Correo electrónico requerido";
+    else if (!/\S+@\S+\.\S+/.test(userData.email))
+      errors.email = "Correo electrónico inválido";
+    if (!userData.password) errors.password = "Contraseña requerida";
+    if (userData.password !== userData.confirmPassword)
+      errors.confirmPassword = "Las contraseñas deben coincidir";
+    return errors;
+  };
+
   const handleSubmit = (event) => {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
+    event.preventDefault();
+    event.stopPropagation();
+    const validationErrors = validate();
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length === 0) {
+      registerUser();
     }
-    setValidated(true);
-    /**llamar API */
   };
 
   const updateState = (event) => {
@@ -27,94 +44,131 @@ const SignUp = () => {
       ...userData,
       [event.target.name]: event.target.value,
     });
-    console.log(userData);
+  };
+
+  const registerUser = () => {
+    axios
+      .post("http://demo6033406.mockable.io//sign-up", {
+        name: userData.name,
+        lastName: userData.lastName,
+        email: userData.email,
+        password: userData.password,
+      })
+      .then((res) => {
+        console.log(res.data);
+        setShow(true);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   return (
-    <div className={styles.formContainer}>
-      <div className={styles.form}>
-        <h3>Registrate</h3>
-        <p>Ingresa tus datos para asignarte un usuario</p>
-        <Form noValidate validated={validated} onSubmit={handleSubmit}>
-          <Row>
-            <Form.Group>
-              <Form.Control
-                className={styles.inputField}
-                required
+    <>
+      <SuccessSignUp show={show} setShow={setShow} />
+      <div className={formStyles.formContainer}>
+        <div className={formStyles.form}>
+          <h3>Regístrate</h3>
+          <p>Ingresa tus datos para asignarte un usuario</p>
+          <form onSubmit={handleSubmit}>
+            <div>
+              <input
                 type="text"
+                name="name"
                 placeholder="Nombre*"
                 value={userData.name}
                 onChange={updateState}
-                name="name"
+                className={
+                  formStyles.inputField +
+                  " " +
+                  (errors.name ? styles.inputError : "")
+                }
               />
-              <Form.Control.Feedback type="invalid">
-                Por favor ingrese un nombre valido.
-              </Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group>
-              <Form.Control
-                className={styles.inputField}
-                required
+              {errors.name && (
+                <span className={styles.errorText}>{errors.name}</span>
+              )}
+            </div>
+            <div>
+              <input
                 type="text"
+                name="lastName"
                 placeholder="Apellido*"
                 value={userData.lastName}
                 onChange={updateState}
-                name="lastName"
+                className={
+                  formStyles.inputField +
+                  " " +
+                  (errors.lastName ? styles.inputError : "")
+                }
               />
-              <Form.Control.Feedback type="invalid">
-                Por favor ingrese un apellido valido.
-              </Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group>
-              <Form.Control
-                className={styles.inputField}
-                type="email"
-                onChange={updateState}
-                placeholder="Correo electrónico*"
-                required
-                value={userData.email}
-                name="email"
-              />
-              <Form.Control.Feedback type="invalid">
-                Por favor ingrese un correo valido.
-              </Form.Control.Feedback>
-            </Form.Group>
+              {errors.lastName && (
+                <span className={styles.errorText}>{errors.lastName}</span>
+              )}
+            </div>
 
-            <Form.Group>
-              <Form.Control
-                className={styles.inputField}
-                type="password"
-                placeholder="Contraseña*"
-                required
-                value={userData.password}
+            <div>
+              <input
+                type="email"
+                name="email"
+                placeholder="Correo electrónico*"
+                value={userData.email}
                 onChange={updateState}
+                className={
+                  formStyles.inputField +
+                  " " +
+                  (errors.email ? styles.inputError : "")
+                }
+              />
+              {errors.email && (
+                <span className={styles.errorText}>{errors.email}</span>
+              )}
+            </div>
+
+            <div>
+              <input
+                type="password"
                 name="password"
-              />
-              <Form.Control.Feedback type="invalid">
-                Contraseña insegura.
-              </Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group>
-              <Form.Control
-                className={styles.inputField}
-                type="password"
-                placeholder="Confirmar contraseña*"
-                required
-                value={userData.confirmPassword}
+                value={userData.password}
+                placeholder="Contraseña"
                 onChange={updateState}
-                name="confirmPassword"
+                className={
+                  formStyles.inputField +
+                  " " +
+                  (errors.password ? styles.inputError : "")
+                }
               />
-              <Form.Control.Feedback type="invalid">
-                Las contraseñas no coinciden.
-              </Form.Control.Feedback>
-            </Form.Group>
-          </Row>
-          <Button className={styles.button} type="submit">
-            Registrar
-          </Button>
-        </Form>
+              {errors.password && (
+                <span className={styles.errorText}>{errors.password}</span>
+              )}
+            </div>
+
+            <div>
+              <input
+                type="password"
+                name="confirmPassword"
+                value={userData.confirmPassword}
+                placeholder="Confirmar contraseña"
+                onChange={updateState}
+                className={
+                  formStyles.inputField +
+                  " " +
+                  (errors.confirmPassword ? styles.inputError : "")
+                }
+              />
+              {errors.confirmPassword && (
+                <span className={styles.errorText}>
+                  {errors.confirmPassword}
+                </span>
+              )}
+            </div>
+
+            <button type="submit" className={formStyles.button}>
+              Registrar
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
