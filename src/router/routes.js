@@ -21,6 +21,7 @@ export const routes = [
     id: "userProfile",
     path: "/userProfile",
     Element: UserProfile,
+    isPrivate: true,
   },
   {
     id: "detail",
@@ -31,6 +32,7 @@ export const routes = [
     id: "admin",
     path: "/admin",
     Element: AdminLayout,
+    isPrivate: true,
     children: [
       {
         id: "admin-home",
