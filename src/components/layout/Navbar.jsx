@@ -4,6 +4,7 @@ import styles from "../../styles/Navbar.module.css";
 import { Offcanvas } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useContextGlobal } from "../../context/Context";
+import DropDownProfile from "../common/DropDownProfile";
 
 const Navbar = () => {
   const width = 850;
@@ -11,7 +12,7 @@ const Navbar = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= width);
   const [role, setRole] = useState("admin");
   const navigate = useNavigate();
-  const { state } = useContextGlobal();
+  const { state, dispatch } = useContextGlobal();
 
   const changeRoleToAdmin = () => {
     setRole("admin");
@@ -29,6 +30,10 @@ const Navbar = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const handleOpenProfile = () => {
+    dispatch({ type: "toggleDropDownMenu" });
+  };
+
   const handleResize = () => {
     if (window.innerWidth <= width) {
       setIsMobile(true);
@@ -39,6 +44,7 @@ const Navbar = () => {
   useEffect(() => {
     window.addEventListener("resize", handleResize);
   }, []);
+
   const user = state.user || {};
   const isAuthenticated = !!user.firstName;
   const initials =
@@ -110,9 +116,9 @@ const Navbar = () => {
       </div>
 
       {isAuthenticated && (
-        <Link to="/userProfile">
-          <div className={styles.avatar}>{initials || ""}</div>
-        </Link>
+        <div className={styles.avatar} onClick={handleOpenProfile}>
+          {initials || ""}
+        </div>
       )}
       {!isAuthenticated && (
         <div>
@@ -122,6 +128,8 @@ const Navbar = () => {
           <button>Crear cuenta</button>
         </div>
       )}
+
+      {state.openProfile && <DropDownProfile />}
 
       {/* {role === "admin" && (
         <div>

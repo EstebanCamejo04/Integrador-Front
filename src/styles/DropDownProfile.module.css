@@ -1,0 +1,46 @@
+.dropDownMenu {
+  position: absolute;
+  top: 4rem;
+  right: 0.8rem;
+  width: auto;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: var(--main-text-secondary-color);
+  border: 1px solid white;
+  font-size: small;
+}
+.userName {
+  font-size: 16px;
+}
+.userEmail {
+  font-size: 12px;
+}
+
+.dropDownMenu hr {
+  border: 0;
+  height: 1px;
+  width: 100%;
+  background: white;
+}
+
+.dropDownUserData {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: var(--main-bg-color);
+}
+.dropDownMenuLink {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  font-size: 10px;
+  height: 6rem;
+}
+.dropDownMenuLogout {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  font-size: smaller;
+}
