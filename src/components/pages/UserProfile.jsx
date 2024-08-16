@@ -17,7 +17,7 @@ const UserProfile = () => {
     );
     navigate("/");
   };
-  const user = state.user || {};
+  const user = state.user ? state.user : null;
   console.log(user);
   return (
     <div className={styles.profileContainer}>
@@ -29,14 +29,14 @@ const UserProfile = () => {
         <ListGroup horizontal className={styles.profileLabel}>
           <ListGroup.Item className={styles.infoTitle}>Nombre</ListGroup.Item>
           <ListGroup.Item className={styles.infoValue}>
-            {user.firstName || ""}
+            {user.name || ""}
           </ListGroup.Item>
         </ListGroup>
 
         <ListGroup horizontal>
           <ListGroup.Item className={styles.infoTitle}>Apellido</ListGroup.Item>
           <ListGroup.Item className={styles.infoValue}>
-            {user.lastName || ""}
+            {user.lastname || ""}
           </ListGroup.Item>
         </ListGroup>
 
@@ -57,7 +57,7 @@ const UserProfile = () => {
         <ListGroup horizontal>
           <ListGroup.Item className={styles.infoTitle}>Rol</ListGroup.Item>
           <ListGroup.Item className={styles.infoValue}>
-            {user.role || ""}
+            {user.role.role || ""}
           </ListGroup.Item>
         </ListGroup>
 

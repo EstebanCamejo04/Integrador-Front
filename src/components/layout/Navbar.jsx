@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import logo from "/images/logo2.jpg";
 import styles from "../../styles/Navbar.module.css";
 import { Offcanvas } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useContextGlobal } from "../../context/Context";
 import DropDownProfile from "../common/DropDownProfile";
 
@@ -10,25 +10,21 @@ const Navbar = () => {
   const width = 850;
   const [show, setShow] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= width);
-  const [role, setRole] = useState("admin");
-  const navigate = useNavigate();
   const { state, dispatch } = useContextGlobal();
-
-  const changeRoleToAdmin = () => {
-    setRole("admin");
-    navigate("/");
-  };
-  const changeRoleToUser = () => {
-    setRole("user");
-    navigate("/");
-  };
-  const changeRoleToAnonym = () => {
-    setRole("anonym");
-    navigate("/");
-  };
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const handleLogout = () => {
+    dispatch({ type: "logout" });
+    alert("Has cerrado sesión exitosamente.");
+    console.log(
+      "Usuario eliminado de localStorage:",
+      localStorage.getItem("user")
+    );
+    handleClose();
+    navigate("/");
+  };
 
   const handleOpenProfile = () => {
     dispatch({ type: "toggleDropDownMenu" });
@@ -45,11 +41,11 @@ const Navbar = () => {
     window.addEventListener("resize", handleResize);
   }, []);
 
-  const user = state.user || {};
-  const isAuthenticated = !!user.firstName;
-  const initials =
-    (user.firstName ? user.firstName[0] : "") +
-    (user.lastName ? user.lastName[0] : "");
+  const initials = state.user
+    ? state.user.name[0].toUpperCase() + state.user.lastname[0].toUpperCase()
+    : "";
+
+  const role = state.user ? state.user.role_id : 0;
 
   return isMobile ? (
     <>
@@ -71,22 +67,43 @@ const Navbar = () => {
           </Link>
         </Offcanvas.Title>
         <Offcanvas.Body className={styles.leftMenuBody}>
-          <div>
-            <ul>
-              <li>
-                <Link to="/admin" onClick={handleClose}>
-                  <i className="bi bi-gear-fill"></i>
-                  <span>Administrador</span>
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div className={styles.leftMenuFooter}>
-            <Link to="/login" onClick={handleClose}>
-              <button>Iniciar sesión</button>
-            </Link>
-            <button onClick={handleClose}>Crear cuenta</button>
-          </div>
+          {role ? (
+            <div>
+              <ul>
+                {/* <li>
+                  <Link to="/admin" onClick={handleClose}>
+                    <i className="bi bi-gear-fill"></i>
+                    <span>Administrador</span>
+                  </Link>
+                </li> */}
+                <li>
+                  <Link to="/userProfile" onClick={handleClose}>
+                    <i class="bi bi-person-circle"></i>
+                    <span>Mi perfil</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link onClick={handleClose}>
+                    <i class="bi bi-asterisk"></i>
+                    <span>Cambiar contraseña</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link onClick={handleLogout}>
+                    <i class="bi bi-box-arrow-left"></i>
+                    <span>Cerrar sesión</span>
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          ) : (
+            <div className={styles.leftMenuFooter}>
+              <Link to="/login" onClick={handleClose}>
+                <button>Iniciar sesión</button>
+              </Link>
+              <button onClick={handleClose}>Crear cuenta</button>
+            </div>
+          )}
         </Offcanvas.Body>
       </Offcanvas>
       <nav className={styles.navBar + " " + styles.mobileHeader}>
@@ -111,47 +128,20 @@ const Navbar = () => {
           <p>Fly Mountain</p>
         </div>
       </Link>
-      <div>
-        <Link to="/admin">Administrador</Link>
-      </div>
-
-      {isAuthenticated && (
-        <div className={styles.avatar} onClick={handleOpenProfile}>
-          {initials || ""}
-        </div>
-      )}
-      {!isAuthenticated && (
+      {role === 1 && (
         <div>
-          <Link to="/login">
-            <button>Iniciar sesión</button>
-          </Link>
-          <button>Crear cuenta</button>
+          <Link to="/admin">Administrador</Link>
         </div>
       )}
 
       {state.openProfile && <DropDownProfile />}
 
-      {/* {role === "admin" && (
-        <div>
-          <Link to="/admin">Administrador</Link>
-        </div>
-      )}
       <div>
-        {role !== "admin" && <button onClick={changeRoleToAdmin}>Admin</button>}
-        {role !== "user" && (
-          <button onClick={changeRoleToUser}>Usuario registrado</button>
-        )}
-        {role !== "anonym" && (
-          <button onClick={changeRoleToAnonym}>Usuario no registrado</button>
-        )}
-      </div>
-      <div>
-        {role !== "anonym" && (
-          <Link to="/userProfile">
-            <div className={styles.avatar}>{initials}</div>
-          </Link>
-        )}
-        {role === "anonym" && (
+        {role ? (
+          <div className={styles.avatar} onClick={handleOpenProfile}>
+            {initials}
+          </div>
+        ) : (
           <>
             <Link to="/login">
               <button>Iniciar sesión</button>
@@ -159,7 +149,7 @@ const Navbar = () => {
             <button>Crear cuenta</button>
           </>
         )}
-      </div> */}
+      </div>
     </nav>
   );
 };

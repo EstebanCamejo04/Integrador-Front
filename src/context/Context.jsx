@@ -2,15 +2,10 @@ import axios from "axios";
 import { createContext, useContext, useEffect, useReducer } from "react";
 
 export const initialState = {
-<<<<<<< HEAD
-  token: JSON.parse(localStorage.getItem("token")) || "",
-=======
   products: [],
+  token: JSON.parse(localStorage.getItem("token")) || "",
   user: JSON.parse(localStorage.getItem("user")) || null,
-  openProfile: false,
->>>>>>> 8cf4c6e067525055579929b4f1a0cad442867c2a
 };
-console.log("Usuario recuperado del localStorage:", initialState.user);
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -26,12 +21,18 @@ const reducer = (state, action) => {
     }
 
     case "login":
-      localStorage.setItem("token", JSON.stringify(action.payload));
-      return { ...state, token: action.payload };
+      localStorage.setItem("token", JSON.stringify(action.payload.token));
+      localStorage.setItem("user", JSON.stringify(action.payload.user));
+      return {
+        ...state,
+        token: action.payload.token,
+        user: action.payload.user,
+      };
 
     case "logout":
+      localStorage.removeItem("token");
       localStorage.removeItem("user");
-      return { ...state, user: null, openProfile: false };
+      return { ...state, token: "", user: null, openProfile: false };
 
     case "toggleDropDownMenu":
       return { ...state, openProfile: !state.openProfile };

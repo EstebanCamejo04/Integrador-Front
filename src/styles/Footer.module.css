@@ -67,6 +67,7 @@
 .footerContainer a,
 .rights {
   color: var(--main-bg-color);
+  margin: 0;
 }
 
 .socialMedia {

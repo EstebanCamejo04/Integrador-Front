@@ -24,10 +24,12 @@ const Login = () => {
       .then((response) => {
         dispatch({
           type: "login",
-          payload: response.data.token,
+          payload: response.data,
         });
         setShow(true);
-        console.log(`Usuario: ${email} ha iniciado sesión exitosamente.`);
+        console.log(
+          `Usuario: ${response.data.user.name} ${response.data.user.lastname} ha iniciado sesión exitosamente.`
+        );
       })
       .catch((error) => {
         console.error("Error al iniciar sesión:", error);

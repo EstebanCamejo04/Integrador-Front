@@ -4,9 +4,10 @@ import { useContextGlobal } from "../context/Context";
 
 const PrivateRoute = ({ children }) => {
   const { state } = useContextGlobal();
-  const { user } = state;
+  const { token } = state;
+  console.log(token);
 
-  return user ? children : <Navigate to="/login" />;
+  return token ? children : <Navigate to="/login" />;
 };
 
 export default PrivateRoute;
