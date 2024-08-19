@@ -3,7 +3,6 @@ import { createContext, useContext, useEffect, useReducer } from "react";
 
 export const initialState = {
   products: [],
-  token: JSON.parse(localStorage.getItem("token")) || "",
   user: JSON.parse(localStorage.getItem("user")) || null,
 };
 
@@ -21,18 +20,15 @@ const reducer = (state, action) => {
     }
 
     case "login":
-      localStorage.setItem("token", JSON.stringify(action.payload.token));
       localStorage.setItem("user", JSON.stringify(action.payload.user));
       return {
         ...state,
-        token: action.payload.token,
         user: action.payload.user,
       };
 
     case "logout":
-      localStorage.removeItem("token");
       localStorage.removeItem("user");
-      return { ...state, token: "", user: null, openProfile: false };
+      return { ...state, user: null, openProfile: false };
 
     case "toggleDropDownMenu":
       return { ...state, openProfile: !state.openProfile };

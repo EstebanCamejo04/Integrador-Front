@@ -5,6 +5,7 @@ import { Offcanvas } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useContextGlobal } from "../../context/Context";
 import DropDownProfile from "../common/DropDownProfile";
+import axios from "axios";
 
 const Navbar = () => {
   const width = 850;
@@ -40,6 +41,19 @@ const Navbar = () => {
   useEffect(() => {
     window.addEventListener("resize", handleResize);
   }, []);
+
+  const testeo = () => {
+    axios
+      .get("http://localhost:3000/api/protected", {
+        withCredentials: true, // Esto incluye las cookies en la solicitud
+      })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching the product list:", error);
+      });
+  };
 
   const initials = state.user
     ? state.user.name[0].toUpperCase() + state.user.lastname[0].toUpperCase()
@@ -149,6 +163,7 @@ const Navbar = () => {
             <button>Crear cuenta</button>
           </>
         )}
+        <button onClick={testeo}>Ruta protegida</button>
       </div>
     </nav>
   );
