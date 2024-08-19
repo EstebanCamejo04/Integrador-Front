@@ -7,22 +7,33 @@ import SuccessSignUp from "../common/SuccessSignUp";
 const SignUp = () => {
   const [show, setShow] = useState(false);
   const [errors, setErrors] = useState({});
+  const [apiError, setApiError] = useState("");
   const [userData, setUserData] = useState({
     name: "",
     lastName: "",
     email: "",
+    phone: "",
     password: "",
     confirmPassword: "",
   });
 
   const validate = () => {
     const errors = {};
-    if (!userData.name) errors.name = "Nombre requerido";
-    if (!userData.lastName) errors.lastName = "Apellido requerido";
+    if (!userData.name || /\d/.test(userData.name))
+      errors.name = "Nombre requerido";
+    if (!userData.lastName || /\d/.test(userData.lastName))
+      errors.lastName = "Apellido requerido";
     if (!userData.email) errors.email = "Correo electrónico requerido";
     else if (!/\S+@\S+\.\S+/.test(userData.email))
       errors.email = "Correo electrónico inválido";
-    if (!userData.password) errors.password = "Contraseña requerida";
+    if (!userData.password || userData.password.length < 8)
+      errors.password = "Contraseña requerida";
+    if (
+      !userData.phone ||
+      userData.phone.toString().length > 10 ||
+      !/^[0-9]+$/.test(userData.phone)
+    )
+      errors.phone = "Telefono invalido";
     if (userData.password !== userData.confirmPassword)
       errors.confirmPassword = "Las contraseñas deben coincidir";
     return errors;
@@ -48,18 +59,23 @@ const SignUp = () => {
 
   const registerUser = () => {
     axios
-      .post("http://demo6033406.mockable.io//sign-up", {
+      .post("http://localhost:3000/api/sign-up", {
         name: userData.name,
         lastName: userData.lastName,
         email: userData.email,
+        phone: userData.phone,
         password: userData.password,
       })
       .then((res) => {
-        console.log(res.data);
-        setShow(true);
+        if (res.status == 200) {
+          console.log(res.data);
+          setShow(true);
+        } else {
+          setApiError(e.response.data.error);
+        }
       })
       .catch((e) => {
-        console.log(e);
+        setApiError(e.response.data.error);
       });
   };
 
@@ -108,7 +124,7 @@ const SignUp = () => {
 
             <div>
               <input
-                type="email"
+                type="text"
                 name="email"
                 placeholder="Correo electrónico*"
                 value={userData.email}
@@ -121,6 +137,24 @@ const SignUp = () => {
               />
               {errors.email && (
                 <span className={styles.errorText}>{errors.email}</span>
+              )}
+            </div>
+
+            <div>
+              <input
+                type="text"
+                name="phone"
+                placeholder="Telefono*"
+                value={userData.phone}
+                onChange={updateState}
+                className={
+                  formStyles.inputField +
+                  " " +
+                  (errors.phone ? styles.inputError : "")
+                }
+              />
+              {errors.phone && (
+                <span className={styles.errorText}>{errors.phone}</span>
               )}
             </div>
 
@@ -165,6 +199,7 @@ const SignUp = () => {
             <button type="submit" className={formStyles.button}>
               Registrar
             </button>
+            <span>{apiError}</span>
           </form>
         </div>
       </div>
