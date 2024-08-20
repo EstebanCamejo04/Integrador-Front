@@ -73,7 +73,7 @@ export const ContextProvider = ({ children }) => {
       dispatch({ type: "validateUser", payload: false });
     } else if (state.user.role_id === 1) {
       axios
-        .get("http://localhost:3000/api/checkAdmin", {
+        .get("http://localhost:3000/user/checkAdmin", {
           withCredentials: true,
         })
         .then((response) => {
@@ -85,7 +85,7 @@ export const ContextProvider = ({ children }) => {
         });
     } else if (state.user.role_id === 2) {
       axios
-        .get("http://localhost:3000/api/checkUser", {
+        .get("http://localhost:3000/user/checkUser", {
           withCredentials: true,
         })
         .then((response) => {
