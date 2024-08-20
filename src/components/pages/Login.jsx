@@ -9,7 +9,6 @@ const Login = () => {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [error, setError] = useState("");
-  const url = "http://localhost:3000/api/login";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -20,7 +19,9 @@ const Login = () => {
 
   const login = (loginData) => {
     axios
-      .post(url, loginData)
+      .post("http://localhost:3000/api/login", loginData, {
+        withCredentials: true,
+      })
       .then((response) => {
         dispatch({
           type: "login",

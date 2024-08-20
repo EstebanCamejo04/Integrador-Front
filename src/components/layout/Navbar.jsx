@@ -42,19 +42,6 @@ const Navbar = () => {
     window.addEventListener("resize", handleResize);
   }, []);
 
-  const testeo = () => {
-    axios
-      .get("http://localhost:3000/api/protected", {
-        withCredentials: true, // Esto incluye las cookies en la solicitud
-      })
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching the product list:", error);
-      });
-  };
-
   const initials = state.user
     ? state.user.name[0].toUpperCase() + state.user.lastname[0].toUpperCase()
     : "";
@@ -142,7 +129,7 @@ const Navbar = () => {
           <p>Fly Mountain</p>
         </div>
       </Link>
-      {role === 1 && (
+      {state.validAdmin && (
         <div>
           <Link to="/admin">Administrador</Link>
         </div>
@@ -151,7 +138,7 @@ const Navbar = () => {
       {state.openProfile && <DropDownProfile />}
 
       <div>
-        {role ? (
+        {state.validAdmin || state.validUser ? (
           <div className={styles.avatar} onClick={handleOpenProfile}>
             {initials}
           </div>
@@ -163,7 +150,6 @@ const Navbar = () => {
             <button>Crear cuenta</button>
           </>
         )}
-        <button onClick={testeo}>Ruta protegida</button>
       </div>
     </nav>
   );
