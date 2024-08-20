@@ -11,7 +11,7 @@ const SuccessSignUp = (props) => {
       aria-labelledby="example-custom-modal-styling-title"
     >
       <Modal.Header className={styles.successSignUpHeader}>
-        <i class="bi bi-check-circle-fill"></i>
+        <i className="bi bi-check-circle-fill"></i>
       </Modal.Header>
       <Modal.Body className={styles.successSignUpBody}>
         <p>
