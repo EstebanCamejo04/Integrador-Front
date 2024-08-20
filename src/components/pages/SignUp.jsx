@@ -19,30 +19,30 @@ const SignUp = () => {
 
   const validate = () => {
     const errors = {};
-    // if (!userData.name) errors.name = "El campo nombre es obligatorio";
-    // else if (!/^[a-zA-Z]+(\s[a-zA-Z]+)*$/.test(userData.name)) {
-    //   errors.name = "El nombre no puede incluir números ni símbolos";
-    // }
-    // if (!userData.lastName)
-    //   errors.lastName = "El campo apellido es obligatorio";
-    // else if (!/^[a-zA-Z]+(\s[a-zA-Z]+)*$/.test(userData.lastName)) {
-    //   errors.lastName = "El apellido no puede incluir números ni símbolos";
-    // }
-    // if (!userData.email) errors.email = "El correo electrónico es obligatorio";
-    // else if (!/\S+@\S+\.\S+/.test(userData.email))
-    //   errors.email = "El formato de correo electrónico es inválido";
+    if (!userData.name) errors.name = "El campo nombre es obligatorio";
+    else if (!/^[a-zA-Z]+(\s[a-zA-Z]+)*$/.test(userData.name)) {
+      errors.name = "El nombre no puede incluir números ni símbolos";
+    }
+    if (!userData.lastName)
+      errors.lastName = "El campo apellido es obligatorio";
+    else if (!/^[a-zA-Z]+(\s[a-zA-Z]+)*$/.test(userData.lastName)) {
+      errors.lastName = "El apellido no puede incluir números ni símbolos";
+    }
+    if (!userData.email) errors.email = "El correo electrónico es obligatorio";
+    else if (!/\S+@\S+\.\S+/.test(userData.email))
+      errors.email = "El formato de correo electrónico es inválido";
 
-    // if (!userData.password) errors.password = "La contraseña es obligatoriia";
-    // else if (userData.password.length < 8) {
-    //   errors.password = "Contraseña insegura";
-    // }
-    // if (!userData.phone) errors.phone = "El número de teléfono es obligatorio";
-    // else if (!/^[0-9]+$/.test(userData.phone))
-    //   errors.phone = "El número de teléfono no debe incluir letras ni símbolos";
-    // else if (userData.phone.toString().length > 10)
-    //   errors.phone = "El número de teléfono no debe exceder los 10 dígitos";
-    // if (userData.password !== userData.confirmPassword)
-    //   errors.confirmPassword = "Las contraseñas deben coincidir";
+    if (!userData.password) errors.password = "La contraseña es obligatoriia";
+    else if (userData.password.length < 8) {
+      errors.password = "Contraseña insegura";
+    }
+    if (!userData.phone) errors.phone = "El número de teléfono es obligatorio";
+    else if (!/^[0-9]+$/.test(userData.phone))
+      errors.phone = "El número de teléfono no debe incluir letras ni símbolos";
+    else if (userData.phone.toString().length > 10)
+      errors.phone = "El número de teléfono no debe exceder los 10 dígitos";
+    if (userData.password !== userData.confirmPassword)
+      errors.confirmPassword = "Las contraseñas deben coincidir";
     return errors;
   };
 
