@@ -4,9 +4,9 @@ import { createContext, useContext, useEffect, useReducer } from "react";
 export const initialState = {
   products: [],
   user: JSON.parse(localStorage.getItem("user")) || null,
-  openProfile: false,
+  validAdmin: false,
+  validUser: false,
 };
-console.log("Usuario recuperado del localStorage:", initialState.user);
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -21,9 +21,18 @@ const reducer = (state, action) => {
       return { ...state, products: filterProducts };
     }
 
-    case "setUser":
-      localStorage.setItem("user", JSON.stringify(action.payload));
-      return { ...state, user: action.payload };
+    case "login":
+      localStorage.setItem("user", JSON.stringify(action.payload.user));
+      return {
+        ...state,
+        user: action.payload.user,
+      };
+
+    case "validateAdmin":
+      return { ...state, validAdmin: action.payload };
+
+    case "validateUser":
+      return { ...state, validUser: action.payload };
 
     case "logout":
       localStorage.removeItem("user");
@@ -57,6 +66,41 @@ export const ContextProvider = ({ children }) => {
         console.error("Error fetching the product list:", error);
       });
   };
+
+  const checkRole = () => {
+    if (!state.user) {
+      dispatch({ type: "validateAdmin", payload: false });
+      dispatch({ type: "validateUser", payload: false });
+    } else if (state.user.role_id === 1) {
+      axios
+        .get("http://localhost:3000/api/checkAdmin", {
+          withCredentials: true,
+        })
+        .then((response) => {
+          dispatch({ type: "validateAdmin", payload: !!response });
+        })
+        .catch((error) => {
+          dispatch({ type: "validateAdmin", payload: !error });
+          console.error("Error al validar admin:", error);
+        });
+    } else if (state.user.role_id === 2) {
+      axios
+        .get("http://localhost:3000/api/checkUser", {
+          withCredentials: true,
+        })
+        .then((response) => {
+          dispatch({ type: "validateUser", payload: !!response });
+        })
+        .catch((error) => {
+          dispatch({ type: "validateUser", payload: !error });
+          console.error("Error al validar usuario:", error);
+        });
+    }
+  };
+
+  useEffect(() => {
+    checkRole();
+  }, [state.user]);
 
   useEffect(() => {
     getAllProducts();
