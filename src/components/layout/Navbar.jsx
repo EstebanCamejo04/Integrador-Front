@@ -99,10 +99,20 @@ const Navbar = () => {
             </div>
           ) : (
             <div className={styles.leftMenuFooter}>
-              <Link to="/login" onClick={handleClose}>
-                <button>Iniciar sesión</button>
+              <Link
+                to="/login"
+                className={styles.orangeButton}
+                onClick={handleClose}
+              >
+                Iniciar sesión
               </Link>
-              <button onClick={handleClose}>Crear cuenta</button>
+              <Link
+                to="/sign-up"
+                className={styles.orangeButton}
+                onClick={handleClose}
+              >
+                Crear cuenta
+              </Link>
             </div>
           )}
         </Offcanvas.Body>
@@ -144,10 +154,12 @@ const Navbar = () => {
           </div>
         ) : (
           <>
-            <Link to="/login">
-              <button>Iniciar sesión</button>
+            <Link to="/login" className={styles.orangeButton}>
+              Iniciar sesión
             </Link>
-            <button>Crear cuenta</button>
+            <Link to="/sign-up" className={styles.orangeButton}>
+              Crear cuenta
+            </Link>
           </>
         )}
       </div>
