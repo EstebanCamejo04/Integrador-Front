@@ -2,49 +2,56 @@ import React, { useState, useEffect } from "react";
 import styles from "../../styles/LoginForm.module.css";
 import { useContextGlobal } from "../../context/Context";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
-  const [user, setUser] = useState({
-    username: "",
-    password: "",
-  });
-
-  const [show, setShow] = useState(false);
-  const [error, setError] = useState("");
-
   const { dispatch } = useContextGlobal();
   const navigate = useNavigate();
+  const [show, setShow] = useState(false);
+  const [error, setError] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const validateEmail = (email) => {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(email);
   };
 
+  const login = (loginData) => {
+    axios
+      .post("http://localhost:3000/api/login", loginData, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        dispatch({
+          type: "login",
+          payload: response.data,
+        });
+        setShow(true);
+        console.log(
+          `Usuario: ${response.data.user.name} ${response.data.user.lastname} ha iniciado sesión exitosamente.`
+        );
+      })
+      .catch((error) => {
+        console.error("Error al iniciar sesión:", error);
+      });
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     setError("");
 
-    if (!validateEmail(user.username)) {
+    if (!validateEmail(email)) {
       setError("Por favor, ingresa un correo electrónico válido.");
       return;
     }
 
-    if (user.password.length < 8) {
+    if (password.length < 3) {
       setError("La contraseña debe tener al menos 8 caracteres.");
       return;
     }
-    const loggedInUser = {
-      username: user.username,
-      firstName: "Pepito",
-      lastName: "Ramirez",
-      email: user.username,
-      phone: "88888888",
-      role: "admin",
-      registrationDate: "14/08/2024",
-    };
-    dispatch({ type: "setUser", payload: loggedInUser });
-    setShow(true);
-    console.log(`Usuario: ${user.username} ha iniciado sesión exitosamente.`);
+
+    login({ email, password });
   };
 
   useEffect(() => {
@@ -64,10 +71,8 @@ const Login = () => {
             placeholder="Correo Electronico*"
             required
             className={styles.inputField}
-            value={user.username}
-            onChange={(event) =>
-              setUser({ ...user, username: event.target.value.trim() })
-            }
+            value={email}
+            onChange={(event) => setEmail(event.target.value.trim())}
           />
 
           <input
@@ -75,10 +80,8 @@ const Login = () => {
             placeholder="Contraseña*"
             required
             className={styles.inputField}
-            value={user.password}
-            onChange={(event) =>
-              setUser({ ...user, password: event.target.value.trim() })
-            }
+            value={password}
+            onChange={(event) => setPassword(event.target.value.trim())}
           />
 
           <span>* Required field</span>
@@ -90,7 +93,7 @@ const Login = () => {
       )}
       {show && (
         <h5 className={styles.success}>
-          Bienvenido {user.username}, has iniciado sesión con éxito.
+          Bienvenido {email}, has iniciado sesión con éxito.
         </h5>
       )}
       {error && <h5 className={styles.error}>{error}</h5>}

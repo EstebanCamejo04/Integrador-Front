@@ -9,8 +9,8 @@ const Detail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const { state } = useContextGlobal();
-  const user = state.user || {};
-  const isAuthenticated = !!user.firstName;
+  const user = state.user ? state.user : {};
+  const { validAdmin, validUser } = state;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,7 +29,9 @@ const Detail = () => {
     fetchProduct();
   }, [id]);
   const handleRentClick = () => {
-    if (!isAuthenticated) {
+    if (validUser || validAdmin) {
+      alert("Reserva realizada con éxito, gracias por confiar en nosotros!");
+    } else {
       alert("Debes iniciar sesión o registrarte para alquilar un producto.");
       navigate("/login");
     }
