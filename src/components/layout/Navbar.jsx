@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import logo from "/images/logo2.jpg";
 import styles from "../../styles/Navbar.module.css";
 import { Offcanvas } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContextGlobal } from "../../context/Context";
 import DropDownProfile from "../common/DropDownProfile";
 import axios from "axios";
@@ -12,12 +12,25 @@ const Navbar = () => {
   const [show, setShow] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= width);
   const { state, dispatch } = useContextGlobal();
+  const navigate = useNavigate();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const handleLogout = () => {
-    dispatch({ type: "logout" });
+    axios
+      .get("http://localhost:3000/api/logout", {
+        withCredentials: true,
+      })
+      .then(() => {
+        console.log("Logout exitoso en el server.");
+        dispatch({
+          type: "logout",
+        });
+      })
+      .catch((error) => {
+        console.error("Error al cerrar sesión:", error);
+      });
     alert("Has cerrado sesión exitosamente.");
     console.log(
       "Usuario eliminado de localStorage:",
@@ -79,19 +92,19 @@ const Navbar = () => {
                 </li> */}
                 <li>
                   <Link to="/userProfile" onClick={handleClose}>
-                    <i class="bi bi-person-circle"></i>
+                    <i className="bi bi-person-circle"></i>
                     <span>Mi perfil</span>
                   </Link>
                 </li>
                 <li>
                   <Link onClick={handleClose}>
-                    <i class="bi bi-asterisk"></i>
+                    <i className="bi bi-asterisk"></i>
                     <span>Cambiar contraseña</span>
                   </Link>
                 </li>
                 <li>
                   <Link onClick={handleLogout}>
-                    <i class="bi bi-box-arrow-left"></i>
+                    <i className="bi bi-box-arrow-left"></i>
                     <span>Cerrar sesión</span>
                   </Link>
                 </li>
