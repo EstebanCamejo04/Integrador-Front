@@ -53,9 +53,9 @@ const DropDownProfile = () => {
     >
       <div className={styles.dropDownUserData}>
         <span className={styles.userName}>
-          {user.firstName || ""} {user.lastName || ""}
+          {user.name || ""} {user.lastname || ""}
         </span>
-        <span className={styles.userEmail}>{user.email || ""}</span>
+        <span className={styles.userEmail}>{user.email || ""} </span>
       </div>
       <hr />
       <div className={styles.dropDownMenuLink}>

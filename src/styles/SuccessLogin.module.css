@@ -1,0 +1,38 @@
+.successSignUpHeader {
+  background: var(
+    --main-text-secondary-color
+  ); /* Asegúrate de definir este color en tus variables de CSS */
+  justify-content: center;
+  font-size: 7rem;
+  color: white;
+  display: flex; /* Asegúrate de que el contenido se centre */
+  align-items: center;
+  height: 150px; /* Ajusta según tus necesidades */
+}
+
+.successSignUpBody {
+  padding: 30px 35px;
+  text-align: center; /* Centra el texto y los enlaces */
+}
+
+.successSignUpBody a {
+  background: var(
+    --main-text-secondary-color
+  ); /* Asegúrate de definir este color en tus variables de CSS */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  width: 100%;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1rem; /* Ajusta el tamaño de la fuente según tus necesidades */
+}
+
+.successSignUpBody a:hover {
+  background: darken(
+    var(--main-text-secondary-color),
+    10%
+  ); /* Cambia el color al pasar el ratón, ajusta según tus preferencias */
+}
