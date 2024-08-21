@@ -3,6 +3,7 @@ import styles from "../../styles/LoginForm.module.css";
 import { useContextGlobal } from "../../context/Context";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import SuccessLogin from "../common/SuccessLogin";
 
 const Login = () => {
   const { dispatch } = useContextGlobal();
@@ -34,6 +35,15 @@ const Login = () => {
       })
       .catch((error) => {
         console.error("Error al iniciar sesión:", error);
+        if (error.response && error.response.status === 401) {
+          setError(
+            "Credenciales incorrectas. Por favor, verifica tu correo y contraseña."
+          );
+        } else {
+          setError(
+            "Ocurrió un error al iniciar sesión. Por favor, intenta de nuevo."
+          );
+        }
       });
   };
 
@@ -47,24 +57,16 @@ const Login = () => {
     }
 
     if (password.length < 3) {
-      setError("La contraseña debe tener al menos 8 caracteres.");
+      setError("La contraseña debe tener al menos 3 caracteres.");
       return;
     }
 
     login({ email, password });
   };
 
-  useEffect(() => {
-    if (show) {
-      setTimeout(() => {
-        navigate("/");
-      }, 2000);
-    }
-  }, [show, navigate]);
-
   return (
     <div className={styles.formContainer}>
-      {!show && (
+      {!show ? (
         <form onSubmit={handleSubmit} className={styles.form}>
           <input
             type="text"
@@ -85,18 +87,15 @@ const Login = () => {
           />
 
           <span>* Required field</span>
+          {error && <h5 className={styles.error}>{error}</h5>}
 
           <button type="submit" className={styles.button}>
             Login
           </button>
         </form>
+      ) : (
+        <SuccessLogin show={show} setShow={setShow} />
       )}
-      {show && (
-        <h5 className={styles.success}>
-          Bienvenido {email}, has iniciado sesión con éxito.
-        </h5>
-      )}
-      {error && <h5 className={styles.error}>{error}</h5>}
     </div>
   );
 };

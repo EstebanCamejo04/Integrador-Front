@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "../../styles/DropDownProfile.module.css";
 import { Link } from "react-router-dom";
 import { useContextGlobal } from "../../context/Context";
@@ -8,6 +8,7 @@ import axios from "axios";
 const DropDownProfile = () => {
   const { state, dispatch } = useContextGlobal();
   const navigate = useNavigate();
+  const [isMenuVisible, setIsMenuVisible] = useState(true);
 
   const handleLogout = () => {
     axios
@@ -34,15 +35,27 @@ const DropDownProfile = () => {
   const handleHiddeProfile = () => {
     dispatch({ type: "hiddeDropDownMenu" });
   };
+  const handleMouseEnter = () => {
+    setIsMenuVisible(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsMenuVisible(false);
+  };
   const user = state.user || {};
   console.log(user);
   return (
-    <div className={styles.dropDownMenu}>
+    <div
+      className={styles.dropDownMenu}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      style={{ display: isMenuVisible ? "block" : "none" }}
+    >
       <div className={styles.dropDownUserData}>
         <span className={styles.userName}>
-          {user.firstName || ""} {user.lastName || ""}
+          {user.name || ""} {user.lastname || ""}
         </span>
-        <span className={styles.userEmail}>{user.email || ""}</span>
+        <span className={styles.userEmail}>{user.email || ""} </span>
       </div>
       <hr />
       <div className={styles.dropDownMenuLink}>

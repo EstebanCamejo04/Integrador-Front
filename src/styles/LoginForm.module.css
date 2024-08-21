@@ -42,6 +42,7 @@
 .error {
   color: red;
   margin-top: 10px;
+  font-size: 14px;
 }
 
 .success {

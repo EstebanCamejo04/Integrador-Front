@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "../../styles/Admin.module.css"
 
 const Admin = () => {
   if (screen.width < 500) {
@@ -7,7 +8,7 @@ const Admin = () => {
     );
     location.href = "/";
   }
-  return <div>Vista principal de admnistración</div>;
+  return <div className={styles.Admin}>Administre su aplicacion desde aqui</div>;
 };
 
 export default Admin;

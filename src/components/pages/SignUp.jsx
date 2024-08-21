@@ -5,7 +5,7 @@ import axios from "axios";
 import SuccessSignUp from "../common/SuccessSignUp";
 
 const SignUp = () => {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState("");
   const [userData, setUserData] = useState({
