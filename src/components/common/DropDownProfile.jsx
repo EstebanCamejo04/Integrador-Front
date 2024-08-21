@@ -1,15 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "../../styles/DropDownProfile.module.css";
 import { Link } from "react-router-dom";
 import { useContextGlobal } from "../../context/Context";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const DropDownProfile = () => {
   const { state, dispatch } = useContextGlobal();
   const navigate = useNavigate();
+  const [isMenuVisible, setIsMenuVisible] = useState(true);
 
   const handleLogout = () => {
-    dispatch({ type: "logout" });
+    axios
+      .get("http://localhost:3000/api/logout", {
+        withCredentials: true,
+      })
+      .then(() => {
+        console.log("Logout exitoso en el server.");
+        dispatch({
+          type: "logout",
+        });
+      })
+      .catch((error) => {
+        console.error("Error al cerrar sesión:", error);
+      });
     alert("Has cerrado sesión exitosamente.");
     console.log(
       "Usuario eliminado de localStorage:",
@@ -21,11 +35,22 @@ const DropDownProfile = () => {
   const handleHiddeProfile = () => {
     dispatch({ type: "hiddeDropDownMenu" });
   };
+  const handleMouseEnter = () => {
+    setIsMenuVisible(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsMenuVisible(false);
+  };
   const user = state.user || {};
   console.log(user);
   return (
     <div
-    className={styles.dropDownMenu}>
+      className={styles.dropDownMenu}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      style={{ display: isMenuVisible ? "block" : "none" }}
+    >
       <div className={styles.dropDownUserData}>
         <span className={styles.userName}>
           {user.firstName || ""} {user.lastName || ""}

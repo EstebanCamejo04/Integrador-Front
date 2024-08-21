@@ -11,7 +11,7 @@
   z-index: 50;
 }
 
-.navBar button {
+.orangeButton {
   padding: 10px;
   border-radius: 5px;
   background-color: var(--main-orange);
@@ -20,8 +20,9 @@
   border: none;
   transition: background-color 0.3s ease, transform 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
 }
-.navBar button:hover {
+.orangeButton:hover {
   color: var(--main-text-secondary-color);
   cursor: pointer;
   transform: scale(1.05);

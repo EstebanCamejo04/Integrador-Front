@@ -7,7 +7,7 @@
   border-radius: 10px;
   background-color: var(--main-text-secondary-color);
   border: 1px solid white;
-  font-size: small;
+  font-size: 12px;
 }
 .userName {
   font-size: 16px;
@@ -37,10 +37,24 @@
   font-size: 10px;
   height: 6rem;
 }
+
+.dropDownMenuLink button {
+  background-color: var(--main-orange);
+  padding: 5px 10px;
+  border-radius: 10%;
+  font-size: 12px;
+}
 .dropDownMenuLogout {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
-  font-size: smaller;
+  font-size: 14px;
+}
+
+.dropDownMenuLogout button {
+  background-color: var(--main-orange);
+  padding: 5px 10px;
+  border-radius: 10%;
+  font-size: 12px;
 }
