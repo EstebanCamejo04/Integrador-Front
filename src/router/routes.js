@@ -5,6 +5,7 @@ import AdminProductList from "../components/pages/AdminProductList";
 import Detail from "../components/pages/Detail";
 import Home from "../components/pages/Home";
 import UserProfile from "../components/pages/UserProfile";
+import AdminUserList from "../components/pages/AdminUserList";
 
 export const routes = [
   {
@@ -43,6 +44,11 @@ export const routes = [
         id: "admin-products",
         path: "/admin/products",
         Element: AdminProductList,
+      },
+      {
+        id: "admin-users",
+        path: "/admin/users",
+        Element: AdminUserList,
       },
     ],
   },

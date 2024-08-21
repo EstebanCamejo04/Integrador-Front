@@ -47,7 +47,7 @@ const Login = () => {
     }
 
     if (password.length < 3) {
-      setError("La contraseña debe tener al menos 8 caracteres.");
+      setError("La contraseña debe tener al menos 3 caracteres.");
       return;
     }
 

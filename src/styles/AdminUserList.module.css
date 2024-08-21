@@ -1,0 +1,111 @@
+.container {
+  padding: 20px;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.Title {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 2rem;
+  color: #333;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  margin-top: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f4f4f4;
+  color: #333;
+  font-weight: bold;
+}
+
+tr:hover {
+  background-color: #f9f9f9;
+}
+
+.loading,
+.error {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.error {
+  color: red;
+}
+.roleButton {
+  background-color: var(--main-orange);
+  color: black;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.roleButton:hover {
+  background-color: darkorange;
+  color: white;
+}
+
+@media (max-width: 1200px) {
+  .Title {
+    font-size: 1.8rem;
+  }
+
+  th,
+  td {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .Title {
+    font-size: 1.6rem;
+  }
+
+  .tableWrapper {
+    overflow-x: auto;
+  }
+
+  th,
+  td {
+    padding: 8px;
+  }
+
+  table {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .Title {
+    font-size: 1.4rem;
+  }
+
+  th,
+  td {
+    padding: 6px;
+  }
+
+  table {
+    font-size: 0.8rem;
+  }
+}

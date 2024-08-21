@@ -79,19 +79,19 @@ const Navbar = () => {
                 </li> */}
                 <li>
                   <Link to="/userProfile" onClick={handleClose}>
-                    <i class="bi bi-person-circle"></i>
+                    <i className="bi bi-person-circle"></i>
                     <span>Mi perfil</span>
                   </Link>
                 </li>
                 <li>
                   <Link onClick={handleClose}>
-                    <i class="bi bi-asterisk"></i>
+                    <i className="bi bi-asterisk"></i>
                     <span>Cambiar contraseña</span>
                   </Link>
                 </li>
                 <li>
                   <Link onClick={handleLogout}>
-                    <i class="bi bi-box-arrow-left"></i>
+                    <i className="bi bi-box-arrow-left"></i>
                     <span>Cerrar sesión</span>
                   </Link>
                 </li>
