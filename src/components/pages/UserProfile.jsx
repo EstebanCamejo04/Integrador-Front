@@ -60,15 +60,6 @@ const UserProfile = () => {
             {user.role.role || ""}
           </ListGroup.Item>
         </ListGroup>
-
-        <ListGroup horizontal>
-          <ListGroup.Item className={styles.infoTitle}>
-            Fecha de registro
-          </ListGroup.Item>
-          <ListGroup.Item className={styles.infoValue}>
-            {user.registrationDate || ""}
-          </ListGroup.Item>
-        </ListGroup>
         <Button
           variant="danger"
           onClick={handleLogout}

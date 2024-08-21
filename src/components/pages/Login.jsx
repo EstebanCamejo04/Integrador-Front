@@ -55,12 +55,6 @@ const Login = () => {
       setError("Por favor, ingresa un correo electrónico válido.");
       return;
     }
-
-    if (password.length < 3) {
-      setError("La contraseña debe tener al menos 3 caracteres.");
-      return;
-    }
-
     login({ email, password });
   };
 
