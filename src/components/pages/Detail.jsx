@@ -32,6 +32,7 @@ const Detail = () => {
         const response = await axios.get(`http://localhost:3000/api/products/${id}`);
 
         const productData = response.data;
+                console.log(response.data)
                 // Aca le estoy pegando a las features
                 const features = productData.product_feature.map(pf => ({
                     icon: "🔧", // Mientras no hay iconos 
@@ -64,10 +65,10 @@ const Detail = () => {
   return (
     <div className={styles.details}>
       <BackButton />
-      <img src={product.image} alt={product.name} className={styles.img} />
+      <img src={product.image} alt={product.category.name} className={styles.img} />
       <div className={styles.products}>
-        <h2>Plan: {product.name}</h2>
-        <p className={styles.paragraph}>{product.description}</p>
+        <h2>Plan: {product.category.name}</h2>
+        <p className={styles.paragraph}>{product.category.description}</p>
         <p className={styles.paragraph}>Precio: ${product.price}</p>
         <button className={styles.button} onClick={handleRentClick}>
           Reservar
@@ -78,7 +79,7 @@ const Detail = () => {
         <ul className={styles.list}>
           {product.features.map((feature, index) => (
             <li key={index} className={styles.featureItem}>
-              <span className={styles.icon}>{feature.icon}</span> {feature.name}
+              <span className={styles.icon}>{feature.icon}</span> {feature.text}
             </li>
           ))}
         </ul>
