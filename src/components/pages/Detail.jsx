@@ -4,18 +4,7 @@ import axios from "axios";
 import styles from "../../styles/Detail.module.css";
 import BackButton from "../common/BackButton";
 import { useContextGlobal } from "../../context/Context";
-
-//caracteristicas harcodeadasss
-const hardcodedFeatures = [
-  { icon: "🔥", text: "Caracteristica 1" },
-  { icon: "⏱️", text: "Caracteristica 2" },
-  { icon: "💼", text: "Caracteristica 3" },
-  { icon: "💰", text: "Caracteristica 4" },
-  { icon: "💰", text: "Caracteristica 5" },
-  { icon: "💰", text: "Caracteristica 6" },
-  { icon: "💰", text: "Caracteristica 7" },
-  { icon: "💰", text: "Caracteristica 8" },
-];
+import { featureIcons } from "../../utils/feature_icons";
 
 const Detail = () => {
   const { id } = useParams();
@@ -26,22 +15,23 @@ const Detail = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
- const fetchProduct = async () => {
+    const fetchProduct = async () => {
       try {
-
-        const response = await axios.get(`http://localhost:3000/api/products/${id}`);
+        const response = await axios.get(
+          `http://localhost:3000/api/products/${id}`
+        );
 
         const productData = response.data;
-                console.log(response.data)
-                // Aca le estoy pegando a las features
-                const features = productData.product_feature.map(pf => ({
-                    icon: "🔧", // Mientras no hay iconos 
-                    text: pf.feature.name // 
-                }));
-                console.log(productData)
-                console.log(features)
+        console.log(response.data);
+        // Aca le estoy pegando a las features
+        const features = productData.product_feature.map((pf) => ({
+          icon: featureIcons[pf.feature.name_alias], // Mientras no hay iconos
+          text: pf.feature.name, //
+        }));
+        console.log(productData);
+        console.log(features);
 
-                setProduct({ ...productData, features });
+        setProduct({ ...productData, features });
       } catch (error) {
         console.error("Error fetching the product:", error);
       }
@@ -65,7 +55,11 @@ const Detail = () => {
   return (
     <div className={styles.details}>
       <BackButton />
-      <img src={product.image} alt={product.category.name} className={styles.img} />
+      <img
+        src={`/images/product${product.id}.jpg`}
+        alt={product.category.name}
+        className={styles.img}
+      />
       <div className={styles.products}>
         <h2>Plan: {product.category.name}</h2>
         <p className={styles.paragraph}>{product.category.description}</p>
