@@ -26,19 +26,24 @@ const Detail = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchProduct = () => {
-      axios
-        .get("/db.json")
-        .then((response) => {
-          const product = response.data.find((product) => product.id === id);
-          setProduct(product);
-          if (product) {
-            setProduct({ ...product, features: hardcodedFeatures });
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching the product:", error);
-        });
+ const fetchProduct = async () => {
+      try {
+
+        const response = await axios.get(`http://localhost:3000/api/products/${id}`);
+
+        const productData = response.data;
+                // Si tu API devuelve las características como una lista en `product_feature`, ajusta esto
+                const features = productData.product_feature.map(pf => ({
+                    icon: "🔧", // Mientras no hay iconos 
+                    text: pf.feature.name // 
+                }));
+                console.log(productData)
+                console.log(features)
+
+                setProduct({ ...productData, features });
+      } catch (error) {
+        console.error("Error fetching the product:", error);
+      }
     };
 
     fetchProduct();
@@ -73,7 +78,7 @@ const Detail = () => {
         <ul className={styles.list}>
           {product.features.map((feature, index) => (
             <li key={index} className={styles.featureItem}>
-              <span className={styles.icon}>{feature.icon}</span> {feature.text}
+              <span className={styles.icon}>{feature.icon}</span> {feature.name}
             </li>
           ))}
         </ul>
