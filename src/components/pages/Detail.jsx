@@ -61,8 +61,8 @@ const Detail = () => {
         className={styles.img}
       />
       <div className={styles.products}>
-        <h2>Plan: {product.category.name}</h2>
-        <p className={styles.paragraph}>{product.category.description}</p>
+        <h2>Plan: {product.name}</h2>
+        <p className={styles.paragraph}>{product.description}</p>
         <p className={styles.paragraph}>Precio: ${product.price}</p>
         <button className={styles.button} onClick={handleRentClick}>
           Reservar
