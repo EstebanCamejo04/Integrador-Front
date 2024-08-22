@@ -26,8 +26,8 @@ const ProductList = () => {
     <section className={styles.productListContainer}>
       <h2 className={styles.productListTitle}>Experiencias recomendadas</h2>
       <div className={styles.productList}>
-        {shuffleArray(state.products).map(({ id, name, image }) => {
-          return <ProductCard key={id} id={id} img={image} name={name} />;
+        {shuffleArray(state.products).map(({ id, name }) => {
+          return <ProductCard key={id} id={id} name={name} />;
         })}
       </div>
     </section>
