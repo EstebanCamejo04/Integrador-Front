@@ -32,7 +32,7 @@ const Detail = () => {
         const response = await axios.get(`http://localhost:3000/api/products/${id}`);
 
         const productData = response.data;
-                // Si tu API devuelve las características como una lista en `product_feature`, ajusta esto
+                // Aca le estoy pegando a las features
                 const features = productData.product_feature.map(pf => ({
                     icon: "🔧", // Mientras no hay iconos 
                     text: pf.feature.name // 
