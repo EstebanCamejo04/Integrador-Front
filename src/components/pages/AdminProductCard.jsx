@@ -13,13 +13,12 @@ const ellipsis = (text) => {
 const AdminProductCard = (props) => {
   const { dispatch } = useContextGlobal();
 
-
   return (
     <Card className={styles.productCard}>
       <Card.Img
         className={styles.cardImage}
         variant="top"
-        src={props.product.image}
+        src={`/images/product${props.product.id}.jpg`}
       />
       <Card.Body className={styles.cardBody}>
         <Card.Title>${props.product.price}</Card.Title>
