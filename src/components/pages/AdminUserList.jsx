@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "../../styles/AdminUserList.module.css";
+import { useContextGlobal } from "../../context/Context";
 
 const AdminUserList = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const { state } = useContextGlobal();
+  console.log("abc" + JSON.stringify(state.user));
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -56,6 +60,21 @@ const AdminUserList = () => {
     }
   };
 
+  const f = (user) => {
+    return (
+      <td>
+        <button
+          className={styles.roleButton}
+          onClick={() => handleRoleChange(user.id)}
+        >
+          {user.role.role === "ADMIN"
+            ? "Revocar Administrador"
+            : "Otorgar Administrador"}
+        </button>
+      </td>
+    );
+  };
+
   if (loading) return <p className={styles.loading}>Loading...</p>;
   if (error) return <p className={styles.error}>{error}</p>;
 
@@ -78,6 +97,7 @@ const AdminUserList = () => {
           <tbody>
             {users.map((user) => {
               console.log("Rendering user:", user);
+              const FF = !(state.user.id == user.id);
               return (
                 <tr key={user.id}>
                   <td>{user.id}</td>
@@ -86,16 +106,7 @@ const AdminUserList = () => {
                   <td>{user.lastname}</td>
                   <td>{user.phone}</td>
                   <td>{user.role.role}</td>
-                  <td>
-                    <button
-                      className={styles.roleButton}
-                      onClick={() => handleRoleChange(user.id)}
-                    >
-                      {user.role.role === "ADMIN"
-                        ? "Revocar Administrador"
-                        : "Otorgar Administrador"}
-                    </button>
-                  </td>
+                  {FF ? f(user) : ""}
                 </tr>
               );
             })}
