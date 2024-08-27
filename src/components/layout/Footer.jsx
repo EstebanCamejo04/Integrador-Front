@@ -1,11 +1,12 @@
 import "bootstrap-icons/font/bootstrap-icons.css";
 import styles from "../../styles/Footer.module.css";
-import logo from "/images/logo.jpg";
 function Footer() {
+  const logoUrl =
+    "https://fly-mountain-app.s3.us-east-2.amazonaws.com/images/logo.jpg";
   return (
     <footer className={styles.footerContainer}>
       <div className={styles.footerSection1}>
-        <img className={styles.img} src={logo} alt="logo" />
+        <img className={styles.img} src={logoUrl} alt="logo" />
         <ul className={styles.routes}>
           <li>
             <a href="/home">HOME</a>
