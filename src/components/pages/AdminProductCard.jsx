@@ -18,7 +18,7 @@ const AdminProductCard = (props) => {
       <Card.Img
         className={styles.cardImage}
         variant="top"
-        src={`/images/product${props.product.id}.jpg`}
+        src={`https://fly-mountain-app.s3.us-east-2.amazonaws.com/images/product${props.product.id}.jpg`}
       />
       <Card.Body className={styles.cardBody}>
         <Card.Title>${props.product.price}</Card.Title>

@@ -7,7 +7,7 @@ const ProductCard = ({ id, name }) => {
     <div className={styles.productCardContainer}>
       <div className={styles.imgContainer}>
         <img
-          src={`/images/product${id}.jpg`}
+          src={`https://fly-mountain-app.s3.us-east-2.amazonaws.com/images/product${id}.jpg`}
           alt="Product image"
           className={styles.cardImg}
         />

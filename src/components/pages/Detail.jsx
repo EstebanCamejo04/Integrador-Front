@@ -56,7 +56,7 @@ const Detail = () => {
     <div className={styles.details}>
       <BackButton />
       <img
-        src={`/images/product${product.id}.jpg`}
+        src={`https://fly-mountain-app.s3.us-east-2.amazonaws.com/images/product${product.id}.jpg`}
         alt={product.category.name}
         className={styles.img}
       />
