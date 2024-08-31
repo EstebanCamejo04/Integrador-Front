@@ -54,7 +54,7 @@ export const ContextGlobal = createContext(undefined);
 export const ContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const url = "/db.json";
+  const url = "http://localhost:3000/api/products";
 
   const getAllProducts = () => {
     axios

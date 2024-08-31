@@ -10,7 +10,11 @@ const BackButton = () => {
 
   return (
     <button onClick={handleBackClick} style={styles.button}>
-      <img src="/images/back_arrow_icon.svg" alt="Volver" style={styles.icon} />
+      <img
+        src="https://fly-mountain-app.s3.us-east-2.amazonaws.com/images/back_arrow_icon.svg"
+        alt="Volver"
+        style={styles.icon}
+      />
       Regresar
     </button>
   );

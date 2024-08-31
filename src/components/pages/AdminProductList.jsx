@@ -5,10 +5,6 @@ import { useContextGlobal } from "../../context/Context";
 const AdminProductList = () => {
   const { state } = useContextGlobal();
 
-  const handleDelete = (id) => {
-    setProducts(products.filter((product) => product.id !== id));
-  };
-
   return (
     <div className={styles.adminProducts}>
       {state.products.map((product) => {

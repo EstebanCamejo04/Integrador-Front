@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import logo from "/images/logo2.jpg";
 import styles from "../../styles/Navbar.module.css";
 import { Offcanvas } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,6 +7,8 @@ import DropDownProfile from "../common/DropDownProfile";
 import axios from "axios";
 
 const Navbar = () => {
+  const logo =
+    "https://fly-mountain-app.s3.us-east-2.amazonaws.com/images/logo2.jpg";
   const width = 850;
   const [show, setShow] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= width);

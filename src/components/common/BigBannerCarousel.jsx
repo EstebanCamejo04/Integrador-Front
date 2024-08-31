@@ -15,17 +15,32 @@ const BigBannerCarousel = ({ info }) => {
         <Carousel>
           <Carousel.Item>
             <div className={styles.carouselItem}>
+              <img src={info.image_path_6} />
+            </div>
+          </Carousel.Item>
+          <Carousel.Item>
+            <div className={styles.carouselItem}>
+              <img src={info.image_path_3} />
+            </div>
+          </Carousel.Item>
+          <Carousel.Item>
+            <div className={styles.carouselItem}>
+              <img src={info.image_path_4} />
+            </div>
+          </Carousel.Item>
+          <Carousel.Item>
+            <div className={styles.carouselItem}>
+              <img src={info.image_path_5} />
+            </div>
+          </Carousel.Item>
+          <Carousel.Item>
+            <div className={styles.carouselItem}>
               <img src={info.image_path_1} />
             </div>
           </Carousel.Item>
           <Carousel.Item>
             <div className={styles.carouselItem}>
               <img src={info.image_path_2} />
-            </div>
-          </Carousel.Item>
-          <Carousel.Item>
-            <div className={styles.carouselItem}>
-              <img src={info.image_path_3} />
             </div>
           </Carousel.Item>
         </Carousel>
