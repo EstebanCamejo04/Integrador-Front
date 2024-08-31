@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import ProductCard from "./ProductCard";
 import styles from "../../styles/ProductList.module.css";
 import { useContextGlobal } from "../../context/Context";
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
+import searchStyles from "../../styles/SearchProducts.module.css";
 
 const ProductList = () => {
   const { state } = useContextGlobal();
+  const [search, setSearch] = useState({
+    words: "",
+  });
+
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   const shuffleArray = (array) => {
     let shuffledArray = array.slice();
@@ -17,20 +26,63 @@ const ProductList = () => {
     }
     return shuffledArray;
   };
+  const searchProducts = (e) => {
+    console.log("buscando productos");
+  };
+  const updateState = (e, key) => {
+    setSearch({
+      ...search,
+      key: e.target.value,
+    });
+  };
 
   if (!state.products) {
     return <div>Cargando...</div>;
   }
 
   return (
-    <section className={styles.productListContainer}>
-      <h2 className={styles.productListTitle}>Experiencias recomendadas</h2>
-      <div className={styles.productList}>
-        {shuffleArray(state.products).map(({ id, name, image }) => {
-          return <ProductCard key={id} id={id} img={image} name={name} />;
-        })}
-      </div>
-    </section>
+    <>
+      <section className={searchStyles.searchProduct}>
+        <h3>Realizar búsqueda</h3>
+        <p>
+          Puedes buscar por palabras clave, frases específicas, nombres,
+          categoría o ubicación{" "}
+        </p>
+        <form onSubmit={searchProducts}>
+          <DatePicker
+            selected={startDate}
+            onChange={(dates) => {
+              const [start, end] = dates;
+              setStartDate(start);
+              setEndDate(end);
+            }}
+            startDate={startDate}
+            endDate={endDate}
+            selectsRange
+            placeholderText="Selecciona un rango de fechas"
+            className="form-control"
+          />
+
+          <input
+            type="text"
+            name="words"
+            placeholder="Buscar productos"
+            value={search.words}
+            onChange={updateState}
+          />
+
+          <button type="submit">Realizar búsqueda</button>
+        </form>
+      </section>
+      <section className={styles.productListContainer}>
+        <h2 className={styles.productListTitle}>Experiencias recomendadas</h2>
+        <div className={styles.productList}>
+          {shuffleArray(state.products).map(({ id, name, image }) => {
+            return <ProductCard key={id} id={id} img={image} name={name} />;
+          })}
+        </div>
+      </section>
+    </>
   );
 };
 
