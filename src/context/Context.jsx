@@ -12,6 +12,7 @@ const reducer = (state, action) => {
   switch (action.type) {
     case "getAllProducts":
       return { ...state, products: action.payload };
+
     case "removeProduct": {
       const filterProducts = state.products.filter(
         (product) => product.id !== action.payload
