@@ -6,6 +6,16 @@ export const initialState = {
   user: JSON.parse(localStorage.getItem("user")) || null,
   validAdmin: false,
   validUser: false,
+  modalUpdate: false,
+  form: {
+    id: "",
+    name: "",
+    description: "",
+    image_url: "",
+    price: "",
+    category_id: "",
+  },
+  productsCategory: "",
 };
 
 const reducer = (state, action) => {
@@ -44,6 +54,21 @@ const reducer = (state, action) => {
     case "hiddeDropDownMenu":
       return { ...state, openProfile: false };
 
+    case "showModalUpdate":
+      return { ...state, modalUpdate: true, form: action.payload };
+
+    case "cancelModalUpdate":
+      return { ...state, modalUpdate: false };
+
+    case "editModalUpdate":
+      return { ...state, modalUpdate: false, products: action.payload };
+
+    case "handleChange":
+      return { ...state, form: action.payload };
+
+    case "getProductsCategory":
+      return { ...state, productsCategory: action.payload };
+
     default:
       return state;
   }
@@ -56,6 +81,8 @@ export const ContextProvider = ({ children }) => {
 
   const url = "http://localhost:3000/api/products";
 
+  const urlCategory = "http://localhost:3000/api/products_categories";
+
   const getAllProducts = () => {
     axios
       .get(url)
@@ -64,6 +91,17 @@ export const ContextProvider = ({ children }) => {
       })
       .catch((error) => {
         console.error("Error fetching the product list:", error);
+      });
+  };
+
+  const getProductsCategory = () => {
+    axios
+      .get(urlCategory)
+      .then((response) => {
+        dispatch({ type: "getProductsCategory", payload: response.data });
+      })
+      .catch((error) => {
+        console.error("Failed to fetch all products categories", error);
       });
   };
 
@@ -104,6 +142,10 @@ export const ContextProvider = ({ children }) => {
 
   useEffect(() => {
     getAllProducts();
+  }, []);
+
+  useEffect(() => {
+    getProductsCategory();
   }, []);
 
   return (
