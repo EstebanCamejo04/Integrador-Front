@@ -16,8 +16,44 @@ const ModalProductEdit = () => {
   const handleChange = (e) => {
     dispatch({
       type: "handleChange",
-      payload: { ...state.form, [e.target.name]: e.target.value },
+      payload: {
+        ...state.form,
+        [e.target.name]: e.target.value,
+      },
     });
+  };
+
+  const handleChangePrice = (e) => {
+    dispatch({
+      type: "handleChange",
+      payload: {
+        ...state.form,
+        [e.target.name]: parseFloat(e.target.value),
+      },
+    });
+  };
+
+  const handleChangeCategory = (e) => {
+    let categories = state.productsCategory;
+    let categorySelected = "";
+    categories.map((data) => {
+      if (data.id == e.target.value) {
+        categorySelected = {
+          id: data.id,
+          name: data.name,
+          description: data.description,
+        };
+      }
+    });
+    dispatch({
+      type: "handleChange",
+      payload: {
+        ...state.form,
+        [e.target.name]: parseInt(e.target.value),
+        category: categorySelected,
+      },
+    });
+    console.log(categorySelected);
   };
 
   const edit = (dato) => {
@@ -30,11 +66,14 @@ const ModalProductEdit = () => {
         arreglo[contador].price = dato.price;
         arreglo[contador].image_url = dato.image_url;
         arreglo[contador].category_id = dato.category_id;
+        arreglo[contador].category = dato.category;
       }
 
       contador++;
     });
     dispatch({ type: "editModalUpdate", payload: arreglo });
+    console.log(state.form);
+    console.log(state.products);
   };
   return (
     <>
@@ -84,8 +123,8 @@ const ModalProductEdit = () => {
             <input
               className="form-control"
               name="price"
-              type="number"
-              onChange={handleChange}
+              type="number "
+              onChange={handleChangePrice}
               value={state.form.price}
             />
           </FormGroup>
@@ -107,12 +146,12 @@ const ModalProductEdit = () => {
               className="form-control"
               name="category_id"
               defaultValue={state.form.category_id}
-              typeof="number"
-              onChange={handleChange}
+              type="number"
+              onChange={handleChangeCategory}
             >
-              {state.productsCategory.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
+              {state.productsCategory.map((data) => (
+                <option key={data.id} value={data.id}>
+                  {data.name}
                 </option>
               ))}
             </FormSelect>

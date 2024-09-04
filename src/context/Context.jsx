@@ -14,6 +14,11 @@ export const initialState = {
     image_url: "",
     price: "",
     category_id: "",
+    category: {
+      id: "",
+      name: "",
+      description: "",
+    },
   },
   productsCategory: "",
 };
