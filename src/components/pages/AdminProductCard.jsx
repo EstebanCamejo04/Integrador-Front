@@ -2,6 +2,7 @@ import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import styles from "../../styles/AdminProductCard.module.css";
 import { useContextGlobal } from "../../context/Context";
+import ModalProductEdit from "../common/ModalProductEdit";
 
 const ellipsis = (text) => {
   if (text.length > 200) {
@@ -11,7 +12,7 @@ const ellipsis = (text) => {
 };
 
 const AdminProductCard = (props) => {
-  const { dispatch } = useContextGlobal();
+  const { dispatch, removeProduct } = useContextGlobal();
 
   return (
     <Card className={styles.productCard}>
@@ -27,17 +28,21 @@ const AdminProductCard = (props) => {
         <div className={styles.options}>
           <Link
             className={styles.deleteIcon}
-            onClick={() =>
-              dispatch({ type: "removeProduct", payload: props.product.id })
-            }
+            onClick={() => removeProduct(props.product.id)}
           >
             <i className="bi bi-trash"></i>
           </Link>
-          <Link className={styles.editIcon}>
+          <Link
+            className={styles.editIcon}
+            onClick={() =>
+              dispatch({ type: "showModalUpdate", payload: props.product })
+            }
+          >
             <i className="bi bi-pencil"></i>
           </Link>
         </div>
       </Card.Body>
+      <ModalProductEdit />
     </Card>
   );
 };
