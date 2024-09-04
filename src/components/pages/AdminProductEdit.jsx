@@ -5,7 +5,7 @@ import { useContextGlobal } from "../../context/Context";
 import styles from "../../styles/AdminUserList.module.css";
 
 const AdminProductEdit = () => {
-  const { state, dispatch } = useContextGlobal();
+  const { state, dispatch, removeProduct } = useContextGlobal();
   return (
     <>
       <div>
@@ -43,12 +43,7 @@ const AdminProductEdit = () => {
                   >
                     Editar
                   </Button>{" "}
-                  <Button
-                    color="danger"
-                    onClick={() =>
-                      dispatch({ type: "removeProduct", payload: dato.id })
-                    }
-                  >
+                  <Button color="danger" onClick={() => removeProduct(dato.id)}>
                     Eliminar
                   </Button>
                 </td>

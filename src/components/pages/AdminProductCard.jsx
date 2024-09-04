@@ -12,7 +12,7 @@ const ellipsis = (text) => {
 };
 
 const AdminProductCard = (props) => {
-  const { dispatch } = useContextGlobal();
+  const { dispatch, removeProduct } = useContextGlobal();
 
   return (
     <Card className={styles.productCard}>
@@ -28,9 +28,7 @@ const AdminProductCard = (props) => {
         <div className={styles.options}>
           <Link
             className={styles.deleteIcon}
-            onClick={() =>
-              dispatch({ type: "removeProduct", payload: props.product.id })
-            }
+            onClick={() => removeProduct(props.product.id)}
           >
             <i className="bi bi-trash"></i>
           </Link>

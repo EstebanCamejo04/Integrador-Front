@@ -11,7 +11,7 @@ import { useContextGlobal } from "../../context/Context";
 import { FormSelect } from "react-bootstrap";
 
 const ModalProductEdit = () => {
-  const { state, dispatch } = useContextGlobal();
+  const { state, dispatch, updateProduct } = useContextGlobal();
 
   const handleChange = (e) => {
     dispatch({
@@ -71,7 +71,7 @@ const ModalProductEdit = () => {
 
       contador++;
     });
-    dispatch({ type: "editModalUpdate", payload: arreglo });
+    updateProduct(arreglo);
     console.log(state.form);
     console.log(state.products);
   };

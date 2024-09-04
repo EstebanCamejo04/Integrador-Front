@@ -99,6 +99,33 @@ export const ContextProvider = ({ children }) => {
       });
   };
 
+  const removeProduct = (productId) => {
+    console.log("hola");
+
+    axios
+      .delete(`${url}/${productId}`)
+      .then(() => {
+        dispatch({ type: "removeProduct", payload: productId });
+      })
+      .catch((error) => {
+        console.error("Error deleting the product:", error);
+        alert("Failed to delete the product.");
+      });
+  };
+
+  const updateProduct = (updatedData) => {
+    axios
+      .put(url, updatedData)
+      .then((response) => {
+        // Actualizamos el estado con el producto actualizado
+        dispatch({ type: "editModalUpdate", payload: updatedData });
+      })
+      .catch((error) => {
+        console.error("Error updating the product:", error);
+        alert("Failed to update the product.");
+      });
+  };
+
   const getProductsCategory = () => {
     axios
       .get(urlCategory)
@@ -154,7 +181,9 @@ export const ContextProvider = ({ children }) => {
   }, []);
 
   return (
-    <ContextGlobal.Provider value={{ state, dispatch }}>
+    <ContextGlobal.Provider
+      value={{ state, dispatch, removeProduct, updateProduct }}
+    >
       {children}
     </ContextGlobal.Provider>
   );
