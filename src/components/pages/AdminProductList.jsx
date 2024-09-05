@@ -1,16 +1,24 @@
 import AdminProductCard from "./AdminProductCard";
 import styles from "../../styles/AdminProductList.module.css";
 import { useContextGlobal } from "../../context/Context";
+import { useEffect } from "react";
 
 const AdminProductList = () => {
-  const { state } = useContextGlobal();
+  const { state, getAllProducts } = useContextGlobal();
+
+  useEffect(() => {
+    getAllProducts();
+  }, []);
 
   return (
-    <div className={styles.adminProducts}>
-      {state.products.map((product) => {
-        return <AdminProductCard key={product.id} product={product} />;
-      })}
-    </div>
+    <>
+      <h2 className={styles.Title}>Lista de productos</h2>
+      <div className={styles.adminProducts}>
+        {state.products.map((product) => {
+          return <AdminProductCard key={product.id} product={product} />;
+        })}
+      </div>
+    </>
   );
 };
 

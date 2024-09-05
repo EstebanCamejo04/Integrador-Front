@@ -20,8 +20,8 @@ export const initialState = {
       description: "",
     },
   },
-  productsCategory: "",
-};
+  productsCategory: [],
+}
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -172,17 +172,9 @@ export const ContextProvider = ({ children }) => {
     checkRole();
   }, [state.user]);
 
-  useEffect(() => {
-    getAllProducts();
-  }, []);
-
-  useEffect(() => {
-    getProductsCategory();
-  }, []);
-
   return (
     <ContextGlobal.Provider
-      value={{ state, dispatch, removeProduct, updateProduct }}
+      value={{ state, dispatch, getAllProducts, removeProduct, updateProduct }}
     >
       {children}
     </ContextGlobal.Provider>

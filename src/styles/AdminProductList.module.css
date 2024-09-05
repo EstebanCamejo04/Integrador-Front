@@ -4,3 +4,10 @@
   flex-direction: row;
   flex-wrap: wrap;
 }
+
+.Title {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 2rem;
+  color: #333;
+}

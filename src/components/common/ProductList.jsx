@@ -16,7 +16,7 @@ const ProductList = () => {
     "highline",
     "Senderismo",
   ];
-  const { state } = useContextGlobal();
+  const { state, getAllProducts } = useContextGlobal();
   const [search, setSearch] = useState({
     words: "",
     products: [],
@@ -24,6 +24,10 @@ const ProductList = () => {
     endDate: null,
     suggestionWords: [],
   });
+
+  useEffect(() => {
+    getAllProducts();
+  }, []);
 
   useEffect(() => {
     setSearch({
@@ -168,7 +172,14 @@ const ProductList = () => {
         <h2 className={styles.productListTitle}>Experiencias recomendadas</h2>
         <div className={styles.productList}>
           {search.products.map((item) => {
-            return <ProductCard key={item.id} id={item.id} name={item.name} />;
+            return (
+              <ProductCard
+                key={item.id}
+                id={item.id}
+                name={item.name}
+                imageKey={item.imageKey}
+              />
+            );
           })}
         </div>
       </section>
