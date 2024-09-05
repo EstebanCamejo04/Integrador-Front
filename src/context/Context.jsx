@@ -102,12 +102,8 @@ export const ContextProvider = ({ children }) => {
     checkRole();
   }, [state.user]);
 
-  useEffect(() => {
-    getAllProducts();
-  }, []);
-
   return (
-    <ContextGlobal.Provider value={{ state, dispatch }}>
+    <ContextGlobal.Provider value={{ state, dispatch, getAllProducts }}>
       {children}
     </ContextGlobal.Provider>
   );
