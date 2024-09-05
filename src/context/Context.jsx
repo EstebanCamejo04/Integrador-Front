@@ -6,6 +6,21 @@ export const initialState = {
   user: JSON.parse(localStorage.getItem("user")) || null,
   validAdmin: false,
   validUser: false,
+  modalUpdate: false,
+  form: {
+    id: "",
+    name: "",
+    description: "",
+    image_url: "",
+    price: "",
+    category_id: "",
+    category: {
+      id: "",
+      name: "",
+      description: "",
+    },
+  },
+  productsCategory: "",
 };
 
 const reducer = (state, action) => {
@@ -44,6 +59,21 @@ const reducer = (state, action) => {
     case "hiddeDropDownMenu":
       return { ...state, openProfile: false };
 
+    case "showModalUpdate":
+      return { ...state, modalUpdate: true, form: action.payload };
+
+    case "cancelModalUpdate":
+      return { ...state, modalUpdate: false };
+
+    case "editModalUpdate":
+      return { ...state, modalUpdate: false, products: action.payload };
+
+    case "handleChange":
+      return { ...state, form: action.payload };
+
+    case "getProductsCategory":
+      return { ...state, productsCategory: action.payload };
+
     default:
       return state;
   }
@@ -56,6 +86,8 @@ export const ContextProvider = ({ children }) => {
 
   const url = "http://localhost:3000/api/products";
 
+  const urlCategory = "http://localhost:3000/api/products_categories";
+
   const getAllProducts = () => {
     axios
       .get(url)
@@ -64,6 +96,44 @@ export const ContextProvider = ({ children }) => {
       })
       .catch((error) => {
         console.error("Error fetching the product list:", error);
+      });
+  };
+
+  const removeProduct = (productId) => {
+    console.log("hola");
+
+    axios
+      .delete(`${url}/${productId}`)
+      .then(() => {
+        dispatch({ type: "removeProduct", payload: productId });
+      })
+      .catch((error) => {
+        console.error("Error deleting the product:", error);
+        alert("Failed to delete the product.");
+      });
+  };
+
+  const updateProduct = (updatedData) => {
+    axios
+      .put(url, updatedData)
+      .then((response) => {
+        // Actualizamos el estado con el producto actualizado
+        dispatch({ type: "editModalUpdate", payload: updatedData });
+      })
+      .catch((error) => {
+        console.error("Error updating the product:", error);
+        alert("Failed to update the product.");
+      });
+  };
+
+  const getProductsCategory = () => {
+    axios
+      .get(urlCategory)
+      .then((response) => {
+        dispatch({ type: "getProductsCategory", payload: response.data });
+      })
+      .catch((error) => {
+        console.error("Failed to fetch all products categories", error);
       });
   };
 
@@ -103,7 +173,9 @@ export const ContextProvider = ({ children }) => {
   }, [state.user]);
 
   return (
-    <ContextGlobal.Provider value={{ state, dispatch, getAllProducts }}>
+    <ContextGlobal.Provider
+      value={{ state, dispatch, getAllProducts, removeProduct, updateProduct }}
+    >
       {children}
     </ContextGlobal.Provider>
   );

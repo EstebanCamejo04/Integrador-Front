@@ -8,6 +8,7 @@ import UserProfile from "../components/pages/UserProfile";
 import AdminUserList from "../components/pages/AdminUserList";
 import SignUp from "../components/pages/SignUp";
 import CreateProduct from "../components/pages/CreateProduct";
+import AdminProductEdit from "../components/pages/AdminProductEdit";
 
 export const routes = [
   {
@@ -61,6 +62,11 @@ export const routes = [
         id: "admin-users",
         path: "/admin/users",
         Element: AdminUserList,
+      },
+      {
+        id: "admin-productEdit",
+        path: "/admin/products_edit",
+        Element: AdminProductEdit,
       },
     ],
   },
