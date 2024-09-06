@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ModalProductEdit from "../common/ModalProductEdit";
 import { Table, Button, Container } from "reactstrap";
 import { useContextGlobal } from "../../context/Context";
 import styles from "../../styles/AdminUserList.module.css";
 
 const AdminProductEdit = () => {
-  const { state, dispatch, removeProduct } = useContextGlobal();
+  const { state, dispatch, removeProduct, getAllProducts } = useContextGlobal();
+
+  useEffect(() => {
+    getAllProducts();
+  }, []);
+
+  console.log("Estado Products");
+  console.log(state.products);
+
   return (
     <>
       <div>
@@ -18,7 +26,6 @@ const AdminProductEdit = () => {
               <th>Nombre</th>
               <th>Descripción</th>
               <th>Precio</th>
-              <th>Imagen-url</th>
               <th>Categoria</th>
               <th>Acciones</th>
             </tr>
@@ -31,7 +38,6 @@ const AdminProductEdit = () => {
                 <td>{dato.name}</td>
                 <td>{dato.description}</td>
                 <td>{dato.price}</td>
-                <td>{dato.image_url}</td>
                 <td>{dato.category.name}</td>
 
                 <td>
