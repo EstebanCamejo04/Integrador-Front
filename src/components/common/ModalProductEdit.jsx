@@ -11,7 +11,8 @@ import { useContextGlobal } from "../../context/Context";
 import { FormSelect } from "react-bootstrap";
 
 const ModalProductEdit = () => {
-  const { state, dispatch, getProductsCategory } = useContextGlobal();
+  const { state, dispatch, getProductsCategory, updateProduct } =
+    useContextGlobal();
 
   {
     console.log("holaxzcxzcxzcxz_" + JSON.stringify(state));
@@ -77,7 +78,8 @@ const ModalProductEdit = () => {
 
       contador++;
     });
-    dispatch({ type: "editModalUpdate", payload: arreglo });
+    // dispatch({ type: "editModalUpdate", payload: arreglo });
+    updateProduct(arreglo);
     console.log(state.form);
     console.log(state.products);
   };
