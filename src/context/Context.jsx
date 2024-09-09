@@ -21,7 +21,7 @@ export const initialState = {
     },
   },
   productsCategory: [],
-}
+};
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -174,7 +174,14 @@ export const ContextProvider = ({ children }) => {
 
   return (
     <ContextGlobal.Provider
-      value={{ state, dispatch, getAllProducts, removeProduct, updateProduct }}
+      value={{
+        state,
+        dispatch,
+        getAllProducts,
+        removeProduct,
+        updateProduct,
+        getProductsCategory,
+      }}
     >
       {children}
     </ContextGlobal.Provider>
