@@ -4,6 +4,7 @@ import { useContextGlobal } from "../../context/Context";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import SuccessLogin from "../common/SuccessLogin";
+import API_BASE_URL from "../../utils/apiEC2";
 
 const Login = () => {
   const { dispatch } = useContextGlobal();
@@ -20,7 +21,7 @@ const Login = () => {
 
   const login = (loginData) => {
     axios
-      .post("http://localhost:3000/api/login", loginData, {
+      .post(`${API_BASE_URL}/api/login`, loginData, {
         withCredentials: true,
       })
       .then((response) => {

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useContextGlobal } from "../../context/Context";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import API_BASE_URL from "../../utils/apiEC2";
 const DropDownProfile = () => {
   const { state, dispatch } = useContextGlobal();
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ const DropDownProfile = () => {
 
   const handleLogout = () => {
     axios
-      .get("http://localhost:3000/api/logout", {
+      .get(`${API_BASE_URL}/api/logout`, {
         withCredentials: true,
       })
       .then(() => {

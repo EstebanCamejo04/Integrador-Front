@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useReducer } from "react";
+import API_BASE_URL from "../utils/apiEC2";
 
 export const initialState = {
   products: [],
@@ -91,9 +92,9 @@ export const ContextGlobal = createContext(undefined);
 export const ContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const url = "http://localhost:3000/api/products";
+  const url = `${API_BASE_URL}/api/products`;
 
-  const urlCategory = "http://localhost:3000/api/products_categories";
+  const urlCategory = `${API_BASE_URL}/api/products_categories`;
 
   const getAllProducts = () => {
     axios
@@ -150,7 +151,7 @@ export const ContextProvider = ({ children }) => {
       dispatch({ type: "validateUser", payload: false });
     } else if (state.user.role_id === 1) {
       axios
-        .get("http://localhost:3000/user/checkAdmin", {
+        .get(`${API_BASE_URL}/user/checkAdmin`, {
           withCredentials: true,
         })
         .then((response) => {
@@ -162,7 +163,7 @@ export const ContextProvider = ({ children }) => {
         });
     } else if (state.user.role_id === 2) {
       axios
-        .get("http://localhost:3000/user/checkUser", {
+        .get(`${API_BASE_URL}/user/checkUser`, {
           withCredentials: true,
         })
         .then((response) => {

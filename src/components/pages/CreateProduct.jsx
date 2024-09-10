@@ -4,6 +4,7 @@ import styles from "../../styles/CreateProduct.module.css";
 import axios from "axios";
 import { Form, Spinner } from "react-bootstrap";
 import SuccessCreateProduct from "../common/SuccessCreateProduct";
+import API_BASE_URL from "../../utils/apiEC2";
 
 const CreateProduct = () => {
   const [show, setShow] = useState(false);
@@ -21,7 +22,7 @@ const CreateProduct = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/products_categories")
+      .get(`${API_BASE_URL}/api/products_categories`)
       .then((response) => {
         setCategories(response.data);
       })
@@ -104,7 +105,7 @@ const CreateProduct = () => {
     formData.append("available", productData.available);
 
     axios
-      .post("http://localhost:3000/api/products", formData)
+      .post(`${API_BASE_URL}/api/products`, formData)
       .then((res) => {
         if (res.status == 201) {
           console.log(res.data);
