@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Button,
   FormGroup,
@@ -14,11 +14,12 @@ const ModalProductEdit = () => {
   const { state, dispatch, getProductsCategory, updateProduct } =
     useContextGlobal();
 
-  {
-    console.log("holaxzcxzcxzcxz_" + JSON.stringify(state));
-  }
+  useEffect(() => {
+    getProductsCategory();
+  }, []);
 
-  let categories = getProductsCategory();
+  console.log("Estado productsCategory");
+  console.log(state.productsCategory);
 
   const handleChange = (e) => {
     dispatch({
@@ -42,7 +43,7 @@ const ModalProductEdit = () => {
 
   const handleChangeCategory = (e) => {
     let categories = state.productsCategory;
-    let categorySelected = "";
+    let categorySelected = {};
     categories.map((data) => {
       if (data.id == e.target.value) {
         categorySelected = {
@@ -60,6 +61,7 @@ const ModalProductEdit = () => {
         category: categorySelected,
       },
     });
+    console.log("Categoria Seleccionada");
     console.log(categorySelected);
   };
 
@@ -80,7 +82,10 @@ const ModalProductEdit = () => {
     });
     // dispatch({ type: "editModalUpdate", payload: arreglo });
     updateProduct(arreglo);
+    console.log("Estado del Form después de ser modificado");
     console.log(state.form);
+
+    console.log("Estado de Products con las modificaciones");
     console.log(state.products);
   };
   return (
@@ -137,7 +142,7 @@ const ModalProductEdit = () => {
             />
           </FormGroup>
 
-          <FormGroup>
+          {/*<FormGroup>
             <label>Imagen url:</label>
             <input
               className="form-control"
@@ -146,7 +151,7 @@ const ModalProductEdit = () => {
               onChange={handleChange}
               value={state.form.image_url}
             />
-          </FormGroup>
+          </FormGroup>*/}
 
           <label>
             Categoria:
