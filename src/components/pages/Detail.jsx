@@ -7,6 +7,7 @@ import { featureIcons } from "../../utils/feature_icons";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import styles from "../../styles/Detail.module.css";
+import ReservationModal from "../common/ReservationModal";
 
 // Fechas ocupadas harcodeadas
 const occupiedDates = [
@@ -29,6 +30,7 @@ const Detail = () => {
   const [error, setError] = useState(null);
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [fetchDatesError, setFetchDatesError] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const { state } = useContextGlobal();
   const user = state.user ? state.user : {};
   const { validAdmin, validUser } = state;
@@ -68,13 +70,22 @@ const Detail = () => {
   }, [id]);
 
   const handleRentClick = () => {
+    console.log("Estado del usuario:", validUser, validAdmin);
+    console.log("Datos del usuario:", user);
+
     if (validUser || validAdmin) {
-      alert("Reserva realizada con éxito, gracias por confiar en nosotros!");
+      if (selectedDate && selectedTime) {
+        setShowModal(true); // Mostrar el modal al hacer clic
+      } else {
+        alert("Por favor, selecciona una fecha y una hora antes de reservar.");
+      }
     } else {
       alert("Debes iniciar sesión o registrarte para alquilar un producto.");
       navigate("/login");
     }
   };
+
+  const handleCloseModal = () => setShowModal(false);
 
   const handleDateChange = (date) => {
     if (
@@ -189,6 +200,15 @@ const Detail = () => {
           ))}
         </ul>
       </div>
+      {showModal && (
+        <ReservationModal
+          show={showModal}
+          handleClose={handleCloseModal}
+          product={product}
+          date={selectedDate.toLocaleDateString()}
+          time={selectedTime}
+        />
+      )}
     </div>
   );
 };

@@ -21,6 +21,7 @@ export const initialState = {
     },
   },
   productsCategory: [],
+  reservations: [],
 };
 
 const reducer = (state, action) => {
@@ -73,6 +74,12 @@ const reducer = (state, action) => {
 
     case "getProductsCategory":
       return { ...state, productsCategory: action.payload };
+
+    case "addReservation":
+      return {
+        ...state,
+        reservations: [...state.reservations, action.payload],
+      };
 
     default:
       return state;
@@ -172,6 +179,11 @@ export const ContextProvider = ({ children }) => {
     checkRole();
   }, [state.user]);
 
+  const addReservation = (reservationData) => {
+    dispatch({ type: "addReservation", payload: reservationData });
+    console.log("Reserva agregada:", reservationData);
+  };
+
   return (
     <ContextGlobal.Provider
       value={{
@@ -181,6 +193,7 @@ export const ContextProvider = ({ children }) => {
         removeProduct,
         updateProduct,
         getProductsCategory,
+        addReservation,
       }}
     >
       {children}
