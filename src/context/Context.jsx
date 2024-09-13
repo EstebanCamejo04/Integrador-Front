@@ -4,8 +4,8 @@ import { createContext, useContext, useEffect, useReducer } from "react";
 export const initialState = {
   products: [],
   user: JSON.parse(localStorage.getItem("user")) || null,
-  validAdmin: false,
-  validUser: false,
+  validAdmin: JSON.parse(localStorage.getItem("user"))?.role_id === 1 || false,
+  validUser: JSON.parse(localStorage.getItem("user"))?.role_id === 2 || false,
   modalUpdate: false,
   form: {
     id: "",

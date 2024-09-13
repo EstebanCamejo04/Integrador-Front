@@ -9,7 +9,7 @@ function Footer() {
         <img className={styles.img} src={logoUrl} alt="logo" />
         <ul className={styles.routes}>
           <li>
-            <a href="/home">HOME</a>
+            <a href="/">HOME</a>
           </li>
           <li>
             <a href="/about-us">ABOUT</a>
@@ -26,13 +26,23 @@ function Footer() {
         </ul>
         <ul className={styles.socialMedia}>
           <li>
-            <i className="bi bi-instagram"></i>
+                        <a
+                            href="https://www.instagram.com/punto.equilibrio.slackline/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        > 
+                            <i className="bi bi-instagram"></i>
+                        </a>
           </li>
           <li>
-            <i className="bi bi-twitter"></i>
+                        <a> 
+                            <i className="bi bi-twitter"></i>
+                        </a>
           </li>
           <li>
-            <i className="bi bi-facebook"></i>
+                        <a> 
+                            <i className="bi bi-facebook"></i>
+                        </a>
           </li>
         </ul>
       </div>
