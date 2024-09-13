@@ -32,6 +32,7 @@ const ReservationModal = ({ show, handleClose, product, date, time }) => {
         />
         <h5>Producto a reservar: {product.name}</h5>
         <p>Descripción: {product.description}</p>
+        <p>Locación:</p>
         <p>Precio: ${product.price}</p>
         <p>Fecha: {date}</p>
         <p>Hora: {time}</p>
