@@ -7,6 +7,7 @@ import { featureIcons } from "../../utils/feature_icons";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import styles from "../../styles/Detail.module.css";
+import Modal from "react-modal";
 
 // Fechas ocupadas harcodeadas
 const occupiedDates = [
@@ -29,6 +30,8 @@ const Detail = () => {
   const [error, setError] = useState(null);
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [fetchDatesError, setFetchDatesError] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [reservationData, setReservationData] = useState(null);
   const { state } = useContextGlobal();
   const user = state.user ? state.user : {};
   const { validAdmin, validUser } = state;
@@ -42,18 +45,16 @@ const Detail = () => {
         );
 
         const productData = response.data;
-        console.log(response.data);
 
         // Aca le estoy pegando a las features
         const features = productData.product_feature.map((pf) => ({
           icon: featureIcons[pf.feature.name_alias], // Mientras no hay iconos
           text: pf.feature.name, //
         }));
-        console.log(productData);
-        console.log(features);
 
         setProduct({ ...productData, features });
-        //cambiar aca a distinto para simular el error
+
+        // Cambiar aca a distinto para simular el error
         if (occupiedDates.length === 0) {
           throw new Error("No se pudieron cargar las fechas ocupadas");
         }
@@ -69,7 +70,16 @@ const Detail = () => {
 
   const handleRentClick = () => {
     if (validUser || validAdmin) {
-      alert("Reserva realizada con éxito, gracias por confiar en nosotros!");
+      const reservationInfo = {
+        user_id: user.id, // Asegúrate de que el id del usuario esté disponible
+        user_name: user.name, // Obtener el nombre del usuario
+        product_id: product.id,
+        product_name: product.name, // Obtener el nombre del producto
+        date_id: selectedDate.toLocaleDateString(), // Convertir la fecha a formato legible
+        slots_requested: selectedTime || "No seleccionada", // Ajustar según las necesidades
+      };
+      setReservationData(reservationInfo);
+      setModalIsOpen(true);
     } else {
       alert("Debes iniciar sesión o registrarte para alquilar un producto.");
       navigate("/login");
@@ -99,6 +109,11 @@ const Detail = () => {
 
   const handleTimeChange = (event) => {
     setSelectedTime(event.target.value);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+    setReservationData(null);
   };
 
   if (!product) {
@@ -173,7 +188,7 @@ const Detail = () => {
       {selectedDate && selectedTime && (
         <div className={styles.selectedDateTime}>
           <p>
-            Su reserva sera para la fecha: {selectedDate.toLocaleDateString()} a
+            Su reserva será para la fecha: {selectedDate.toLocaleDateString()} a
             las {selectedTime}
           </p>
         </div>
@@ -189,6 +204,36 @@ const Detail = () => {
           ))}
         </ul>
       </div>
+
+      {/* Modal para mostrar la información de reserva */}
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Reservation Details"
+        className={styles.modal}
+        overlayClassName={styles.overlay}
+      >
+        <h2>Detalles de la Reserva</h2>
+        {reservationData && (
+          <div>
+            <p>
+              <strong>Nombre del Usuario:</strong> {reservationData.user_name}
+            </p>
+            <p>
+              <strong>Nombre del Producto:</strong>{" "}
+              {reservationData.product_name}
+            </p>
+            <p>
+              <strong>Fecha de Reserva:</strong> {reservationData.date_id}
+            </p>
+            <p>
+              <strong>Hora Seleccionada:</strong>{" "}
+              {reservationData.slots_requested}
+            </p>
+            <button onClick={closeModal}>Cerrar</button>
+          </div>
+        )}
+      </Modal>
     </div>
   );
 };
