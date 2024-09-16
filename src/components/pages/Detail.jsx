@@ -45,16 +45,17 @@ const Detail = () => {
         );
 
         const productData = response.data;
+        console.log(response.data);
 
         // Aca le estoy pegando a las features
         const features = productData.product_feature.map((pf) => ({
           icon: featureIcons[pf.feature.name_alias], // Mientras no hay iconos
           text: pf.feature.name, //
         }));
+        console.log(productData);
+        console.log(features);
 
         setProduct({ ...productData, features });
-
-        // Cambiar aca a distinto para simular el error
         if (occupiedDates.length === 0) {
           throw new Error("No se pudieron cargar las fechas ocupadas");
         }
@@ -68,18 +69,30 @@ const Detail = () => {
     fetchProduct();
   }, [id]);
 
-  const handleRentClick = () => {
+  const handleRentClick = async () => {
     if (validUser || validAdmin) {
       const reservationInfo = {
-        user_id: user.id, // Asegúrate de que el id del usuario esté disponible
-        user_name: user.name, // Obtener el nombre del usuario
+        user_id: user.id,
         product_id: product.id,
-        product_name: product.name, // Obtener el nombre del producto
-        date_id: selectedDate.toLocaleDateString(), // Convertir la fecha a formato legible
-        slots_requested: selectedTime || "No seleccionada", // Ajustar según las necesidades
+        date_id: selectedDate.getTime(),
+        slots_requested: 1,
       };
+
       setReservationData(reservationInfo);
       setModalIsOpen(true);
+
+      try {
+        // Hacer POST al backend para confirmar la reserva
+        const response = await axios.post(
+          "http://localhost:3000/api/reservations",
+          reservationInfo
+        );
+        console.log("Reserva enviada exitosamente", response.data);
+        alert("Reserva confirmada con éxito");
+      } catch (error) {
+        console.error("Error enviando la reserva:", error);
+        alert("Hubo un error al confirmar la reserva.");
+      }
     } else {
       alert("Debes iniciar sesión o registrarte para alquilar un producto.");
       navigate("/login");
@@ -132,6 +145,14 @@ const Detail = () => {
         <h2>Plan: {product.name}</h2>
         <p className={styles.paragraph}>{product.description}</p>
         <p className={styles.paragraph}>Precio: ${product.price}</p>
+        {/* Agregar la ubicación */}
+        <p className={styles.paragraph}>
+          <strong>Ubicación:</strong> {product.location}
+        </p>
+        {/* Agregar la información destacada */}
+        <p className={styles.paragraph}>
+          <strong>Información destacada:</strong> {product.highlightedInfo}
+        </p>
         <button className={styles.button} onClick={handleRentClick}>
           Reservar
         </button>
@@ -210,24 +231,22 @@ const Detail = () => {
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         contentLabel="Reservation Details"
-        className={styles.modal}
-        overlayClassName={styles.overlay}
       >
         <h2>Detalles de la Reserva</h2>
-        {reservationData && (
+        {reservationData && product && (
           <div>
             <p>
-              <strong>Nombre del Usuario:</strong> {reservationData.user_name}
+              <strong>Nombre del Usuario:</strong> {user.name} {user.lastName}
             </p>
             <p>
-              <strong>Nombre del Producto:</strong>{" "}
-              {reservationData.product_name}
+              <strong>Actividad:</strong> {product.name}
             </p>
             <p>
-              <strong>Fecha de Reserva:</strong> {reservationData.date_id}
+              <strong>Fecha de Reserva:</strong>{" "}
+              {new Date(reservationData.date_id).toLocaleDateString()}
             </p>
             <p>
-              <strong>Hora Seleccionada:</strong>{" "}
+              <strong>Slots Solicitados:</strong>{" "}
               {reservationData.slots_requested}
             </p>
             <button onClick={closeModal}>Cerrar</button>
