@@ -179,10 +179,19 @@ export const ContextProvider = ({ children }) => {
     checkRole();
   }, [state.user]);
 
-  const addReservation = (reservationData) => {
-    dispatch({ type: "addReservation", payload: reservationData });
-    console.log("Reserva agregada:", reservationData);
-  };
+    const addReservation = (reservationData) => {
+        axios
+            .post("http://localhost:3000/api/reservations", reservationData)
+            .then((response) => {
+                dispatch({ type: "addReservation", payload: response.data });
+                console.log("Reserva agregada:", reservationData);
+                alert("Reserva confirmada con éxito");
+            })
+            .catch((error) => {
+                console.error("Error al realizar la reserva:", error);
+                alert("Error al realizar la reserva");
+            });
+    };
 
   return (
     <ContextGlobal.Provider

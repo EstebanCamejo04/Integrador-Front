@@ -44,7 +44,6 @@ const Detail = () => {
         );
 
         const productData = response.data;
-        console.log(response.data);
 
         // Aca le estoy pegando a las features
         const features = productData.product_feature.map((pf) => ({
@@ -52,7 +51,6 @@ const Detail = () => {
           text: pf.feature.name, //
         }));
         console.log(productData);
-        console.log(features);
 
         setProduct({ ...productData, features });
         //cambiar aca a distinto para simular el error
@@ -202,11 +200,12 @@ const Detail = () => {
       </div>
       {showModal && (
         <ReservationModal
-          show={showModal}
-          handleClose={handleCloseModal}
-          product={product}
-          date={selectedDate.toLocaleDateString()}
-          time={selectedTime}
+                    show={showModal}
+                    handleClose={handleCloseModal}
+                    user={user}
+                    product={product}
+                    date={selectedDate.toLocaleDateString()}
+                    time={selectedTime}
         />
       )}
     </div>
