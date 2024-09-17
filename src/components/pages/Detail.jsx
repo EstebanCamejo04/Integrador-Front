@@ -206,7 +206,7 @@ const Detail = () => {
                         product={product}
                         date={selectedDate}
                         time={selectedTime}
-                        getDateId={getDateId}
+                        getProductDate={getProductDate}
                     />
                 )}
             </div>
