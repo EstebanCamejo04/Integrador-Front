@@ -16,7 +16,7 @@
 }
 
 .datepicker__day--highlighted {
-  background-color: red;
+  background-color: rgb(216, 146, 146);
   color: white;
 }
 
@@ -66,6 +66,10 @@
 
 .button:hover {
   color: #eeece0;
+}
+.disableButton {
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 .details > button {
