@@ -200,12 +200,11 @@ const Detail = () => {
       </div>
       {showModal && (
         <ReservationModal
-                    show={showModal}
-                    handleClose={handleCloseModal}
-                    user={user}
-                    product={product}
-                    date={selectedDate.toLocaleDateString()}
-                    time={selectedTime}
+          show={showModal}
+          handleClose={handleCloseModal}
+          product={product}
+          date={selectedDate.toLocaleDateString()}
+          time={selectedTime}
         />
       )}
     </div>
