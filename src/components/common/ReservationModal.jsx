@@ -3,7 +3,7 @@ import { Modal, Button } from "react-bootstrap";
 import { useContextGlobal } from "../../context/Context";
 import styles from "../../styles/ReservationModal.module.css";
 
-const ReservationModal = ({ show, handleClose, product, user, date, time }) => {
+const ReservationModal = ({ show, handleClose, product, user, date, time, getDateId }) => {
   const { state, addReservation } = useContextGlobal();
     const [slotsRequested, setSlotsRequested] = useState(1);
 
@@ -11,17 +11,21 @@ const ReservationModal = ({ show, handleClose, product, user, date, time }) => {
         setSlotsRequested(e.target.value);
     };
 
+
     const handleConfirmReservation = () => {
         // Verifica si estan los datos de product y user 
         if (!product || !user || !product.product_date || !product.product_date.length) {
             alert("Faltan datos del producto o del usuario para realizar la reserva");
             return;
         }
+
+        const slotsValue = parseInt(slotsRequested, 10)
+
         const reservationData = {
-            user_id: user.id,
-            product_id: product.id,
-            date_id: product.product_date[0].date_id,
-            slots_reserved: slotsRequested,
+                user_id: state.user.id,
+                product_id: parseInt(product.id),
+                date_id: getDateId(date),
+                slots_requested: slotsValue,
         };
 
         console.log("Producto en el modal:", product);
@@ -47,7 +51,7 @@ const ReservationModal = ({ show, handleClose, product, user, date, time }) => {
         <p>Descripción: {product.description}</p>
         <p>Locación: {product.product_location.map(loc => loc.location.name).join(", ") }</p>
         <p>Precio: ${product.price}</p>
-        <p>Fecha: {date}</p>
+        <p>Fecha: {date ? date.toLocaleString() : ''}</p>
         <p>Hora: {time}</p>
         <h5>Usuario que realiza la reserva:</h5>
         <p>
