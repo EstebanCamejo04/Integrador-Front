@@ -21,6 +21,7 @@ export const initialState = {
     },
   },
   productsCategory: [],
+  reservations: [],
 };
 
 const reducer = (state, action) => {
@@ -73,6 +74,12 @@ const reducer = (state, action) => {
 
     case "getProductsCategory":
       return { ...state, productsCategory: action.payload };
+
+    case "addReservation":
+      return {
+        ...state,
+        reservations: [...state.reservations, action.payload],
+      };
 
     default:
       return state;
@@ -172,6 +179,20 @@ export const ContextProvider = ({ children }) => {
     checkRole();
   }, [state.user]);
 
+    const addReservation = (reservationData) => {
+        axios
+            .post("http://localhost:3000/api/reservations", reservationData)
+            .then((response) => {
+                dispatch({ type: "addReservation", payload: response.data });
+                console.log("Reserva agregada:", reservationData);
+                alert("Reserva confirmada con éxito");
+            })
+            .catch((error) => {
+                console.error("Error al realizar la reserva:", error);
+                alert("Error al realizar la reserva");
+            });
+    };
+
   return (
     <ContextGlobal.Provider
       value={{
@@ -181,6 +202,7 @@ export const ContextProvider = ({ children }) => {
         removeProduct,
         updateProduct,
         getProductsCategory,
+        addReservation,
       }}
     >
       {children}
