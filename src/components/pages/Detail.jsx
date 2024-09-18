@@ -23,7 +23,7 @@ const Detail = () => {
   const { validAdmin, validUser } = state;
   const navigate = useNavigate();
 
-  useEffect(() => {
+useEffect(() => {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(

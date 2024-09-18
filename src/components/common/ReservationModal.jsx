@@ -3,6 +3,7 @@ import { Modal, Button } from "react-bootstrap";
 import { useContextGlobal } from "../../context/Context";
 import styles from "../../styles/ReservationModal.module.css";
 
+
 const ReservationModal = ({
   show,
   handleClose,
@@ -13,6 +14,7 @@ const ReservationModal = ({
   getDateData,
   availableSlots,
 }) => {
+
   const { state, addReservation } = useContextGlobal();
   const [slotsRequested, setSlotsRequested] = useState(1);
 
@@ -39,12 +41,14 @@ const ReservationModal = ({
       return;
     }
 
+
     const reservationData = {
       user_id: state.user.id,
       product_id: parseInt(product.id),
       date_id: dateData.date_id,
       slots_requested: slotsValue,
     };
+
 
     console.log("Producto en el modal:", product);
     console.log("Usuario en el modal:", user);
