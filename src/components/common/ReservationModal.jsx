@@ -10,7 +10,7 @@ const ReservationModal = ({
   user,
   date,
   time,
-  getDateId,
+  getDateData,
   availableSlots,
 }) => {
   const { state, addReservation } = useContextGlobal();
@@ -21,7 +21,6 @@ const ReservationModal = ({
   };
 
   const handleConfirmReservation = () => {
-    // Verifica si estan los datos de product y user
     if (
       !product ||
       !user ||
@@ -33,16 +32,23 @@ const ReservationModal = ({
     }
 
     const slotsValue = parseInt(slotsRequested, 10);
+    const dateData = getDateData(date);
+
+    if (!dateData || !dateData.date_id) {
+      alert("No se encontró información para la fecha seleccionada.");
+      return;
+    }
 
     const reservationData = {
       user_id: state.user.id,
       product_id: parseInt(product.id),
-      date_id: getDateId(date),
+      date_id: dateData.date_id,
       slots_requested: slotsValue,
     };
 
     console.log("Producto en el modal:", product);
     console.log("Usuario en el modal:", user);
+    console.log("Datos de la reserva:", reservationData);
 
     addReservation(reservationData);
     handleClose();

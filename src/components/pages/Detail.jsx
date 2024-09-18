@@ -50,10 +50,13 @@ const Detail = () => {
   const getDateData = (date) => {
     const dateStr = date.toISOString().split("T")[0];
 
-    return product?.product_date.find(
+    const result = product?.product_date.find(
       (productDate) =>
         new Date(productDate.date.date).toISOString().split("T")[0] === dateStr
     );
+
+    // Devuelve el objeto con date_id y los datos encontrados, o null si no se encuentra
+    return result ? { date_id: result.date_id, dateData: result } : null;
   };
 
   const handleRentClick = () => {
@@ -71,13 +74,11 @@ const Detail = () => {
   const handleDateChange = (date) => {
     if (date) {
       const selectedDateStr = date.toISOString().split("T")[0];
-      console.log("Selected date:", selectedDateStr);
 
       const dateData = product?.product_date.find((productDate) => {
         const productDateStr = new Date(productDate.date.date)
           .toISOString()
           .split("T")[0];
-        console.log("Product date:", productDateStr);
         return productDateStr === selectedDateStr; // Comparo fechas en formato 'YYYY-MM-DD'
       });
 
@@ -93,7 +94,9 @@ const Detail = () => {
         );
       } else {
         setAvailableSlots(0);
-        setError("La fecha seleccionada no tiene disponibilidad.");
+        setError(
+          "La fecha seleccionada no tiene disponibilidad, seleccione otra por favor."
+        );
         setProductTime(null);
       }
       setSelectedDate(date);
@@ -106,6 +109,11 @@ const Detail = () => {
   };
 
   const handleCloseModal = () => setShowModal(false);
+
+  const isDateAvailable = (date) => {
+    const dateData = getDateData(date);
+    return dateData && dateData.dateData.slots > 0;
+  };
   if (!product) {
     return <div>Cargando...</div>;
   } else {
@@ -126,13 +134,21 @@ const Detail = () => {
               styles.button + " " + (!selectedDate ? styles.disableButton : "")
             }
             onClick={handleRentClick}
+            disabled={availableSlots === 0}
           >
             Reservar
           </button>
         </div>
         <div className={styles.datePickerContainer}>
           <div className={styles.datePicker}>
-            <h3 className={styles.titleTime}>Seleccionar fecha:</h3>
+            <h3>Bienvenido a nuestra agenda de reservas</h3>
+            <p>
+              En este apartado podra observar las fechas disponibles que
+              contamos de cada producto, seleccione el dia, observe el horario
+              determinado y luego de seleccionado dirigase a el boton de
+              reservar, muchas gracias.
+            </p>
+            <h4 className={styles.titleTime}>Seleccionar fecha:</h4>
             {fetchDatesError ? (
               <p>
                 Ocurrio un error, consulte la agenda en otro momento por favor,
@@ -146,23 +162,31 @@ const Detail = () => {
                 //monthsShown={2} // pa mostrar 2 meses
                 minDate={new Date()}
                 dayClassName={(date) => {
-                  return !getDateData(date)
-                    ? styles["datepicker__day--highlighted"]
-                    : undefined;
+                  const today = new Date();
+                  const dateData = getDateData(date);
+                  if (date < today) {
+                    return styles["datepicker__day--disabled"];
+                  }
+                  if (dateData && dateData.dateData.slots > 0) {
+                    return styles["datepicker__day--available"];
+                  } else {
+                    return styles["datepicker__day--unavailable"];
+                  }
                 }}
               />
             )}
           </div>
           {error && <div className={styles.error}>{error}</div>}
+          {selectedDate && availableSlots > 0 && (
+            <div className={styles.selectedDateTime}>
+              <p>
+                Su reserva será para la fecha:{" "}
+                {selectedDate.toLocaleDateString()} a las{" "}
+                {productTime ? productTime : "hora no disponible"}
+              </p>
+            </div>
+          )}
         </div>
-        {selectedDate && availableSlots > 0 && (
-          <div className={styles.selectedDateTime}>
-            <p>
-              Su reserva será para la fecha: {selectedDate.toLocaleDateString()}{" "}
-              a las {productTime ? productTime : "hora no disponible"}
-            </p>
-          </div>
-        )}
 
         <div className={styles.features}>
           <h3 className={styles.title}>Características:</h3>
@@ -183,6 +207,7 @@ const Detail = () => {
             product={product}
             date={selectedDate}
             time={productTime}
+            getDateData={getDateData}
             availableSlots={availableSlots}
           />
         )}
