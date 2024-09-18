@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useReducer } from "react";
+import { API_BASE_URL, HEADER_TOKEN } from "../utils/appConstants";
 
 export const initialState = {
   products: [],
@@ -39,6 +40,7 @@ const reducer = (state, action) => {
 
     case "login":
       localStorage.setItem("user", JSON.stringify(action.payload.user));
+      localStorage.setItem("token", JSON.stringify(action.payload.token));
       return {
         ...state,
         user: action.payload.user,
@@ -52,6 +54,7 @@ const reducer = (state, action) => {
 
     case "logout":
       localStorage.removeItem("user");
+      localStorage.removeItem("token");
       return { ...state, user: null, openProfile: false };
 
     case "toggleDropDownMenu":
@@ -91,9 +94,9 @@ export const ContextGlobal = createContext(undefined);
 export const ContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const url = "http://localhost:3000/api/products";
+  const url = `${API_BASE_URL}:3000/api/products`;
 
-  const urlCategory = "http://localhost:3000/api/products_categories";
+  const urlCategory = `${API_BASE_URL}:3000/api/products_categories`;
 
   const getAllProducts = () => {
     axios
@@ -150,8 +153,9 @@ export const ContextProvider = ({ children }) => {
       dispatch({ type: "validateUser", payload: false });
     } else if (state.user.role_id === 1) {
       axios
-        .get("http://localhost:3000/user/checkAdmin", {
+        .get(`${API_BASE_URL}:3000/user/checkAdmin`, {
           withCredentials: true,
+          headers: HEADER_TOKEN,
         })
         .then((response) => {
           dispatch({ type: "validateAdmin", payload: !!response });
@@ -162,8 +166,9 @@ export const ContextProvider = ({ children }) => {
         });
     } else if (state.user.role_id === 2) {
       axios
-        .get("http://localhost:3000/user/checkUser", {
+        .get(`${API_BASE_URL}:3000/user/checkUser`, {
           withCredentials: true,
+          headers: HEADER_TOKEN,
         })
         .then((response) => {
           dispatch({ type: "validateUser", payload: !!response });
@@ -181,7 +186,7 @@ export const ContextProvider = ({ children }) => {
 
   const addReservation = (reservationData) => {
     axios
-      .post("http://localhost:3000/api/reservations", reservationData)
+      .post(`${API_BASE_URL}:3000/api/reservations`, reservationData)
       .then((response) => {
         dispatch({ type: "addReservation", payload: response.data });
         console.log("Reserva agregada:", reservationData);
