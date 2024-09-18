@@ -9,28 +9,15 @@ import "react-datepicker/dist/react-datepicker.css";
 import styles from "../../styles/Detail.module.css";
 import ReservationModal from "../common/ReservationModal";
 
-// Fechas ocupadas harcodeadas
-const occupiedDates = [
-  new Date("2024-09-05T00:00:00"),
-  new Date("2024-09-10T00:00:00"),
-  new Date("2024-09-15T00:00:00"),
-  new Date("2024-09-20T00:00:00"),
-  new Date("2024-09-18T00:00:00"),
-  new Date("2024-10-18T00:00:00"),
-  new Date("2024-10-10T00:00:00"),
-];
-
-const availableHours = ["10:00", "13:00", "15:00", "17:00"];
-
 const Detail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [selectedTime, setSelectedTime] = useState(null);
   const [error, setError] = useState(null);
-  const [showTimePicker, setShowTimePicker] = useState(false);
   const [fetchDatesError, setFetchDatesError] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [availableSlots, setAvailableSlots] = useState([]);
+  const [productTime, setProductTime] = useState(null);
   const { state } = useContextGlobal();
   const user = state.user ? state.user : {};
   const { validAdmin, validUser } = state;
@@ -43,16 +30,13 @@ const Detail = () => {
           `http://localhost:3000/api/products/${id}`
         );
         const productData = response.data;
+        console.log("Product data:", productData);
         // Aca le estoy pegando a las features
         const features = productData.product_feature.map((pf) => ({
           icon: featureIcons[pf.feature.name_alias], // Mientras no hay iconos
           text: pf.feature.name, //
         }));
         setProduct({ ...productData, features });
-        //cambiar aca a distinto para simular el error
-        if (occupiedDates.length === 0) {
-          throw new Error("No se pudieron cargar las fechas ocupadas");
-        }
         handleDateChange(new Date());
       } catch (error) {
         console.error("Error fetching the product:", error);
@@ -63,13 +47,13 @@ const Detail = () => {
     fetchProduct();
   }, [id]);
 
-  const getDateId = (date) => {
-    const res = product.product_date.find((productDate) => {
-      return (
-        new Date(productDate.date.date).toDateString() === date.toDateString()
-      );
-    });
-    return res.date_id;
+  const getDateData = (date) => {
+    const dateStr = date.toISOString().split("T")[0];
+
+    return product?.product_date.find(
+      (productDate) =>
+        new Date(productDate.date.date).toISOString().split("T")[0] === dateStr
+    );
   };
 
   const handleRentClick = () => {
@@ -84,41 +68,44 @@ const Detail = () => {
     }
   };
 
-  const isAvaiableDate = (date) => {
-    const dateStr = new Date(date).toDateString();
-    const isOccupied = occupiedDates.some(
-      (occupiedDate) => new Date(occupiedDate).toDateString() === dateStr
-    );
-    const isAvailable = product
-      ? product.product_date.some((productDate) => {
-          return (
-            new Date(productDate.date.date).toDateString() === dateStr &&
-            !isOccupied
-          );
-        })
-      : false;
-    return isAvailable;
+  const handleDateChange = (date) => {
+    if (date) {
+      const selectedDateStr = date.toISOString().split("T")[0];
+      console.log("Selected date:", selectedDateStr);
+
+      const dateData = product?.product_date.find((productDate) => {
+        const productDateStr = new Date(productDate.date.date)
+          .toISOString()
+          .split("T")[0];
+        console.log("Product date:", productDateStr);
+        return productDateStr === selectedDateStr; // Comparo fechas en formato 'YYYY-MM-DD'
+      });
+
+      if (dateData) {
+        setAvailableSlots(dateData.slots || 0);
+        setError(null);
+        const productDateTime = new Date(dateData.date.date);
+        setProductTime(
+          productDateTime.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          })
+        );
+      } else {
+        setAvailableSlots(0);
+        setError("La fecha seleccionada no tiene disponibilidad.");
+        setProductTime(null);
+      }
+      setSelectedDate(date);
+    } else {
+      setAvailableSlots(0);
+      setError(null);
+      setSelectedDate(null);
+      setProductTime(null);
+    }
   };
 
   const handleCloseModal = () => setShowModal(false);
-
-  const handleDateChange = (date) => {
-    if (date && !isAvaiableDate(date)) {
-      setError("La fecha seleccionada no tiene cupos, consulte otra.");
-      setShowTimePicker(false);
-      setSelectedDate(null);
-    } else {
-      setError(null);
-      setShowTimePicker(true);
-      setSelectedDate(date);
-    }
-    setSelectedTime(null);
-  };
-
-  const handleTimeChange = (event) => {
-    setSelectedTime(event.target.value);
-  };
-
   if (!product) {
     return <div>Cargando...</div>;
   } else {
@@ -156,42 +143,23 @@ const Detail = () => {
                 selected={selectedDate}
                 onChange={handleDateChange}
                 inline
+                //monthsShown={2} // pa mostrar 2 meses
                 minDate={new Date()}
                 dayClassName={(date) => {
-                  return !isAvaiableDate(date)
+                  return !getDateData(date)
                     ? styles["datepicker__day--highlighted"]
                     : undefined;
                 }}
               />
             )}
           </div>
-          {showTimePicker && (
-            <div className={styles.timePicker}>
-              <h3 className={styles.titleTime}>Seleccionar hora:</h3>
-              <div className={styles.timeButtons}>
-                {availableHours.map((hour, index) => (
-                  <label key={index} className={styles.timeButton}>
-                    <input
-                      type="radio"
-                      name="time"
-                      value={hour}
-                      checked={selectedTime === hour}
-                      onChange={handleTimeChange}
-                      className={styles.radioInput}
-                    />
-                    {hour}
-                  </label>
-                ))}
-              </div>
-            </div>
-          )}
           {error && <div className={styles.error}>{error}</div>}
         </div>
-        {selectedDate && selectedTime && (
+        {selectedDate && availableSlots > 0 && (
           <div className={styles.selectedDateTime}>
             <p>
-              Su reserva sera para la fecha: {selectedDate.toLocaleDateString()}{" "}
-              a las {selectedTime}
+              Su reserva será para la fecha: {selectedDate.toLocaleDateString()}{" "}
+              a las {productTime ? productTime : "hora no disponible"}
             </p>
           </div>
         )}
@@ -214,8 +182,8 @@ const Detail = () => {
             user={user}
             product={product}
             date={selectedDate}
-            time={selectedTime}
-            getDateId={getDateId}
+            time={productTime}
+            availableSlots={availableSlots}
           />
         )}
       </div>

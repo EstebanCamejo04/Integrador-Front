@@ -11,6 +11,7 @@ const ReservationModal = ({
   date,
   time,
   getDateId,
+  availableSlots,
 }) => {
   const { state, addReservation } = useContextGlobal();
   const [slotsRequested, setSlotsRequested] = useState(1);
@@ -66,8 +67,10 @@ const ReservationModal = ({
           {product.product_location.map((loc) => loc.location.name).join(", ")}
         </p>
         <p>Precio: ${product.price}</p>
-        <p>Fecha: {date ? date.toLocaleString() : ""}</p>
-        <p>Hora: {time}</p>
+        <p>
+          Fecha: {date ? date.toLocaleDateString() : "No seleccionada"} a las{" "}
+          {time ? time : "hora no disponible"}
+        </p>
         <h5>Usuario que realiza la reserva:</h5>
         <p>
           Nombre: {state.user.name} {state.user.lastname}
@@ -80,6 +83,7 @@ const ReservationModal = ({
           value={slotsRequested}
           onChange={handleSlotChange}
         />
+        <p>Slots disponibles: {availableSlots}</p>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
