@@ -8,6 +8,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import styles from "../../styles/Detail.module.css";
 import ReservationModal from "../common/ReservationModal";
+import { API_BASE_URL } from "../../utils/appConstants";
 
 const Detail = () => {
   const { id } = useParams();
@@ -23,11 +24,11 @@ const Detail = () => {
   const { validAdmin, validUser } = state;
   const navigate = useNavigate();
 
-useEffect(() => {
+  useEffect(() => {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/products/${id}`
+          `${API_BASE_URL}3000/api/products/${id}`
         );
         const productData = response.data;
         console.log("Product data:", productData);

@@ -3,6 +3,7 @@ import formStyles from "../../styles/LoginForm.module.css";
 import styles from "../../styles/SignUp.module.css";
 import axios from "axios";
 import SuccessSignUp from "../common/SuccessSignUp";
+import { API_BASE_URL } from "../../utils/appConstants";
 
 const SignUp = () => {
   const [show, setShow] = useState(false);
@@ -66,7 +67,7 @@ const SignUp = () => {
 
   const registerUser = () => {
     axios
-      .post("http://localhost:3000/api/sign-up", {
+      .post(`${API_BASE_URL}:3000/api/sign-up`, {
         name: userData.name,
         lastName: userData.lastName,
         email: userData.email,
