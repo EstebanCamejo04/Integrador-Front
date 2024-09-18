@@ -9,17 +9,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import styles from "../../styles/Detail.module.css";
 import ReservationModal from "../common/ReservationModal";
 
-// Fechas ocupadas harcodeadas
-const occupiedDates = [
-    new Date("2024-09-05T00:00:00"),
-    new Date("2024-09-10T00:00:00"),
-    new Date("2024-09-15T00:00:00"),
-    new Date("2024-09-20T00:00:00"),
-    new Date("2024-09-18T00:00:00"),
-    new Date("2024-10-18T00:00:00"),
-    new Date("2024-10-10T00:00:00"),
-];
-
 const availableHours = ["10:00", "13:00", "15:00", "17:00"];
 
 const Detail = () => {
@@ -36,41 +25,38 @@ const Detail = () => {
     const { validAdmin, validUser } = state;
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchProduct = async () => {
-            try {
-                const response = await axios.get(
-                    `http://localhost:3000/api/products/${id}`
-                );
-                const productData = response.data;
-                // Aca le estoy pegando a las features
-                const features = productData.product_feature.map((pf) => ({
-                    icon: featureIcons[pf.feature.name_alias], // Mientras no hay iconos
-                    text: pf.feature.name, //
-                }));
-                setProduct({ ...productData, features });
-                //cambiar aca a distinto para simular el error
-                if (occupiedDates.length === 0) {
-                    throw new Error("No se pudieron cargar las fechas ocupadas");
-                }
-                handleDateChange(new Date());
-            } catch (error) {
-                console.error("Error fetching the product:", error);
-                setFetchDatesError(true);
-            }
-        };
+  const fetchProduct = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/api/products/${id}`
+      );
+      const productData = response.data;
+      const features = productData.product_feature.map((pf) => ({
+        icon: featureIcons[pf.feature.name_alias],
+        text: pf.feature.name,
+      }));
+      if (containsAvailableDates(productData.product_date) == false) {
+        setFetchDatesError(true);
+      }
+      setProduct({ ...productData, features });
+    } catch (error) {
+      setError(
+        "No fue posible cargar la información del producto. Intenta nuevamente más tarde"
+      );
+    }
+  };
+  const getProductDate = (date) => {
+    const res = product.product_date.find((productDate) => {
+      return (
+        new Date(productDate.date.date).toDateString() === date.toDateString()
+      );
+    });
+    return res;
+  };
 
-        fetchProduct();
-    }, [id]);
-
-    const getDateId = (date) => {
-        const res = product.product_date.find((productDate) => {
-            return (
-                new Date(productDate.date.date).toDateString() === date.toDateString()
-            );
-        });
-        return res.date_id;
-    };
+  useEffect(() => {
+    fetchProduct();
+  }, [id]);
 
     const handleRentClick = () => {
         console.log("Estado del usuario:", validUser, validAdmin);
@@ -84,16 +70,19 @@ const Detail = () => {
         }
     }
 
-    const isAvaiableDate = (date) => {
-        const dateStr = new Date(date).toDateString();
-        const isOccupied = occupiedDates.some(
-            (occupiedDate) => new Date(occupiedDate).toDateString() === dateStr
-        );
-        const isAvailable = product
-            ? product.product_date.some((productDate) => {
-                return (
-                    new Date(productDate.date.date).toDateString() === dateStr &&
-                        !isOccupied
+    const containsAvailableDates = (dates) => {
+    return dates.some((productDate) => {
+      return productDate.slots > 0;
+    });
+  };
+
+  const isAvaiableDate = (date) => {
+    const dateStr = new Date(date).toDateString();
+    const isAvailable = product
+      ? product.product_date.some((productDate) => {
+          return (
+            new Date(productDate.date.date).toDateString() === dateStr &&
+            productDate.slots > 0
                 );
             })
             : false;
@@ -145,24 +134,26 @@ const Detail = () => {
                 </div>
                 <div className={styles.datePickerContainer}>
                     <div className={styles.datePicker}>
-                        <h3 className={styles.titleTime}>Seleccionar fecha:</h3>
                         {fetchDatesError ? (
-                            <p>
-                                Ocurrio un error, consulte la agenda en otro momento por favor,
-                                gracias.
-                            </p>
-                        ) : (
-                                <DatePicker
-                                    selected={selectedDate}
-                                    onChange={handleDateChange}
-                                    inline
-                                    minDate={new Date()}
-                                    dayClassName={(date) => {
-                                        return !isAvaiableDate(date)
-                                            ? styles["datepicker__day--highlighted"]
-                                            : undefined;
-                                    }}
-                                />
+              <p>
+                No hay fechas disponibles, consulte la agenda en otro momento
+                por favor, gracias.
+              </p>
+            ) : (
+              <>
+                <h3 className={styles.titleTime}>Seleccionar fecha:</h3>
+                <DatePicker
+                  selected={selectedDate}
+                  onChange={handleDateChange}
+                  inline
+                  minDate={new Date()}
+                  dayClassName={(date) => {
+                    return !isAvaiableDate(date)
+                      ? styles["datepicker__day--highlighted"]
+                      : undefined;
+                  }}
+                                    />
+                                </>
                             )}
                     </div>
                     {showTimePicker && (
@@ -215,7 +206,7 @@ const Detail = () => {
                         product={product}
                         date={selectedDate}
                         time={selectedTime}
-                        getDateId={getDateId}
+                        getProductDate={getProductDate}
                     />
                 )}
             </div>
