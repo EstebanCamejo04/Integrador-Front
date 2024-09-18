@@ -12,7 +12,9 @@
   justify-content: space-evenly;
   align-items: center;
   padding: 20px;
-  margin-right: 40%;
+  padding-right: 10%;
+  background-color: var(--main-text-secondary-color);
+  text-align: center;
 }
 
 .datepicker__day--highlighted {
@@ -20,29 +22,24 @@
   color: white;
 }
 
-.timePicker {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 30px;
-}
-.timeButtons {
-  display: flex;
+.datepicker__day--unavailable {
+  background-color: #f8d7da; /* Rojo suave para fechas que tuvieron disponibilidad */
+  color: #721c24;
+  border-radius: 50%;
 }
 
-.timeButton {
-  padding: 10px 20px;
-  font-size: 15px;
+.datepicker__day--available {
+  background-color: #d4edda; /* Verde suave para fechas que tienen disponibilidad */
+  color: #155724;
+  border-radius: 50%;
 }
-.timeButton input {
-  margin-right: 10px;
-}
+
 .titleTime {
   margin: 20px 0;
 }
 
-.selectedDateTime {
-  margin-right: 30%;
+.error {
+  background-color: (--bs-body-bg);
 }
 
 .products {
@@ -79,14 +76,9 @@
 }
 
 .img {
-  width: 50%;
+  width: 40%;
   height: auto;
   margin-bottom: 20px;
-}
-
-.paragraph {
-  color: #333;
-  font-size: 12px;
 }
 
 .features {
@@ -171,10 +163,6 @@
     margin-bottom: 10px;
   }
 
-  .paragraph {
-    font-size: 12px;
-  }
-
   .button {
     font-size: 14px;
   }
@@ -187,16 +175,12 @@
     margin-right: 0;
   }
 
-  .datePickerContainer .error {
+  ._error_16dam_345 {
     text-align: center;
     margin-top: 20px;
+    background-color: red;
   }
   .datePickerContainer > div {
-    text-align: center;
-  }
-  .selectedDateTime {
-    margin-right: 0;
-    padding: 20px;
     text-align: center;
   }
 }

@@ -9,208 +9,211 @@ import "react-datepicker/dist/react-datepicker.css";
 import styles from "../../styles/Detail.module.css";
 import ReservationModal from "../common/ReservationModal";
 
-const availableHours = ["10:00", "13:00", "15:00", "17:00"];
-
 const Detail = () => {
-    const { id } = useParams();
-    const [product, setProduct] = useState(null);
-    const [selectedDate, setSelectedDate] = useState(new Date());
-    const [selectedTime, setSelectedTime] = useState(null);
-    const [error, setError] = useState(null);
-    const [showTimePicker, setShowTimePicker] = useState(false);
-    const [fetchDatesError, setFetchDatesError] = useState(false);
-    const [showModal, setShowModal] = useState(false);
-    const { state } = useContextGlobal();
-    const user = state.user ? state.user : {};
-    const { validAdmin, validUser } = state;
-    const navigate = useNavigate();
+  const { id } = useParams();
+  const [product, setProduct] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [error, setError] = useState(null);
+  const [fetchDatesError, setFetchDatesError] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [availableSlots, setAvailableSlots] = useState([]);
+  const [productTime, setProductTime] = useState(null);
+  const { state } = useContextGlobal();
+  const user = state.user ? state.user : {};
+  const { validAdmin, validUser } = state;
+  const navigate = useNavigate();
 
-  const fetchProduct = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:3000/api/products/${id}`
-      );
-      const productData = response.data;
-      const features = productData.product_feature.map((pf) => ({
-        icon: featureIcons[pf.feature.name_alias],
-        text: pf.feature.name,
-      }));
-      if (containsAvailableDates(productData.product_date) == false) {
+useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/products/${id}`
+        );
+        const productData = response.data;
+        console.log("Product data:", productData);
+        // Aca le estoy pegando a las features
+        const features = productData.product_feature.map((pf) => ({
+          icon: featureIcons[pf.feature.name_alias], // Mientras no hay iconos
+          text: pf.feature.name, //
+        }));
+        setProduct({ ...productData, features });
+        handleDateChange(new Date());
+      } catch (error) {
+        console.error("Error fetching the product:", error);
         setFetchDatesError(true);
       }
-      setProduct({ ...productData, features });
-    } catch (error) {
-      setError(
-        "No fue posible cargar la información del producto. Intenta nuevamente más tarde"
-      );
-    }
-  };
-  const getProductDate = (date) => {
-    const res = product.product_date.find((productDate) => {
-      return (
-        new Date(productDate.date.date).toDateString() === date.toDateString()
-      );
-    });
-    return res;
-  };
+    };
 
-  useEffect(() => {
     fetchProduct();
   }, [id]);
 
-    const handleRentClick = () => {
-        console.log("Estado del usuario:", validUser, validAdmin);
-        console.log("Datos del usuario:", user);
+  const getDateData = (date) => {
+    const dateStr = date.toISOString().split("T")[0];
 
-        if (validUser || validAdmin) {
-            setShowModal(true)
-        } else {
-            alert("Debes iniciar sesión o registrarte para alquilar un producto.");
-            navigate("/login");
-        }
-    }
+    const result = product?.product_date.find(
+      (productDate) =>
+        new Date(productDate.date.date).toISOString().split("T")[0] === dateStr
+    );
 
-    const containsAvailableDates = (dates) => {
-    return dates.some((productDate) => {
-      return productDate.slots > 0;
-    });
+    // Devuelve el objeto con date_id y los datos encontrados, o null si no se encuentra
+    return result ? { date_id: result.date_id, dateData: result } : null;
   };
 
-  const isAvaiableDate = (date) => {
-    const dateStr = new Date(date).toDateString();
-    const isAvailable = product
-      ? product.product_date.some((productDate) => {
-          return (
-            new Date(productDate.date.date).toDateString() === dateStr &&
-            productDate.slots > 0
-                );
-            })
-            : false;
-        return isAvailable;
-    };
+  const handleRentClick = () => {
+    console.log("Estado del usuario:", validUser, validAdmin);
+    console.log("Datos del usuario:", user);
 
-    const handleCloseModal = () => setShowModal(false);
-
-    const handleDateChange = (date) => {
-        if (date && !isAvaiableDate(date)) {
-            setError("La fecha seleccionada no tiene cupos, consulte otra.");
-            setShowTimePicker(false);
-            setSelectedDate(null);
-        } else {
-            setError(null);
-            setShowTimePicker(true);
-            setSelectedDate(date);
-        }
-        setSelectedTime(null);
-    };
-
-    const handleTimeChange = (event) => {
-        setSelectedTime(event.target.value);
-    };
-
-    if (!product) {
-        return <div>Cargando...</div>;
+    if (validUser || validAdmin) {
+      setShowModal(true);
     } else {
-        return (
-            <div className={styles.details}>
-                <BackButton />
-                <img
-                    src={`https://fly-mountain-app.s3.us-east-2.amazonaws.com/${product.imageKey}`}
-                    alt={product.category.name}
-                    className={styles.img}
-                />
-                <div className={styles.products}>
-                    <h2>Plan: {product.name}</h2>
-                    <p className={styles.paragraph}>{product.description}</p>
-                    <p className={styles.paragraph}>Precio: ${product.price}</p>
-                    <button
-                        className={
-                            styles.button + " " + (!selectedDate ? styles.disableButton : "")
-                        }
-                        onClick={handleRentClick}
-                    >
-                        Reservar
-                    </button>
-                </div>
-                <div className={styles.datePickerContainer}>
-                    <div className={styles.datePicker}>
-                        {fetchDatesError ? (
+      alert("Debes iniciar sesión o registrarte para alquilar un producto.");
+      navigate("/login");
+    }
+  };
+
+  const handleDateChange = (date) => {
+    if (date) {
+      const selectedDateStr = date.toISOString().split("T")[0];
+
+      const dateData = product?.product_date.find((productDate) => {
+        const productDateStr = new Date(productDate.date.date)
+          .toISOString()
+          .split("T")[0];
+        return productDateStr === selectedDateStr; // Comparo fechas en formato 'YYYY-MM-DD'
+      });
+
+      if (dateData) {
+        setAvailableSlots(dateData.slots || 0);
+        setError(null);
+        const productDateTime = new Date(dateData.date.date);
+        setProductTime(
+          productDateTime.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          })
+        );
+      } else {
+        setAvailableSlots(0);
+        setError(
+          "La fecha seleccionada no tiene disponibilidad, seleccione otra por favor."
+        );
+        setProductTime(null);
+      }
+      setSelectedDate(date);
+    } else {
+      setAvailableSlots(0);
+      setError(null);
+      setSelectedDate(null);
+      setProductTime(null);
+    }
+  };
+
+  const handleCloseModal = () => setShowModal(false);
+
+  const isDateAvailable = (date) => {
+    const dateData = getDateData(date);
+    return dateData && dateData.dateData.slots > 0;
+  };
+  if (!product) {
+    return <div>Cargando...</div>;
+  } else {
+    return (
+      <div className={styles.details}>
+        <BackButton />
+        <img
+          src={`https://fly-mountain-app.s3.us-east-2.amazonaws.com/${product.imageKey}`}
+          alt={product.category.name}
+          className={styles.img}
+        />
+        <div className={styles.products}>
+          <h2>Plan: {product.name}</h2>
+          <p className={styles.paragraph}>{product.description}</p>
+          <p className={styles.paragraph}>Precio: ${product.price}</p>
+          <button
+            className={
+              styles.button + " " + (!selectedDate ? styles.disableButton : "")
+            }
+            onClick={handleRentClick}
+            disabled={availableSlots === 0}
+          >
+            Reservar
+          </button>
+        </div>
+        <div className={styles.datePickerContainer}>
+          <div className={styles.datePicker}>
+            <h3>Bienvenido a nuestra agenda de reservas</h3>
+            <p>
+              En este apartado podra observar las fechas disponibles que
+              contamos de cada producto, seleccione el dia, observe el horario
+              determinado y luego de seleccionado dirigase a el boton de
+              reservar, muchas gracias.
+            </p>
+            <h4 className={styles.titleTime}>Seleccionar fecha:</h4>
+            {fetchDatesError ? (
               <p>
-                No hay fechas disponibles, consulte la agenda en otro momento
-                por favor, gracias.
+                Ocurrio un error, consulte la agenda en otro momento por favor,
+                gracias.
               </p>
             ) : (
-              <>
-                <h3 className={styles.titleTime}>Seleccionar fecha:</h3>
-                <DatePicker
-                  selected={selectedDate}
-                  onChange={handleDateChange}
-                  inline
-                  minDate={new Date()}
-                  dayClassName={(date) => {
-                    return !isAvaiableDate(date)
-                      ? styles["datepicker__day--highlighted"]
-                      : undefined;
-                  }}
-                                    />
-                                </>
-                            )}
-                    </div>
-                    {showTimePicker && (
-                        <div className={styles.timePicker}>
-                            <h3 className={styles.titleTime}>Seleccionar hora:</h3>
-                            <div className={styles.timeButtons}>
-                                {availableHours.map((hour, index) => (
-                                    <label key={index} className={styles.timeButton}>
-                                        <input
-                                            type="radio"
-                                            name="time"
-                                            value={hour}
-                                            checked={selectedTime === hour}
-                                            onChange={handleTimeChange}
-                                            className={styles.radioInput}
-                                        />
-                                        {hour}
-                                    </label>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-                    {error && <div className={styles.error}>{error}</div>}
-                </div>
-                {selectedDate && selectedTime && (
-                    <div className={styles.selectedDateTime}>
-                        <p>
-                            Su reserva sera para la fecha: {selectedDate.toLocaleDateString()}{" "}
-                            a las {selectedTime}
-                        </p>
-                    </div>
-                )}
-
-                <div className={styles.features}>
-                    <h3 className={styles.title}>Características:</h3>
-                    <ul className={styles.list}>
-                        {product.features.map((feature, index) => (
-                            <li key={index} className={styles.featureItem}>
-                                <span className={styles.icon}>{feature.icon}</span>{" "}
-                                {feature.text}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-                {showModal && (
-                    <ReservationModal
-                        show={showModal}
-                        handleClose={handleCloseModal}
-                        user={user}
-                        product={product}
-                        date={selectedDate}
-                        time={selectedTime}
-                        getProductDate={getProductDate}
-                    />
-                )}
+              <DatePicker
+                selected={selectedDate}
+                onChange={handleDateChange}
+                inline
+                //monthsShown={2} // pa mostrar 2 meses
+                minDate={new Date()}
+                dayClassName={(date) => {
+                  const today = new Date();
+                  const dateData = getDateData(date);
+                  if (date < today) {
+                    return styles["datepicker__day--disabled"];
+                  }
+                  if (dateData && dateData.dateData.slots > 0) {
+                    return styles["datepicker__day--available"];
+                  } else {
+                    return styles["datepicker__day--unavailable"];
+                  }
+                }}
+              />
+            )}
+          </div>
+          {error && <div className={styles.error}>{error}</div>}
+          {selectedDate && availableSlots > 0 && (
+            <div className={styles.selectedDateTime}>
+              <p>
+                Su reserva será para la fecha:{" "}
+                {selectedDate.toLocaleDateString()} a las{" "}
+                {productTime ? productTime : "hora no disponible"}
+              </p>
             </div>
-        );}
+          )}
+        </div>
+
+        <div className={styles.features}>
+          <h3 className={styles.title}>Características:</h3>
+          <ul className={styles.list}>
+            {product.features.map((feature, index) => (
+              <li key={index} className={styles.featureItem}>
+                <span className={styles.icon}>{feature.icon}</span>{" "}
+                {feature.text}
+              </li>
+            ))}
+          </ul>
+        </div>
+        {showModal && (
+          <ReservationModal
+            show={showModal}
+            handleClose={handleCloseModal}
+            user={user}
+            product={product}
+            date={selectedDate}
+            time={productTime}
+            getDateData={getDateData}
+            availableSlots={availableSlots}
+          />
+        )}
+      </div>
+    );
+  }
 };
 
 export default Detail;
