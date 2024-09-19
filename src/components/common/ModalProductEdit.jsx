@@ -10,7 +10,7 @@ import {
 import { useContextGlobal } from "../../context/Context";
 import { FormSelect } from "react-bootstrap";
 
-const ModalProductEdit = () => {
+const ModalProductEdit = ({ edited, setEdited }) => {
   const { state, dispatch, getProductsCategory, updateProduct } =
     useContextGlobal();
 
@@ -82,23 +82,25 @@ const ModalProductEdit = () => {
     });
     */
     // dispatch({ type: "editModalUpdate", payload: arreglo });
-        try {
-            let productoEditado = {
-                id: dato.id,
-                name: dato.name,
-                description: dato.description,
-                price: dato.price,
-                category_id: dato.category_id,
-                category: dato.category,
-            };
-            // Enviar solo el producto editado
-            updateProduct(productoEditado).then(() => {
-                // Actualizar el estado local solo con el producto modificado
-                const updatedProducts = state.products.map((product) =>
-                    product.id === productoEditado.id ? productoEditado : product
-                );
+    try {
+      let productoEditado = {
+        id: dato.id,
+        name: dato.name,
+        description: dato.description,
+        price: dato.price,
+        category_id: dato.category_id,
+        category: dato.category,
+      };
+      // Enviar solo el producto editado
+      updateProduct(productoEditado);
+      console.log("cerdo", state.edited);
+      dispatch({ type: "edited", payload: state.edited + 1 });
+      console.log(state.edited);
 
-                dispatch({ type: "updateProducts", payload: updatedProducts });
+      /* .then(() => { */
+      // Actualizar el estado local solo con el producto modificado
+
+      /*     dispatch({ type: "updateProducts", payload: updatedProducts });
 
                 console.log("Producto editado:");
                 console.log(productoEditado);
@@ -107,13 +109,11 @@ const ModalProductEdit = () => {
             console.log(state.form);
 
             console.log("Estado de Products con las modificaciones");
-            console.log(state.products);
-
-        } catch (error) {
-            console.error(error);
-            
-        }
-    };
+            console.log(state.products); */
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <>
       <Modal isOpen={state.modalUpdate}>

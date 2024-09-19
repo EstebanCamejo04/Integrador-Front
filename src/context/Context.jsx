@@ -3,6 +3,7 @@ import { createContext, useContext, useEffect, useReducer } from "react";
 import { API_BASE_URL } from "../utils/appConstants";
 
 export const initialState = {
+  edited: 1,
   products: [],
   user: JSON.parse(localStorage.getItem("user")) || null,
   validAdmin: JSON.parse(localStorage.getItem("user"))?.role_id === 1 || false,
@@ -27,6 +28,10 @@ export const initialState = {
 
 const reducer = (state, action) => {
   switch (action.type) {
+    case "edited":
+      console.log("cerdito", action.payload);
+
+      return { ...state, edited: action.payload };
     case "getAllProducts":
       return { ...state, products: action.payload };
 
@@ -76,7 +81,10 @@ const reducer = (state, action) => {
       return { ...state, modalUpdate: false };
 
     case "editModalUpdate":
-      return { ...state, modalUpdate: false, products: action.payload };
+      const updatedProducts = state.products.map((product) =>
+        product.id === action.payload ? action.payload : product
+      );
+      return { ...state, modalUpdate: false, products: updatedProducts };
 
     case "handleChange":
       return { ...state, form: action.payload };

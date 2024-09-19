@@ -5,24 +5,23 @@ import { useEffect, useState } from "react";
 
 const AdminProductList = () => {
   const { state, getAllProducts } = useContextGlobal();
- const [localState, setLocalState] = useState({ products: [] });
+  /* const [localState, setLocalState] = useState({ products: [] }); */
 
   useEffect(() => {
     getAllProducts();
-        setLocalState({products: state.products})
-  }, [state.products]);
+  }, [state.edited]);
 
   return (
     <>
       <h2 className={styles.Title}>Lista de productos</h2>
       <div className={styles.adminProducts}>
-                {localState.products && localState.products.length > 0 ? (
-                    localState.products.map((product) => (
-                        <AdminProductCard key={product.id} product={product} />
-                    ))
-                ) : (
-                        <p>No hay productos disponibles.</p>
-                    )}
+        {state.products && state.products.length > 0 ? (
+          state.products.map((product) => (
+            <AdminProductCard key={product.id} product={product} />
+          ))
+        ) : (
+          <p>No hay productos disponibles.</p>
+        )}
       </div>
     </>
   );

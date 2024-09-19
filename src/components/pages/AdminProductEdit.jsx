@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ModalProductEdit from "../common/ModalProductEdit";
 import { Table, Button, Container } from "reactstrap";
 import { useContextGlobal } from "../../context/Context";
@@ -9,7 +9,7 @@ const AdminProductEdit = () => {
 
   useEffect(() => {
     getAllProducts();
-  }, []);
+  }, [state.edited]);
 
   console.log("Estado Products");
   console.log(state.products);
