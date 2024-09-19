@@ -66,8 +66,8 @@ const ModalProductEdit = () => {
   };
 
   const edit = (dato) => {
-    let contador = 0;
-    let arreglo = state.products;
+    /*let contador = 0;
+        let arreglo = state.products;
     arreglo.map((registro) => {
       if (dato.id == registro.id) {
         arreglo[contador].name = dato.name;
@@ -80,14 +80,40 @@ const ModalProductEdit = () => {
 
       contador++;
     });
+    */
     // dispatch({ type: "editModalUpdate", payload: arreglo });
-    updateProduct(arreglo);
-    console.log("Estado del Form después de ser modificado");
-    console.log(state.form);
+        try {
+            let productoEditado = {
+                id: dato.id,
+                name: dato.name,
+                description: dato.description,
+                price: dato.price,
+                category_id: dato.category_id,
+                category: dato.category,
+            };
+            // Enviar solo el producto editado
+            updateProduct(productoEditado).then(() => {
+                // Actualizar el estado local solo con el producto modificado
+                const updatedProducts = state.products.map((product) =>
+                    product.id === productoEditado.id ? productoEditado : product
+                );
 
-    console.log("Estado de Products con las modificaciones");
-    console.log(state.products);
-  };
+                dispatch({ type: "updateProducts", payload: updatedProducts });
+
+                console.log("Producto editado:");
+                console.log(productoEditado);
+            });
+            console.log("Estado del Form después de ser modificado");
+            console.log(state.form);
+
+            console.log("Estado de Products con las modificaciones");
+            console.log(state.products);
+
+        } catch (error) {
+            console.error(error);
+            
+        }
+    };
   return (
     <>
       <Modal isOpen={state.modalUpdate}>
