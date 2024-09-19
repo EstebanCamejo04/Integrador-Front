@@ -4,7 +4,7 @@ import styles from "../../styles/CreateProduct.module.css";
 import axios from "axios";
 import { Form, Spinner } from "react-bootstrap";
 import SuccessCreateProduct from "../common/SuccessCreateProduct";
-import { API_BASE_URL, HEADER_TOKEN } from "../../utils/appConstants";
+import { API_BASE_URL } from "../../utils/appConstants";
 
 const CreateProduct = () => {
   const [show, setShow] = useState(false);
