@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useReducer } from "react";
-import { API_BASE_URL, HEADER_TOKEN } from "../utils/appConstants";
+import { API_BASE_URL } from "../utils/appConstants";
 
 export const initialState = {
   products: [],
@@ -40,7 +40,13 @@ const reducer = (state, action) => {
 
     case "login":
       localStorage.setItem("user", JSON.stringify(action.payload.user));
-      localStorage.setItem("token", JSON.stringify(action.payload.token));
+      localStorage.setItem(
+        "token",
+        JSON.stringify(action.payload.token).replace(/^"|"$/g, "")
+      );
+      console.log(
+        "TOKEN_" + JSON.stringify(action.payload.token).replace(/^"|"$/g, "")
+      );
       return {
         ...state,
         user: action.payload.user,
@@ -155,7 +161,9 @@ export const ContextProvider = ({ children }) => {
       axios
         .get(`${API_BASE_URL}:3000/user/checkAdmin`, {
           withCredentials: true,
-          headers: HEADER_TOKEN,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         })
         .then((response) => {
           dispatch({ type: "validateAdmin", payload: !!response });
@@ -168,7 +176,9 @@ export const ContextProvider = ({ children }) => {
       axios
         .get(`${API_BASE_URL}:3000/user/checkUser`, {
           withCredentials: true,
-          headers: HEADER_TOKEN,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         })
         .then((response) => {
           dispatch({ type: "validateUser", payload: !!response });

@@ -28,7 +28,7 @@ const Detail = () => {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(
-          `${API_BASE_URL}3000/api/products/${id}`
+          `${API_BASE_URL}:3000/api/products/${id}`
         );
         const productData = response.data;
         console.log("Product data:", productData);

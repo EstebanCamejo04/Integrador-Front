@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "../../styles/AdminUserList.module.css";
 import { useContextGlobal } from "../../context/Context";
-import { API_BASE_URL, HEADER_TOKEN } from "../../utils/appConstants";
+import { API_BASE_URL } from "../../utils/appConstants";
 
 const AdminUserList = () => {
   const [users, setUsers] = useState([]);
@@ -17,7 +17,9 @@ const AdminUserList = () => {
       try {
         const response = await axios.get(`${API_BASE_URL}:3000/admin/users`, {
           withCredentials: true,
-          headers: HEADER_TOKEN,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         });
         console.log("Fetched users:", response.data);
         setUsers(response.data);
@@ -55,7 +57,9 @@ const AdminUserList = () => {
         { newRoleId },
         {
           withCredentials: true,
-          headers: HEADER_TOKEN,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       );
     } catch (err) {
