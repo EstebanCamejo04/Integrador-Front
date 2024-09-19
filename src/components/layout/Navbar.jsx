@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useContextGlobal } from "../../context/Context";
 import DropDownProfile from "../common/DropDownProfile";
 import axios from "axios";
+import { API_BASE_URL } from "../../utils/appConstants";
 
 const Navbar = () => {
   const logo =
@@ -20,8 +21,11 @@ const Navbar = () => {
 
   const handleLogout = () => {
     axios
-      .get("http://localhost:3000/api/logout", {
+      .get(`${API_BASE_URL}:3000/api/logout`, {
         withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       })
       .then(() => {
         console.log("Logout exitoso en el server.");

@@ -6,6 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import searchStyles from "../../styles/SearchProducts.module.css";
 import axios from "axios";
+import { API_BASE_URL } from "../../utils/appConstants";
 
 const ProductList = () => {
   const keyWords = [
@@ -75,7 +76,7 @@ const ProductList = () => {
     e.preventDefault();
     e.stopPropagation();
     if ((search.startDate && search.endDate) || search.words) {
-      const url = "http://localhost:3000/api/search-products";
+      const url = `${API_BASE_URL}:3000/api/search-products`;
       axios
         .get(url, {
           params: {
